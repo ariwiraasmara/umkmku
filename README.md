@@ -1,10 +1,10 @@
 # UMKMKU
-Share Link Project : https://idx.google.com/umkmku-4525957
+**Share Link Project** : https://idx.google.com/umkmku-4525957
 
-Deskripsi :
+**Deskripsi** :
 UMKMKU adalah sebuah aplikasi berbasis website untuk pelaku usaha UMKM dan digunakan oleh mereka (sebagai user). Aplikasi ini bisa digunakan untuk berbagai jenis umkm dan dapat diakses di berbagai device dan platform.
 
-Fitur yang diberikan :
+**Fitur yang diberikan :**
 1. User Register
 3. User Login
 3. User Profil
@@ -15,14 +15,14 @@ Fitur yang diberikan :
 8. Informasi Nota berbasis digital maupun bisa di print atau export ke file pdf.
 9. Informasi Review Transaksi berdasarkan perharian, permingguan, perbulanan, dan pertahunan.
 
-Teknologi yang digunakan :
+**Teknologi yang digunakan :**
 - GitHub (https://github.com), sebagai repository dan version history.
 - MySQL (https://www.mysql.com/), sebagai database.
 - Redis (https://redis.io/), sebagai cache.
 - Laravel (https://laravel.com/), fullstack. Digunakan sebagai backend (Server as a Service) dan frontend (menggunakan Livewire, Volt, AlpineJS).
 - Tailwind (https://tailwindui.com), sebagai UI/UX css.
 
-Tools yang digunakan :
+**Tools yang digunakan :**
 - IDX Google (idx.google.com), sebagai IDE.
 - Postman (https://www.postman.com/), sebagai API Client.
 - Google Gemini, sebagai untuk meningkatkan produktifitas ngoding.
