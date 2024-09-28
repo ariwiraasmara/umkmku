@@ -69,15 +69,15 @@ class crud {
         //? update
         else if($type == 2) { 
             return aw1002_userprofil::where('id', '=', $val['id'])->update([
-                'nama'              => $val['nama'],
-                'jk'                => $val['jk'],
-                'alamat'            => $val['alamat'],
-                'foto'              => $val['foto'],
-                'tempat_lahir'      => $val['tempat_lahir'],
-                'tgl_lahir'         => $val['tgl_lahir'],
-                'penempatan_umkm'   => $val['penempatan_umkm'],
-                'status'            => $val['status'],
-                'jabatan'           => $val['jabatan']
+                'nama'         => $val['nama'],
+                'jk'           => $val['jk'],
+                'alamat'       => $val['alamat'],
+                'foto'         => $val['foto'],
+                'tempat_lahir' => $val['tempat_lahir'],
+                'tgl_lahir'    => $val['tgl_lahir'],
+                'id_umkm'      => $val['penempatan_umkm'],
+                'status'       => $val['status'],
+                'jabatan'      => $val['jabatan']
             ]);
         }
 
@@ -92,14 +92,14 @@ class crud {
         }
     }
 
-    //* aw3001_produkku Procedure
-    public static function procprodukku(
+    //* as2001_umkmku Procedure
+    public static function procumkmku(
         int $type = 0, 
         array $val = null
     ) {
         // ? insert
         if($type == 1) { 
-            return aw3001_produkku::create([
+            return aw2001_umkmku::create([
                 'id_umkm'       => $val['id_umkm'],
                 'id_user'       => $val['id_user'],
                 'nama_umkm'     => $val['nama_umkm'],
@@ -117,7 +117,7 @@ class crud {
 
         // ? update
         else if($type == 2) { 
-            return aw3001_produkku::where('id_umkm', '=', $val['id_umkm'])->update([
+            return aw2001_umkmku::where('id_umkm', '=', $val['id_umkm'])->update([
                 'nama_umkm'     => $val['nama_umkm'],
                 'tgl_berdiri'   => $val['tgl_berdiri'],
                 'jenis_usaha'   => $val['jenis_usaha'],
@@ -128,6 +128,59 @@ class crud {
                 'alamat'        => $val['alamat'],
                 'longitude'     => $val['longitude'],
                 'latitude'      => $val['latitude'],
+            ]);
+        }
+
+        //? delete
+        else if($type == 3) {
+            //! menghapus 1 umkm, berarti menghapus semua data yang terkait dan bersangkutan
+            return aw2001_umkmku::where($val)->delete() 
+                    && aw1002_userprofil::where($val)
+                        ->join('aw1002_userprofil', 'aw1002_userprofil.id', '=', 'users.id')
+                        ->delete()
+                    && aw3001_produkku::where($val)->delete() 
+                    && aw4001_transaksi::where($val)->select('aw4001_transaksi.id_umkmku')
+                        ->join('aw4001_transaksi', 'aw4001_transaksi.id_transaksi', '=', 'aw4002_detailtransaksi.id_transaksi')
+                        ->delete();
+        }
+
+        else {
+            return 'error crud produkku';
+        }
+    }
+
+    //* aw3001_produkku Procedure
+    public static function procprodukku(
+        int $type = 0, 
+        array $val = null
+    ) {
+        // ? insert
+        if($type == 1) { 
+            return aw3001_produkku::create([
+                'id_produk'     => $val['id_produk'],
+                'id_umkm'       => $val['id_umkm'],
+                'nama'          => $val['nama'],
+                'merk'          => $val['merk'],
+                'jenis'         => $val['jenis'],
+                'deskripsi'     => $val['deskripsi'],
+                'harga'         => $val['harga'],
+                'stok'          => $val['stok'],
+                'satuan_unit'   => $val['satuan_unit'],
+                'diskon'        => $val['diskon'],
+            ]);
+        }
+
+        // ? update
+        else if($type == 2) { 
+            return aw3001_produkku::where('id_produk', '=', $val['id_produk'])->update([
+                'nama'          => $val['nama'],
+                'merk'          => $val['merk'],
+                'jenis'         => $val['jenis'],
+                'deskripsi'     => $val['deskripsi'],
+                'harga'         => $val['harga'],
+                'stok'          => $val['stok'],
+                'satuan_unit'   => $val['satuan_unit'],
+                'diskon'        => $val['diskon'],
             ]);
         }
 
@@ -159,8 +212,9 @@ class crud {
         }
 
         //? delete
+        //! karena 1 transaksi beserta detailnya kehapus semua dari database
         else if($type == 2) {
-            return aw4001_transaksi::where($val)->delete();
+            return aw4001_transaksi::where($val)->delete() && aw4002_detailtransaksi::where($val)->delete();
         }
 
         //! yeah, ketika variable $type bernilai 0
@@ -182,11 +236,6 @@ class crud {
                 'id_produk'          => $val['id_produk'],
                 'jumlah'             => $val['jumlah'],
             ]);
-        }
-
-        //? delete
-        else if($type == 2) {
-            return aw4002_detailtransaksi::where($val)->delete();
         }
 
         //! yeah, ketika variable $type bernilai 0

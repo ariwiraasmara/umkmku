@@ -13,7 +13,6 @@
     enable = true;
     package = pkgs.mariadb;
   };
-
   services.redis = {
     enable = true;
     port = 6379;

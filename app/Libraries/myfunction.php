@@ -1,4 +1,5 @@
 <?php
+//! Copyright @ Syahri Ramadhan Wiraasmara (ARI)
 namespace App\Libraries;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;

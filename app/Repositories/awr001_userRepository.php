@@ -6,28 +6,40 @@ use App\Interfaces\userRepositoriesInterface;
 use App\Models\User;
 use App\Libraries\crud;
 
-class UserRepositories implements userRepositoriesInterface {
+class userRepository implements userRepositoriesInterface {
 
     protected $model;
-    public function __construct(User $user) {
-        $this->model = $user;
+    public function __construct(User $model) {
+        $this->model = $model;
     }
 
-    
-    public function getAll(String $by = 'id', String $orderBy = 'asc') {
-        if($this->model->orderBy($by, $orderBy)->first()) return $this->model->orderBy($by, $orderBy)->get();
-        return null;
-    }
-
-    public function get(array $where = null, String $by = null, String $orderBy = null) {
-        $res = $this->model->where($where, $by, $orderBy);
+    //? get all user list
+    //! dipakai untuk admin, direktur/manager
+    // saat direktur/manager login, parameter where adalah penempatan_umkm = id_umkm
+    public function getAll(String $by = 'id', String $orderBy = 'asc', array $where = null) {
+        $res = $this->model->orderBy($by, $orderBy);
         if($res->first()) {
-            if($by != null && $orderBy != null) $res->orderBy($by, $orderBy)->get();
-            return $res->get();
+            $res->select(
+                'users.username', 'users.email', 
+                'userprofil.nama', 'userprofil.foto',
+                'userprofil.status', 'userprofil.jabatan',
+            )
+            ->join('userprofil', 'userprofil.id', '=', 'users.id');
+
+            if(is_null($where)) return $res->getAll();
+            return $res->where($where)->getAll();
         }
         return null;
     }
 
+    //? get one user
+    public function get(array $where = null) {
+        $res = $this->model->where($where)->orWhere($where);
+        if($res->first()) return $res->get();
+        else return null;
+    }
+
+    //? get one user detail
     public function getProfil(array $where = null) {
         $res = $this->model->where($where);
         if($res->first()) {
@@ -48,7 +60,7 @@ class UserRepositories implements userRepositoriesInterface {
         // return implode($val);
         // return crud::procuser(1, $val);
         $res1 = crud::procuser(1, $val);
-        if($res1 != 0) {
+        if($res1 > 0) {
             if(crud::procuserprofil(1, ['id' => $res1])) return 1;
             else return 'er02';
         }

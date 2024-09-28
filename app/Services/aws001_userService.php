@@ -2,25 +2,28 @@
 //! Copyright @ Syahri Ramadhan Wiraasmara (ARI)
 namespace App\Services;
 
-use App\Repositories\UserRepositories;
+use App\Repositories\userRepository;
 use App\Libraries\jsr;
 use App\Libraries\myfunction as fun;
 
 class userServices {
 
     protected $repo;
-    public function __construct(UserRepositories $repo) {
+    public function __construct(userRepository $repo) {
         $this->repo = $repo;
     }
 
     public function login(string $user, $pass) {
-        $where = array('username' => $user, 'email' => $user);
+        $where = array('or' => [
+            ['username', '=', $user],
+            ['email', '=', $user]
+        ]);
         $cekUser = $this->repo->get($where);
             
         if( is_null($cekUser) ) return collect(['error'=>1]); //'Wrong Username / Email';
         if( !($pass == fun::decrypt($cekUser[0]['password'])) ) return collect(['error'=>2]); //'Wrong Password!';
 
-        return collect(['success' => $this->repo->get($where)]);
+        return collect(['success' => $this->repo->getProfil($where)]);
     }
 
     public function getProfil(int $id) {
@@ -28,7 +31,7 @@ class userServices {
     }
 
     public function getStaffUMKM(int $id_umkm, string $by = null, string $orderBy = null) {
-        return $this->repo->get(
+        return $this->repo->getProfil(
             ['penempatan_umkm' => $id_umkm], 
             $by, 
             $orderBy

@@ -17,7 +17,7 @@ create tble aw1002_userprofil(
    foto varchar(255) null,
    tempat_lahir varchar(100) null,
    tgl_lahir date null,
-   penempatan_umkm varchar(255) null foreign_key,
+   id_umkm varchar(255) null foreign_key,
    status enum('Aktif', 'Tidak Aktif') not null,
    jabatan varchar(255) null
 );
@@ -56,6 +56,7 @@ create table aw4001_transaksi(
    tgl date not null,
    id_user varchar(255) not null foreign key,
    diskon double null,
+   nama_pelanggan varchar(255) not null,
    uang_diterima float not null,
 );
 

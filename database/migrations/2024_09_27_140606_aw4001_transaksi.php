@@ -18,7 +18,8 @@ return new class extends Migration
             $table->string('id_umkm')->foreignId();
             $table->date('tgl');
             $table->string('id_user');
-            $table->string('diskon');
+            $table->string('diskon')->nullable();
+            $table->string('nama_pelanggan');
             $table->string('uang_diterima');
         });
     }

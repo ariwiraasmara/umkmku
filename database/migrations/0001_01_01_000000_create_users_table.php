@@ -31,7 +31,7 @@ return new class extends Migration
             $table->string('foto')->nullable()->default(null);
             $table->string('tempat_lahir')->nullable()->default(null);
             $table->date('tgl_lahir')->nullable()->default(null);
-            $table->string('penempatan_umkm')->foreignId()->nullable()->default(null);
+            $table->string('id_umkm')->foreignId()->nullable()->default(null);
             $table->enum('status', ['Aktif', 'Tidak Aktif'])->nullable()->default(null);
             $table->string('jabatan')->nullable()->default(null);
         });
