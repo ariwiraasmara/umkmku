@@ -1,23 +1,18 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Libraries\mcr;
 
-Route::view('/', 'welcome');
+Route::get('/', function () {
+    return redirect('/login');
+});
 
-Route::view('dashboard', 'dashboard')
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
-
-Route::view('profile', 'profile')
-    ->middleware(['auth'])
-    ->name('profile');
+Route::get('/login', function () {
+    return 'login';
+});
 
 Route::get('/hello', function () {
     return 'hello';
-});
-
-Route::get('/hai', function () {
-    return 'hai';
 });
 
 require __DIR__.'/auth.php';

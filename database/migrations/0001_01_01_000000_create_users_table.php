@@ -13,12 +13,27 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
+            $table->string('username')->unique()->default('default_user_x');
+            $table->string('email')->unique()->default(null);
+            $table->timestamp('email_verified_at')->nullable()->default(null);
+            $table->string('tlp', 20)->nullable()->default(null);
+            $table->string('password')->default(null);
+            $table->integer('roles')->default(0);
+            $table->rememberToken()->nullable()->default(null);
             $table->timestamps();
+        });
+
+        Schema::create('aw1002_userprofil', function (Blueprint $table) {
+            $table->integer('id')->primary()->default(null);
+            $table->string('nama')->nullable()->default(null);
+            $table->enum('jk', ['Pria', 'Wanita'])->nullable()->default(null);
+            $table->string('alamat')->nullable()->default(null);
+            $table->string('foto')->nullable()->default(null);
+            $table->string('tempat_lahir')->nullable()->default(null);
+            $table->date('tgl_lahir')->nullable()->default(null);
+            $table->string('penempatan_umkm')->foreignId()->nullable()->default(null);
+            $table->enum('status', ['Aktif', 'Tidak Aktif'])->nullable()->default(null);
+            $table->string('jabatan')->nullable()->default(null);
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
@@ -43,6 +58,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('users');
+        Schema::dropIfExists('aw1002_userprofil');
         Schema::dropIfExists('password_reset_tokens');
         Schema::dropIfExists('sessions');
     }

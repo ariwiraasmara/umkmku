@@ -1,7 +1,8 @@
 <?php
-namespace App\Mylibs;
+// ! Copyright @ Syahri Ramadhan Wiraasmara (ARI)
+namespace App\Libraries;
 use Redirect;
-use App\Mylibs\myfunction;
+use App\Libraries\myfunction;
 use asmcp_1000_user;
 use Cookie;
 class auth {

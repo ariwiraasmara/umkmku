@@ -1,4 +1,5 @@
 <?php
+// ! Copyright @ Syahri Ramadhan Wiraasmara (ARI)
 namespace App\Libraries;
 
 use Illuminate\Http\Request;
@@ -9,7 +10,7 @@ class jsr {
         
     }
 
-    public function r(array $array = null, String $status = null) {
+    public static function print(array $array = null, String $status = null) {
         return response()->json($array, match($status){
             'ok'            => 200,
             'created'       => 201,
