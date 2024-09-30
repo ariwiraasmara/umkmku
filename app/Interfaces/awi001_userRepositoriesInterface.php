@@ -7,10 +7,10 @@ interface userRepositoriesInterface {
     public function getProfil(array $where = null);
     
     public function storeAccount(array $val);
-    public function updateAccount(int $id, array $val): int;
+    public function updateAccount(array $val): int;
     public function deleteAccount(array $val): int;
 
-    public function updateProfilUser(int $id, array $val): int;
+    public function updateProfilUser(array $val): int;
     public function deleteProfilUser(array $val): int;
 }
 ?>

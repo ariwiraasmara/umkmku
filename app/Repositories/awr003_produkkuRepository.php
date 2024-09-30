@@ -46,7 +46,7 @@ class aw3001_produkkuRepository implements produkkuRepositoriesInterface {
         else return 0;
     }
 
-    public function update(int $id, array $val): int {
+    public function update(array $val): int {
         if(crud::procprodukku(2, $val)) return 1;
         else return 0;
     }

@@ -14,13 +14,27 @@ class transaksiService {
     }
 
     public function getAll(int $id_umkm = 0, String $by = 'id_transaksi', String $orderBy = 'asc') {
-        return $this->repo->getAll($id_umkm, $by, $orderBy);
+        return jsr::print([
+            'pesan' => 'Data Semua Transaksi!', 
+            'success' => 1,
+            'data' => $this->repo->getAll(['id_umkm' => $id_umkm], $by, $orderBy) 
+        ], 'ok');
     }
 
     //* untuk detail transaksi
     //* kompleks, karena harus menambahkan kalkulasi subtotal produk, total belanjaan, total - diskon, bla dan bla 
-    public function get() {
+    public function get(int $id_transaksi) {
+        $data = $this->repo->get(['id_transaksi' => $id_transaksi]);
+        $data_detail = $this->repo->getDetail($id_transaksi);
+        $jumlah = array_sum($data->harga_produk_akhir);
 
+        return jsr::print([
+            'pesan' => 'Data Detail Transaksi!', 
+            'success' => 1,
+            'data' => $data,
+            'detail_transaksi' => $data_detail,
+            'total_pembelian' => $jumlah
+        ], 'ok');
     }
 
     //* kompleks juga, harus insert ke kedua tabel

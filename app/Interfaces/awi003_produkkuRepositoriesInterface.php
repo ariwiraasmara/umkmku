@@ -7,7 +7,7 @@ interface produkkuRepositoriesInterface {
     public function get(array $where = null);
     
     public function store(array $val): int;
-    public function update(int $id, array $val): int;
+    public function update(array $val): int;
     public function delete(array $val): int;
 }
 ?>

@@ -4,14 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Crypt;
+// use Illuminate\Support\Facades\Auth;
+// use Illuminate\Support\Facades\Hash;
+// use Illuminate\Support\Facades\Crypt;
 use App\Services\userServices;
-use App\Libraries\jsr;
+// use App\Libraries\jsr;
 use App\Libraries\myfunction as fun;
-use Redirect;
-use File;
+// use File;
 
 class UserController extends Controller {
     //
@@ -123,20 +122,18 @@ class UserController extends Controller {
     }
 
     public function updateProfil(Request $request) {
-        return $this->service->updateProfil(
-            $request->id_user,
-            [
-                'nama'              => $request->nama,
-                'jk'                => $request->jk,
-                'alamat'            => $request->alamat,
-                'foto'              => $request->foto,
-                'tempat_lahir'      => $request->tempat_lahir,
-                'tgl_lahir'         => $request->tgl_lahir,
-                'penempatan_umkm'   => $request->penempatan_umkm,
-                'status'            => $request->status,
-                'jabatan'           => $request->jabatan
-            ]
-        );
+        return $this->service->updateProfil([
+            'id'                => $request->id_user,
+            'nama'              => $request->nama,
+            'jk'                => $request->jk,
+            'alamat'            => $request->alamat,
+            'foto'              => $request->foto,
+            'tempat_lahir'      => $request->tempat_lahir,
+            'tgl_lahir'         => $request->tgl_lahir,
+            'penempatan_umkm'   => $request->penempatan_umkm,
+            'status'            => $request->status,
+            'jabatan'           => $request->jabatan
+        ]);
     }
 
     public function deleteUser(Request $request) {

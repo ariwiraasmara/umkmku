@@ -20,7 +20,7 @@ class userRepository implements userRepositoriesInterface {
         $res = $this->model->orderBy($by, $orderBy);
         if($res->first()) {
             $res->select(
-                'users.username', 'users.email', 
+                'users.id, users.username', 'users.email', 
                 'userprofil.nama', 'userprofil.foto',
                 'userprofil.status', 'userprofil.jabatan',
             )
@@ -44,7 +44,7 @@ class userRepository implements userRepositoriesInterface {
         $res = $this->model->where($where);
         if($res->first()) {
             $res->select(
-                'users.username', 'users.email', 'users.tlp', 'users.password', 'users.roles',
+                'users.id, users.username', 'users.email', 'users.tlp', 'users.password', 'users.roles',
                 'userprofil.nama', 'userprofil.jk', 'userprofil.alamat', 'userprofil.foto',
                 'userprofil.tempat_lahir', 'userprofil.tgl_lahir', 'userprofil.penempatan_umkm',
                 'userprofil.status', 'userprofil.jabatan',
@@ -67,7 +67,7 @@ class userRepository implements userRepositoriesInterface {
         else return 'er01';
     }
 
-    public function updateAccount(int $id, array $val): int {
+    public function updateAccount(array $val): int {
         if(crud::procuser(2, $val)) return 1;
         else return 0;
     }
@@ -77,8 +77,8 @@ class userRepository implements userRepositoriesInterface {
         else return 0;
     }
 
-    public function updateProfilUser(int $id, array $val): int {
-        if(crud::procuserprofil(2, ['id' => $id, $val])) return 1;
+    public function updateProfilUser(array $val): int {
+        if(crud::procuserprofil(2, [$val])) return 1;
         else return 0;
         
     }

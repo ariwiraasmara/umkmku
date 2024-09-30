@@ -38,9 +38,15 @@ class transaksiRepository implements transaksiRepositoriesInterface {
     }
 
     //? get all transaksi list berdasarkan id_umkm
-    public function getAll(int $id_umkm = 0, String $by = 'id_transaksi', String $orderBy = 'asc') {
-        $res = $this->model->where(['id_umkm' => $id_umkm]);
-        if($res->first()) return $res->orderBy($by, $orderBy);
+    public function getAll(array $where = null, String $by = 'id_transaksi', String $orderBy = 'asc') {
+        $res = $this->model->where($where);
+        if($res->first()) return $res->orderBy($by, $orderBy)->getAll();
+        else return null;
+    }
+
+    public function get(array $where = null) {
+        $res = $this->model->where($where);
+        if($res->first()) return $res->get();
         else return null;
     }
 
@@ -75,19 +81,25 @@ class transaksiRepository implements transaksiRepositoriesInterface {
             // id_produk
             // jumlah
 
-            //* | id_umkm | id_transaksi | id_detailtransaksi | input_by | tgl | nama_pelanggan | produk | merk | harga | produk_diskon | satuan_unit | jumlah_dibeli | diskon |
+            //* | id_detailtransaksi | input_by | tgl | nama_pelanggan | produk | merk | harga | produk_diskon | jumlah_dibeli | satuan_unit | diskon | harga_produk_akhir |
             //? hasilnya jika id_transaksi = transaksi1, sebagai contoh :
-            // | umkm1 | transaksi1 | detailtransaksi1 | fulan | 2024-09-28 | fulani | Bakso Kikil | Warung Fulan | 10000 | 0 | porsi | 1 | 0 |
-            // | umkm1 | transaksi1 | detailtransaksi2 | fulan | 2024-09-28 | fulani | Bakso Daging | Warung Fulan | 12000 | 0 | porsi | 1 | 0 |
-            // | umkm1 | transaksi1 | detailtransaksi3 | fulan | 2024-09-28 | fulano | Bakso Ikan | Warung Fulan | 12000 | 0 | porsi | 3 | 0 |
+            // detailtransaksi1 | fulan | 2024-09-28 | fulani | Bakso Kikil | Warung Fulan | 10000 | 0 | 1 | porsi | 0 | 1000 | 9000 |
+            // detailtransaksi2 | fulan | 2024-09-28 | fulani | Bakso Daging | Warung Fulan | 12000 | 2000 | 1 | porsi | 0 | 10000 |
+            // detailtransaksi3 | fulan | 2024-09-28 | fulano | Bakso Ikan | Warung Fulan | 15000 | 2000 | 3 | porsi | 1000 | 39000 |
             $res->select(
-                'aw4001_transaksi.id_umkm', 'aw4001_transaksi.id_transaksi', 
-                'aw4001_transaksi.id_user', 'aw1002_userprofil.nama as input_by', 
-                'aw4001_transaksi.tgl', 'aw4001_transaksi.nama_pelanggan',
-                'aw3001_produkku.nama as produk', 'aw3001_produkku.merk', 'aw3001_produkku.harga', 'aw3001_produkku.diskon as produk_diskon',
-                'aw3001_produkku.stok', 'aw3001_produkku.satuan_unit', 'aw4002_detailtransaksi.jumlah as jumlah_dibeli', 'aw4001_transaksi.diskon'
-            )->orderBy('id_detailtransaksi', 'asc')->getAll();
-            return $res;
+                'aw4002_detailtransaksi.id_detailtransaksi', 'aw4001_transaksi.id_user', 
+                'aw1002_userprofil.nama as input_by', 'aw4001_transaksi.tgl', 'aw4001_transaksi.nama_pelanggan',
+                'aw3001_produkku.nama as produk', 'aw3001_produkku.merk', 
+                'aw3001_produkku.harga', 'aw3001_produkku.diskon as produk_diskon', 
+                'aw4002_detailtransaksi.jumlah as jumlah_dibeli', 'aw3001_produkku.satuan_unit', 
+                'aw3001_produkku.stok', 'aw4001_transaksi.diskon',
+                '((aw3001_produkku.harga - aw3001_produkku.diskon) * aw4002_detailtransaksi.jumlah) - aw4001_transaksi.diskon as harga_produk_akhir',
+            )
+            ->join('aw4001_transaksi', 'aw4001_transaksi.id_transaksi', '=', 'aw4002_detailtransaksi.id_transaksi')
+            ->join('aw4001_transaksi', 'aw4001_transaksi.id_user', '=', 'users.id')
+            ->join('aw4002_detailtransaksi', 'aw4002_detailtransaksi.id_produk', '=', 'aw3001_produkku.id_produk')
+            ->orderBy('id_detailtransaksi', 'asc');
+            return $res->getAll();
         }
         else return null;
     }

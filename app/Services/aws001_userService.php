@@ -20,22 +20,22 @@ class userServices {
         ]);
         $cekUser = $this->repo->get($where);
             
-        if( is_null($cekUser) ) return collect(['error'=>1]); //'Wrong Username / Email';
-        if( !($pass == fun::decrypt($cekUser[0]['password'])) ) return collect(['error'=>2]); //'Wrong Password!';
+        if( is_null($cekUser) ) return jsr::print(['error' => 1]); //'Wrong Username / Email';
+        if( !($pass == fun::decrypt($cekUser[0]['password'])) ) return jsr::print(['error' => 2]); //'Wrong Password!';
 
-        return collect(['success' => $this->repo->getProfil($where)]);
+        return jsr::print([
+            'pesan' => 'Berhasil Login!', 
+            'success' => 1,
+            'data' => $this->repo->getProfil($where)
+        ], 'ok');
     }
 
     public function getProfil(int $id) {
-        return $this->repo->getProfil(['id' => $id]);
-    }
-
-    public function getStaffUMKM(int $id_umkm, string $by = null, string $orderBy = null) {
-        return $this->repo->getProfil(
-            ['penempatan_umkm' => $id_umkm], 
-            $by, 
-            $orderBy
-        );
+        return jsr::print([
+            'pesan' => 'Profil User!', 
+            'success' => 1,
+            'data' => $this->repo->getProfil(['id' => $id])
+        ], 'ok');
     }
 
     public function storeAccount(string $username, string $email, string $password, $roles) {
@@ -56,13 +56,23 @@ class userServices {
                     default => jsr::print(['pesan' => 'insert user baru gagal', 'error' => 3], null)
                 };
             }
-            return jsr::print(['pesan' => 'Email Sudah Terdaftar!', 'error' => 2]);
+            return jsr::print([
+                'pesan' => 'Email Sudah Terdaftar!', 
+                'error' => 2
+            ]);
         }
-        return jsr::print(['pesan' => 'Username Sudah Terdaftar!', 'error' => 1]);        
+        return jsr::print([
+            'pesan' => 'Username Sudah Terdaftar!', 
+            'error' => 1
+        ]);        
     }
 
     public function updateAccount(int $id, String $field, String $field_value) {
-        $res = $this->repo->updateAccount($id, ['field' => $field, 'field_value' => $field_value]);
+        $res = $this->repo->updateAccount([
+            'id' => $id,
+            'field' => $field, 
+            'field_value' => $field_value
+        ]);
 
         return match($res) {
             1 => jsr::print(['pesan' => 'update akun user berhasil', 'success' => 1], 'ok'),
@@ -70,21 +80,19 @@ class userServices {
         };
     }
 
-    public function updateProfil(int $id, array $val) {
-        $res = $this->repo->updateProfilUser(
-            $id, 
-            [
-                'nama'              => $val['nama'],
-                'jk'                => $val['jk'],
-                'alamat'            => $val['alamat'],
-                'foto'              => $val['foto'],
-                'tempat_lahir'      => $val['tempat_lahir'],
-                'tgl_lahir'         => $val['tgl_lahir'],
-                'penempatan_umkm'   => $val['penempatan_umkm'],
-                'status'            => $val['status'],
-                'jabatan'           => $val['jabatan']
-            ]
-        );
+    public function updateProfil(array $val) {
+        $res = $this->repo->updateProfilUser([
+            'id'              => $val['id'],
+            'nama'            => $val['nama'],
+            'jk'              => $val['jk'],
+            'alamat'          => $val['alamat'],
+            'foto'            => $val['foto'],
+            'tempat_lahir'    => $val['tempat_lahir'],
+            'tgl_lahir'       => $val['tgl_lahir'],
+            'penempatan_umkm' => $val['penempatan_umkm'],
+            'status'          => $val['status'],
+            'jabatan'         => $val['jabatan']
+        ]);
 
         return match($res) {
             1 => jsr::print(['pesan' => 'update profil user berhasil', 'success' => 1], 'ok'),

@@ -2,7 +2,8 @@
 //! Copyright @ Syahri Ramadhan Wiraasmara (ARI)
 namespace App\Interfaces;
 interface transaksiRepositoriesInterface {
-    public function getAll(int $id_umkm = 0, String $by = 'id_produk', String $orderBy = 'asc');
+    public function getAll(array $where = null, String $by = 'id_produk', String $orderBy = 'asc');
+    public function get(array $where = null);
     public function getDetail(int $id_transaksi = 0);
     
     public function store(array $val): int;

@@ -12,12 +12,29 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 Route::post('login', myroute::API('UserController','login'));
 Route::post('daftar-pengguna-baru', myroute::API('UserController', 'register_dm'));
 
-Route::put('update/password', myroute::API('UserController','update_password'));
-Route::put('update/telpon', myroute::API('UserController','update_telpon'));
-Route::put('update/profil', myroute::API('UserController','update_profil'));
+Route::post('/pengguna/karyawan-baru', myroute::API('UserController', 'register_nondm'));
+Route::put('/pengguna/update/password', myroute::API('UserController','update_password'));
+Route::put('/pengguna/update/telpon', myroute::API('UserController','update_telpon'));
+Route::put('/pengguna/update/profil', myroute::API('UserController','update_profil'));
+Route::delete('/pengguna/hapus', myroute::API('UserController','delete'));
 Route::post('logout', myroute::API('UserController', 'logout'));
 
+Route::get('/umkm/list', myroute::API('UmkmkuController', 'getAll'));
+Route::get('/umkm/detail', myroute::API('UmkmkuController', 'get'));
+Route::post('/umkm/baru', myroute::API('UmkmkuController', 'store'));
+Route::put('/umkm/update', myroute::API('UmkmkuController', 'update'));
+Route::delete('/umkm/delete', myroute::API('UmkmkuController', 'delete'));
 
+Route::get('/produk', myroute::API('ProdukkuController', 'getAll'));
+Route::get('/produk/detail', myroute::API('ProdukkuController', 'get'));
+Route::post('/produk/baru', myroute::API('ProdukkuController', 'store'));
+Route::put('/produk/update', myroute::API('ProdukkuController', 'update'));
+Route::delete('/produk/hapus', myroute::API('ProdukkuController', 'delete'));
+
+Route::get('/transaksi', myroute::API('TransaksiController', 'getAll'));
+Route::get('/transaksi/detail', myroute::API('TransaksiController', 'get'));
+Route::post('/transaksi/baru', myroute::API('TransaksiController', 'store'));
+Route::delete('/transaksi/hapus', myroute::API('TransaksiController', 'delete'));
 
 //? Di bawah ini cuma percobaan
 Route::get('/hello', function () {

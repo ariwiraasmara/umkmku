@@ -35,9 +35,9 @@ class umkmkuRepository implements umkmkuRepositoryInterface {
     }
 
     //? get one umkm detail
-    public function get(array $where = null, String $by = null, String $orderBy = null) {
+    public function get(array $where = null) {
         $res = $this->model->where($where);
-        if($res->first()) return $res->orderBy($by, $orderBy)->get();
+        if($res->first()) return $res->get();
         else return null;
     }
 
@@ -48,7 +48,7 @@ class umkmkuRepository implements umkmkuRepositoryInterface {
         else return 0;
     }
 
-    public function update(int $id, array $val): int {
+    public function update(array $val): int {
         if(crud::procumkmku(2, $val)) return 1;
         else return 0;
     }

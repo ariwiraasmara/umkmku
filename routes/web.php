@@ -10,11 +10,11 @@ Route::get('/', function () {
 // lebih baik saya buat versi saya sendiri untuk login
 // 😆🤣 karena lebih nyamannya begitu...
 Route::get('/login', function () {
-    return '';
+    return view('livewire.pages.auth.login');
 });
 
 Route::get('/daftar-pengguna-baru', function () {
-    return '';
+    return view('livewire.pages.auth.register');
 });
 
 Route::get('/logout', );
