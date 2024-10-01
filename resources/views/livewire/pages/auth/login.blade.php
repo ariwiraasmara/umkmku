@@ -1,5 +1,5 @@
+{{-- ! Copyright @ Syahri Ramadhan Wiraasmara (ARI) --}}
 <?php
-
 use App\Livewire\Forms\LoginForm;
 use Illuminate\Support\Facades\Session;
 
@@ -11,8 +11,7 @@ use function Livewire\Volt\layout;
 @extends('layouts.unauthorized')
 @section('content')
 <div class="flex items-center justify-center">
-    <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg- shadow-md overflow-hidden sm:rounded-lg">
-        
+    <div class="w-full sm:max-w-md mt-6 px-6 py-4 shadow-md overflow-hidden sm:rounded-lg">
         <div class="mt-3">
             <h1 class="text-2xl font-bold text-center">
                 Login
@@ -43,19 +42,23 @@ use function Livewire\Volt\layout;
                     <x-input-error :messages="$errors->get('form.password')" class="mt-2" />
                 </div>
 
-                <!-- Remember Me -->
-                <div class="mt-3">
-                    <label for="remember" class="">
-                        <input wire:model="form.remember" id="remember" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
-                        <span class="ms-2 text-sm text-gray-600">{{ __('Ingat Saya!') }}</span>
-                    </label>
+                <div class="flex justify-between mt-3">
+                    <!-- Remember Me -->
+                    <div>
+                        <label for="remember" class="">
+                            <input wire:model="form.remember" id="remember" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
+                            <span class="ms-2 text-sm text-gray-600">{{ __('Ingat Saya!') }}</span>
+                        </label>
+                    </div>
+
+                    <div class="order-last">
+                        <a href="/lupa-password" class=" text-sm text-gray-600 hover:underline">
+                            Lupa Password?
+                        </a>
+                    </div>
                 </div>
-
+                
                 <div class="flex items-center justify-end mt-1">
-                    <a href="/forgot-password" class=" text-sm text-gray-600 hover:underline">
-                    
-                    </a>
-
                     <a href="/daftar-pengguna-baru">
                         <x-secondary-button class="ms-3">
                             {{ __('Register') }}

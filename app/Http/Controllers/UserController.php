@@ -87,6 +87,7 @@ class UserController extends Controller {
 
     public function register_dm(Request $request) {
         // return $request->username;
+        return 'hello register_dm';
         return $this->service->storeAccount(
             $request->username,
             $request->email,
