@@ -27,7 +27,7 @@
             </div>
     
             <div class="flex-1 w-50 text-center text-white">
-                <a href="#logout">
+                <a href="/logout">
                     <ion-icon name="log-out-outline" size="large"></ion-icon>
                 </a>
             </div>

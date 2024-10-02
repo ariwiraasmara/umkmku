@@ -7,68 +7,63 @@ use Illuminate\Http\JsonResponse;
 // use Illuminate\Support\Facades\Auth;
 // use Illuminate\Support\Facades\Hash;
 // use Illuminate\Support\Facades\Crypt;
-use App\Services\userServices;
-// use App\Libraries\jsr;
+use App\Services\userService;
+use App\Libraries\jsr;
 use App\Libraries\myfunction as fun;
 // use File;
-
 class UserController extends Controller {
     //
     protected $service;
 
-    public function __construct(userServices $service) {
+    public function __construct(userService $service) {
         $this->service = $service;
     }
 
     public function login(Request $request) {
         $validated = $request->validate([
-            'user' => 'required|string',
-            'pass' => 'required|string',
+            'user'      => 'required|string',
+            'passsword' => 'required|string',
         ]);
 
         if(!$validated) {
-            return new JsonResponse(
-                ['msg' => 'Anda Tidak Tervalidasi!', 'error' => 1],
-                status: JsonResponse::HTTP_BAD_REQUEST,
-            );
+            // return new JsonResponse(
+            //     ['msg' => 'Anda Tidak Tervalidasi!', 'error' => 1],
+            //     JsonResponse::HTTP_BAD_REQUEST,
+            // );
+            return jsr::print([
+                'pesan' => 'Anda Tidak Tervalidasi!', 
+                'error' => 1
+            ]);
         }
 
         $data = $this->service->login($request->user, $request->pass);
-        if($data->get('success')) {
-            $dafi = array(
-                "mcr_x_aswq_1"     => fun::encrypt($data['success'][0]['id']),
-                "mcr_x_aswq_3"     => fun::encrypt($data['success'][0]['username']),
-                "mcr_x_aswq_4"     => fun::encrypt($data['success'][0]['email']),
-                // "mcr_x_aswq_5"     => $this->cfun->encrypt($data['success'][0]['remember_token']),
-            );
-
+        if($data['success'] == 1) {
             fun::setCookie([
                 'islogin'      => 1,
-                "mcr_x_aswq_1" => $data['success'][0]['id'],
-                "mcr_x_aswq_2" => $data['success'][0]['username'],
-                "mcr_x_aswq_3" => $data['success'][0]['email'],
+                "mcr_x_aswq_1" => $data['data'][0]['id'],
+                "mcr_x_aswq_2" => $data['data'][0]['username'],
+                "mcr_x_aswq_3" => $data['data'][0]['email'],
                 // "mcr_x_aswq_5" => $data['success'][0]['remember_token'],
             ], true, 1, 24, 60, 60);
 
-            // $this->cfun->setOneCookie('islogin', 1, 1);
-            return new JsonResponse(
-                ['msg'=> 'Yehaa! Berhasil Login!', 'success'=>1, 'data'=>$dafi, 'login_at'=>date('Y-m-d h:i:s')],
-                status: JsonResponse::HTTP_OK,
-            );
+            return jsr::print([
+                'pesan' => 'Yehaa! Berhasil Login!', 
+                'success' => 1
+            ]);
         }
 
         return match($data->get('error')){
             1 => new JsonResponse(
                 ['pesan' => 'Username / Email Salah!', 'error'=> 1],
-                status: JsonResponse::HTTP_BAD_REQUEST,
+                JsonResponse::HTTP_BAD_REQUEST,
             ),
             2 => new JsonResponse(
                 ['pesan' => 'Password Salah!', 'error'=> 2],
-                status: JsonResponse::HTTP_BAD_REQUEST,
+                JsonResponse::HTTP_BAD_REQUEST,
             ),
             default => new JsonResponse(
                 ['pesan' => 'Terjadi Kesalahan!', 'error'=> -1],
-                status: JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
+                JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
             )
         };
     }
@@ -87,7 +82,7 @@ class UserController extends Controller {
 
     public function register_dm(Request $request) {
         // return $request->username;
-        return 'hello register_dm';
+        // return 'hello register_dm';
         return $this->service->storeAccount(
             $request->username,
             $request->email,

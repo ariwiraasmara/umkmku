@@ -2,14 +2,14 @@
 //! Copyright @ Syahri Ramadhan Wiraasmara (ARI)
 namespace App\Services;
 
-use App\Repositories\aw3001_produkkuRepository;
+use App\Repositories\produkkuRepository;
 use App\Libraries\jsr;
 // use App\Libraries\myfunction as fun;
 
 class produkkuService {
 
     protected $repo;
-    public function __contruct(aw3001_produkkuRepository $repo) {
+    public function __contruct(produkkuRepository $repo) {
         $this->repo = $repo;
     }
 

@@ -4,9 +4,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Libraries\myroute;
 
-// Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
-//     return $request->user();
-// });
+
+Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
+    return $request->user();
+});
 
 // Suggested code may be subject to a license. Learn more: ~LicenseLog:4215889592.
 Route::post('/login', myroute::API('UserController','login'));
@@ -37,7 +38,7 @@ Route::post('/transaksi/baru', myroute::API('TransaksiController', 'store'));
 Route::delete('/transaksi/hapus', myroute::API('TransaksiController', 'delete'));
 
 //? Di bawah ini cuma percobaan
-Route::get('/api/hello', function () {
+Route::get('/hello', function () {
     return 'hello get';
 });
 

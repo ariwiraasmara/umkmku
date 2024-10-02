@@ -4,7 +4,7 @@ namespace App\Services;
 
 use App\Repositories\userRepository;
 use App\Repositories\umkmkuRepository;
-use App\Repositories\aw3001_produkkuRepository;
+use App\Repositories\produkkuRepository;
 use App\Repositories\transaksiRepository;
 use App\Libraries\jsr;
 // use App\Libraries\myfunction as fun;
@@ -17,7 +17,7 @@ class umkmkuService {
     protected $repo_transaksi;
     public function __construct(
         umkmkuRepository $repo1,
-        aw3001_produkkuRepository $repo2,
+        produkkuRepository $repo2,
         transaksiRepository $repo3,
         userRepository $repo4,
     ) {

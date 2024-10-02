@@ -1,7 +1,7 @@
 <?php
 //! Copyright @ Syahri Ramadhan Wiraasmara (ARI)
 namespace App\Interfaces;
-interface transaksiRepositoriesInterface {
+interface transaksiRepositoryInterface {
     public function getAll(array $where = null, String $by = 'id_produk', String $orderBy = 'asc');
     public function get(array $where = null);
     public function getDetail(int $id_transaksi = 0);

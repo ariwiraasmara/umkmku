@@ -4,9 +4,15 @@ namespace App\Libraries;
 class myroute {
 
     // WEB ROUTES {
-        public static function tardulu(string $procname = null) {
-            if($procname == '' || $procname == null) return '\App\Http\Controllers\..UserController..';
-            return '\App\Http\Controllers\..UserController..@'.$procname;
+        public static function view(string $classname = null) {
+            if($classname == '' || $classname == null) return '\App\Livewire\NotFound::class';
+            return '\App\Livewire\\'.$classname.'::class';
+        }
+    // }
+
+    // Frontend Process Route {
+        public static function process(string $controller, string $procname = null) {
+            return '\App\Http\Controllers\Frontend\\'.$controller.'@'.$procname;
         }
     // }
 

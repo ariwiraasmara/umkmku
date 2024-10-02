@@ -1,7 +1,7 @@
 <?php
 //! Copyright @ Syahri Ramadhan Wiraasmara (ARI)
 namespace App\Interfaces;
-interface userRepositoriesInterface {
+interface userRepositoryInterface {
     public function getAll(String $by = 'id', String $orderBy = 'asc', array $where = null);
     public function get(array $where = null);
     public function getProfil(array $where = null);

@@ -4,9 +4,11 @@ namespace App\Services;
 
 use App\Repositories\userRepository;
 use App\Libraries\jsr;
+use Illuminate\Support\Facades\Hash;
 use App\Libraries\myfunction as fun;
+use Illuminate\Support\Collection;
 
-class userServices {
+class userService {
 
     protected $repo;
     public function __construct(userRepository $repo) {
@@ -14,16 +16,18 @@ class userServices {
     }
 
     public function login(string $user, $pass) {
-        $where = array('or' => [
-            ['username', '=', $user],
-            ['email', '=', $user]
+        $where = array([
+            ['username' => $user],
+            'or',
+            ['email' => $user]
         ]);
         $cekUser = $this->repo->get($where);
             
         if( is_null($cekUser) ) return jsr::print(['error' => 1]); //'Wrong Username / Email';
-        if( !($pass == fun::decrypt($cekUser[0]['password'])) ) return jsr::print(['error' => 2]); //'Wrong Password!';
-
-        return jsr::print([
+        if (!Hash::check($pass, $cekUser[0]['password'])) return jsr::print(['error' => 2]); //'Wrong Password!';
+        // if( !($pass == fun::decrypt($cekUser[0]['password'])) ) return jsr::print(['error' => 2]); //'Wrong Password!';
+        // return 'ok';
+        return collect([
             'pesan' => 'Berhasil Login!', 
             'success' => 1,
             'data' => $this->repo->getProfil($where)
@@ -42,29 +46,32 @@ class userServices {
         // return 'in service username : '. $username;
         if($this->repo->get(['username' => $username])) {
             if($this->repo->get(['email' => $email])) {
-                $res = $this->repo->storeAccount(
-                    [
-                        'username'  => $username,
-                        'email'     => $email, 
-                        'password'  => $password,
-                        'roles'     => $roles
-                    ]
-                );
-        
-                return match($res) {
-                    1 => jsr::print(['pesan' => 'insert user baru berhasil', 'success' => 1], 'created'),
-                    default => jsr::print(['pesan' => 'insert user baru gagal', 'error' => 3], null)
-                };
+                
+                return jsr::print([
+                    'pesan' => 'Email Sudah Terdaftar!', 
+                    'error' => 2
+                ]);
             }
             return jsr::print([
-                'pesan' => 'Email Sudah Terdaftar!', 
-                'error' => 2
-            ]);
+                'pesan' => 'Username Sudah Terdaftar!', 
+                'error' => 1
+            ]);        
         }
-        return jsr::print([
-            'pesan' => 'Username Sudah Terdaftar!', 
-            'error' => 1
-        ]);        
+        else {
+            $res = $this->repo->storeAccount(
+                [
+                    'username'  => $username,
+                    'email'     => $email, 
+                    'password'  => $password,
+                    'roles'     => $roles
+                ]
+            );
+    
+            return match($res) {
+                1 => jsr::print(['pesan' => 'insert user baru berhasil', 'success' => 1], 'created'),
+                default => jsr::print(['pesan' => 'insert user baru gagal', 'error' => 3], null)
+            };
+        }
     }
 
     public function updateAccount(int $id, String $field, String $field_value) {

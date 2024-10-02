@@ -1,9 +1,4 @@
 {{-- ! Copyright @ Syahri Ramadhan Wiraasmara (ARI) --}}
-<?php 
-
-?>
-@extends('layouts.unauthorized')
-@section('content')
 <div class="flex flex-col static">
     <div class="grow w-full bg-blue-400 static">
         <div class="inset-x-0 top-0 h-16 p-2 flex justify-between">
@@ -29,6 +24,5 @@
 
         {{-- ? Disini menampilkan daftar item list produk yang dimiliki.  --}}
     </div>
+    <x-navbottom/>
 </div>
-<x-navbottom/>
-@endsection

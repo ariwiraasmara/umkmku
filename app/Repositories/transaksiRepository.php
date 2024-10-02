@@ -2,11 +2,11 @@
 //! Copyright @ Syahri Ramadhan Wiraasmara (ARI)
 namespace App\Repositories;
 
-use App\Interfaces\transaksiRepositoriesInterface;
+use App\Interfaces\transaksiRepositoryInterface;
 use App\Models\aw4001_transaksi;
 use App\Libraries\crud;
 
-class transaksiRepository implements transaksiRepositoriesInterface {
+class transaksiRepository implements transaksiRepositoryInterface {
 
     protected $model;
     public function __construct(aw4001_transaksi $model) {

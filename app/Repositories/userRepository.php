@@ -2,11 +2,11 @@
 //! Copyright @ Syahri Ramadhan Wiraasmara (ARI)
 namespace App\Repositories;
 
-use App\Interfaces\userRepositoriesInterface;
+use App\Interfaces\userRepositoryInterface;
 use App\Models\User;
 use App\Libraries\crud;
 
-class userRepository implements userRepositoriesInterface {
+class userRepository implements userRepositoryInterface {
 
     protected $model;
     public function __construct(User $model) {
@@ -17,41 +17,41 @@ class userRepository implements userRepositoriesInterface {
     //! dipakai untuk admin, direktur/manager
     // saat direktur/manager login, parameter where adalah penempatan_umkm = id_umkm
     public function getAll(String $by = 'id', String $orderBy = 'asc', array $where = null) {
-        $res = $this->model->orderBy($by, $orderBy);
-        if($res->first()) {
+        if($this->model->orderBy($by, $orderBy)->first()) {
+            $res = $this->model->orderBy($by, $orderBy);
             $res->select(
                 'users.id, users.username', 'users.email', 
-                'userprofil.nama', 'userprofil.foto',
-                'userprofil.status', 'userprofil.jabatan',
+                'aw1002_userprofil.nama', 'aw1002_userprofil.foto',
+                'aw1002_userprofil.status', 'aw1002_userprofil.jabatan',
             )
-            ->join('userprofil', 'userprofil.id', '=', 'users.id');
+            ->join('aw1002_userprofil', 'aw1002_userprofil.id', '=', 'users.id');
 
             if(is_null($where)) return $res->getAll();
-            return $res->where($where)->getAll();
+            else return $res->where($where)->getAll();
         }
         return null;
     }
 
     //? get one user
     public function get(array $where = null) {
-        $res = $this->model->where($where)->orWhere($where);
-        if($res->first()) return $res->get();
+        $res = $this->model->where($where);
+        if($res->first()) return $this->model->where($where)->get();
         else return null;
     }
 
     //? get one user detail
     public function getProfil(array $where = null) {
-        $res = $this->model->where($where);
-        if($res->first()) {
-            $res->select(
-                'users.id, users.username', 'users.email', 'users.tlp', 'users.password', 'users.roles',
-                'userprofil.nama', 'userprofil.jk', 'userprofil.alamat', 'userprofil.foto',
-                'userprofil.tempat_lahir', 'userprofil.tgl_lahir', 'userprofil.penempatan_umkm',
-                'userprofil.status', 'userprofil.jabatan',
+        // $res = $this->model->where($where);
+        if($this->model->where($where)) {
+            return $this->model->where($where)->select(
+                'users.id', 'users.username', 'users.email', 'users.tlp', 'users.password', 'users.roles',
+                'aw1002_userprofil.nama', 'aw1002_userprofil.jk', 'aw1002_userprofil.alamat', 'aw1002_userprofil.foto',
+                'aw1002_userprofil.tempat_lahir', 'aw1002_userprofil.tgl_lahir', 'aw1002_userprofil.id_umkm',
+                'aw1002_userprofil.status', 'aw1002_userprofil.jabatan',
             )
-            ->join('userprofil', 'userprofil.id', '=', 'users.id')
+            ->join('aw1002_userprofil', 'aw1002_userprofil.id', '=', 'users.id')
             ->get();
-            return $res;
+            // return $res;
         }
         return null;
     }

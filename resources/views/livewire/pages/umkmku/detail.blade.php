@@ -1,9 +1,4 @@
 {{-- ! Copyright @ Syahri Ramadhan Wiraasmara (ARI) --}}
-<?php 
-
-?>
-@extends('layouts.unauthorized')
-@section('content')
 <div class="flex flex-col static">
     <div class="grow w-full bg-blue-400 static">
         <div class="inset-x-0 top-0 h-16 p-2 flex justify-between">
@@ -15,7 +10,7 @@
 
             <div class="order-first">
                 <h1 class="text-2xl font-bold p-2 text-white leading-tight">
-                    [Nama UMKM]
+                    {{ $nama_umkm }}
                 </h1>
             </div>
 
@@ -26,14 +21,14 @@
     </div>
 
     <div class="p-2 static">
-        <p><span class="font-bold">Tanggal Berdiri : </span> [Tanggal Berdiri]</p>
-        <p><span class="font-bold">Jenis Usaha : </span> [Jenis Usaha]</p>
-        <p><span class="font-bold">Deskripsi : </span> [Deskripsi]</p>
-        <p><span class="font-bold">Alamat : </span> [Alamat beserta longitude dan latitude.]</p>
-        <p><span class="font-bold">No. Telepon : </span> [No. Telepon]</p>
-        <p><span class="font-bold">Foto : </span> [Foto]</p>
-        <p><span class="font-bold">Logo : </span> [Logo]</p>
-    </div>
+        <p><span class="font-bold">Tanggal Berdiri : </span> {{ $tgl_berdiri }}</p>
+        <p><span class="font-bold">Jenis Usaha : </span> {{ $jenis_usaha }}</p>
+        <p><span class="font-bold">Deskripsi : </span> {{ $deskripsi }}</p>
+        <p><span class="font-bold">Alamat : </span> {{ $alamat.', '.$longitude.', '.$latitude }}</p>
+        <p><span class="font-bold">No. Telepon : </span> {{ $no_tlp }}</p>
+        <p><span class="font-bold">Foto : </span> {{ $foto_umkm }}</p>
+        <p><span class="font-bold">Logo : </span> {{ $logo_umkm }} </p>
+    </div> 
 
     <div class="p2 mt-3 mb-3 static w-full">
         <nav class="flex flex-row">
@@ -133,10 +128,7 @@
         </div>
     </div>
 
-
-</div>
-
-<script>
+    <script>
     function openTab(tabName) {
       var i;
       var x = document.getElementsByClassName("p-4");
@@ -145,4 +137,5 @@
       }
       document.getElementById(tabName).classList.remove("hidden");
     }
-</script>          
+</script>   
+</div>       

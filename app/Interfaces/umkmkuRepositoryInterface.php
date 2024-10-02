@@ -1,9 +1,9 @@
 <?php
 //! Copyright @ Syahri Ramadhan Wiraasmara (ARI)
 namespace App\Interfaces;
-interface produkkuRepositoriesInterface {
+interface umkmkuRepositoryInterface {
     public function getID(int $id_user, string $email): String;
-    public function getAll(array $where, String $by = 'id_produk', String $orderBy = 'asc');
+    public function getAll(array $where, String $by = 'id_umkm', String $orderBy = 'asc');
     public function get(array $where = null);
     
     public function store(array $val): int;
