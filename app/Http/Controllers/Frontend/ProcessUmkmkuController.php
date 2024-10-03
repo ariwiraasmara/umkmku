@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Services\umkmkuServices;
+use App\Services\umkmkuService;
 use App\Libraries\myfunction as fun;
 use Illuminate\Support\Facades\Http;
 
@@ -12,14 +12,15 @@ class ProcessUmkmkuController extends Controller {
     //
 
     protected $service;
-    public function __construct(umkmkuServices $service) {
+    public function __construct(umkmkuService $service) {
         $this->service = $service;
     }
 
     public function store(Request $request) {
-        return $this->service->store(
+        $res = $this->service->store(
            [
-                'id_user'       => $request->id_user,
+                'id_user'       => fun::getCookie('mcr_x_aswq_1'),
+                'email'         => fun::getCookie('mcr_x_aswq_3'),
                 'nama_umkm'     => $request->nama_umkm,
                 'tgl_berdiri'   => $request->tgl_berdiri,
                 'jenis_usaha'   => $request->jenis_usaha,
@@ -32,10 +33,12 @@ class ProcessUmkmkuController extends Controller {
                 'latitude'      => $request->latitude,
             ]
         );
+        if(empty($res) || is_null($res)) return redirect('/umkmku/baru'); 
+        else return redirect('/umkmku');
     }
 
     public function update(Request $request) {
-        return $this->service->update([
+        $res = $this->service->update([
             'id_umkm'     => $request->id_umkm,
             'nama_umkm'   => $request->nama_umkm,
             'tgl_berdiri' => $request->tgl_berdiri,
@@ -48,10 +51,13 @@ class ProcessUmkmkuController extends Controller {
             'longitude'   => $request->longitude,
             'latitude'    => $request->latitude,
         ]);
+        if(empty($res) || is_null($res)) return redirect('/umkmku/edit/'.$request->id_umkm); 
+        else return redirect('/umkmku');
     }
 
-    public function delete(Request $request) {
-        return $this->service->delete($request->id_umkm);
+    public function delete(String $id_umkm) {
+        $res = $this->service->delete($id_umkm);
+        return redirect('/umkmku');
     }
 
 }

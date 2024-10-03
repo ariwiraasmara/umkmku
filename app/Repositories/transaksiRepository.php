@@ -9,8 +9,8 @@ use App\Libraries\crud;
 class transaksiRepository implements transaksiRepositoryInterface {
 
     protected $model;
-    public function __construct(aw4001_transaksi $model) {
-        $this->model = $model;
+    public function __construct() {
+        $this->model = new aw4001_transaksi();
     }
 
     public function getID(int $id_user, string $email): String {
@@ -39,15 +39,13 @@ class transaksiRepository implements transaksiRepositoryInterface {
 
     //? get all transaksi list berdasarkan id_umkm
     public function getAll(array $where = null, String $by = 'id_transaksi', String $orderBy = 'asc') {
-        $res = $this->model->where($where);
-        if($res->first()) return $res->orderBy($by, $orderBy)->getAll();
-        else return null;
+        if($this->model->where($where)->first()) return $this->model->where($where)->orderBy($by, $orderBy)->get();
+        else return 0;
     }
 
     public function get(array $where = null) {
-        $res = $this->model->where($where);
-        if($res->first()) return $res->get();
-        else return null;
+        if($this->model->where($where)->first()) return $this->model->where($where)->get();
+        else return 0;
     }
 
     //? get one transaksi dan detailnya

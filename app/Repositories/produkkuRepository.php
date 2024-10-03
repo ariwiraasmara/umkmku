@@ -9,34 +9,33 @@ use App\Libraries\crud;
 class produkkuRepository implements produkkuRepositoryInterface {
 
     protected $model;
-    public function __construct(aw3001_produkku $model) {
-        $this->model = $model;        
+    public function __construct() {
+        $this->model = new aw3001_produkku();
     }
 
-    public function getID(int $id_user, string $email): String {
+    public function getID(int $id_umkm, string $email): String {
         //* Format id_produk sebagai contoh : Produk@UMKM_fulan@felan.com-001
-        $query = $this->model->where(['id_user' => $id_user])->orderBy('id_umkm', 'desc')->first();
+        $query = $this->model->where(['id_umkm' => $id_umkm])->orderBy('id_umkm', 'desc')->first();
         if($query) {
-            $id_umkm = $query->id_umkm;
-            $strpos = (int)strpos($id_umkm, "-") + 1; //? => 001
-            $counter = (int)substr($id_umkm, $strpos)+1;
+            $id_umkm_new = $query->id_umkm;
+            $strpos = (int)strpos($id_umkm_new, "-") + 1; //? => 001
+            $counter = (int)substr($id_umkm_new, $strpos)+1;
             return 'Produk@UMKM_'.$email.'-'.str_pad($counter, 3, "0", STR_PAD_LEFT);
 
         }
         else return 'Produk@UMKM_'.$email.'-001';
     }
 
-    //? get all produk based on id_umkm
-    public function getAll(array $where, String $by = 'id_produk', String $orderBy = 'asc') {
-        if($this->model->where()->orderBy($by, $orderBy)->first()) return $this->model->orderBy($by, $orderBy)->getAll();
-        return null;
+    //? get all produk list berdasarkan id_umkm
+    public function getAll(array $where, String $by = 'id_umkm', String $orderBy = 'asc') {
+        if($this->model->where($where)->first()) return $this->model->where($where)->orderBy($by, $orderBy)->get();
+        else return 0;
     }
 
-    //? get produk detail by id_produk
+    //? get one produk detail
     public function get(array $where = null) {
-        $res = $this->model->where($where);
-        if($res->first()) return $res->get();
-        return null;
+        if($this->model->where($where)->first()) return $this->model->where($where)->get();
+        else return 0;
     }
 
     public function store(array $val): int {

@@ -6,7 +6,7 @@ interface transaksiRepositoryInterface {
     public function get(array $where = null);
     public function getDetail(int $id_transaksi = 0);
     
-    public function store(array $val): int;
+    public function store(array $val);
     public function storeDetail(array $val): int;
 
     // di transaksi ini tidak update namun ada delete

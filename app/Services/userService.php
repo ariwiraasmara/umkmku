@@ -11,8 +11,8 @@ use Illuminate\Support\Collection;
 class userService {
 
     protected $repo;
-    public function __construct(userRepository $repo) {
-        $this->repo = $repo;
+    public function __construct() {
+        $this->repo = new userRepository();
     }
 
     public function login(string $user, $pass) {
@@ -38,7 +38,15 @@ class userService {
         return jsr::print([
             'pesan' => 'Profil User!', 
             'success' => 1,
-            'data' => $this->repo->getProfil(['id' => $id])
+            'data' => $this->repo->getProfil(['users.id' => $id])
+        ], 'ok');
+    }
+
+    public function getAllStaff(String $id) {
+        return jsr::print([
+            'pesan' => 'Data Semua Pegawai Staff!', 
+            'success' => 1,
+            'data' => $this->repo->getAll('aw1002_userprofil.nama', 'asc', ['id_umkm' => $id])
         ], 'ok');
     }
 

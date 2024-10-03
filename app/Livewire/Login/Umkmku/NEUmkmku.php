@@ -8,21 +8,20 @@ use App\Libraries\myfunction as fun;
 class NEUmkmku extends Component {
 
     protected String $title;
-    protected $isedit;
-    protected $url;
-    protected $method_request;
-    protected $id_umkm;
-    protected $id_user;
-    protected $nama_umkm;
-    protected $tgl_berdiri;
-    protected $jenis_usaha;
-    protected $deskripsi;
-    protected $no_tlp;
-    protected $logo_umkm;
-    protected $foto_umkm;
-    protected $alamat;
-    protected $longitude;
-    protected $latitude;
+    protected String $isedit;
+    protected String $url;
+    protected String $method_request;
+    protected String $id_umkm;
+    protected String $nama_umkm;
+    protected String $tgl_berdiri;
+    protected String $jenis_usaha;
+    protected String $deskripsi;
+    protected String $no_tlp;
+    protected String $logo_umkm;
+    protected String $foto_umkm;
+    protected String $alamat;
+    protected String $longitude;
+    protected String $latitude;
 
     public function mount(String $title = null, array $data = null) {
         if( fun::getRawCookie('islogin') == null ) return redirect('login');
@@ -31,7 +30,6 @@ class NEUmkmku extends Component {
         $this->url              = $data == null ? '/process/umkm/baru' : 'process/umkm/edit/'.$data['id_umkm'];
         $this->method_request   = $data == null ? 'POST' : $data['method_request'];
         $this->id_umkm          = $data == null ? '' : $data['id_umkm'];
-        $this->id_user          = $data == null ? fun::getCookie('mcr_x_aswq_1') : $data['id_user'];
         $this->nama_umkm        = $data == null ? '' : $data['nama_umkm'];
         $this->tgl_berdiri      = $data == null ? '' : $data['tgl_berdiri'];
         $this->jenis_usaha      = $data == null ? '' : $data['jenis_usaha'];
@@ -51,7 +49,7 @@ class NEUmkmku extends Component {
             'url'            => $this->url,
             'method_request' => $this->method_request,
             'id_umkm'        => $this->id_umkm,
-            'id_user'        => $this->id_user,
+            'id_user'        => fun::getCookie('mcr_x_aswq_1'),
             'nama_umkm'      => $this->nama_umkm,
             'tgl_berdiri'    => $this->tgl_berdiri,
             'jenis_usaha'    => $this->jenis_usaha,

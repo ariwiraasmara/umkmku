@@ -29,16 +29,14 @@ Route::get('/umkmku/baru', \App\Livewire\Login\Umkmku\NEUmkmku::class);
 Route::put('/umkmku/edit/{id}', \App\Livewire\Login\Umkmku\NEUmkmku::class);
 Route::get('/transaksi', \App\Livewire\Login\Transaksi\TransaksiNonDM::class);
 Route::get('/transaksi/detil/{id}', \App\Livewire\Login\Transaksi\DetailTransaksi::class);
+Route::get('/transaksi/baru/{id1}/{id2}', \App\Livewire\Login\Transaksi\NewTransaksi::class);
 
 Route::get('/profil', \App\Livewire\Login\Profil::class);
 
-Route::get('/produk', function(){
-    return view('livewire.pages.produk.list');
-});
 
-Route::get('/produk/detil/{id}', function(){
-    return view('livewire.pages.produk.detail');
-});
+Route::get('/produk/detil/{id}', App\Livewire\Login\Produk\DetailProduk::class);
+Route::get('/produk/baru/{id}', App\Livewire\Login\Produk\NEProduk::class);
+Route::get('/produk/edit/{id}', App\Livewire\Login\Produk\NEProduk::class);
 
 Route::post('/process/login', myroute::process('ProcessUserController', 'login'));
 Route::get('/logout', myroute::process('ProcessUserController', 'logout'));
@@ -48,7 +46,7 @@ Route::post('/process/lupa-password', myroute::process('ProcessUserController', 
 
 Route::post('/process/umkm/baru', myroute::process('ProcessUmkmkuController', 'store'));
 Route::post('/process/umkm/update/{id}', myroute::process('ProcessUmkmkuController', 'update'));
-Route::post('/process/umkm/delete/{id}', myroute::process('ProcessUmkmkuController', 'delete'));
+Route::get('/process/umkm/delete/{id}', myroute::process('ProcessUmkmkuController', 'delete'));
 
 Route::post('/process/produk/baru', myroute::process('ProcessProdukController', 'store'));
 Route::put('/process/produk/update/{id}', myroute::process('ProcessProdukController', 'update'));

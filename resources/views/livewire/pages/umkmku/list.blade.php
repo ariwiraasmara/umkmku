@@ -17,14 +17,15 @@
     </div>
 
 
-    <div class="p-2 static mb-3">
-        <x-item-list vartoclick="x()">
-            <p><a href="/umkmku/detil/baksoku"><h1 class="text-xl">Baksoku</h1></a></p>
-        </x-item-list>
-
-        <x-item-list vartoclick="x()"> 
-            <p><a href="/umkmku/detil/siomayku"><h1 class="text-xl">Siomayku</h1></a></p>
-        </x-item-list>
+    <div class="p-2 static" style="margin-bottom: 60px;">
+        @if ($data->getData()->data != 0)
+            @foreach ($data->getData()->data as $dt)
+                <a href="{{ '/umkmku/detil/'. $dt->id_umkm }}">
+                    <p class="py-2 mb-2 border-b">{{ $dt->nama_umkm }}</p>
+                </a>
+            @endforeach
+        @endif
+        
         {{-- ? Disini menampilkan daftar item list umkm yang dimiliki.  --}}
     </div>
     <x-navbottom/>

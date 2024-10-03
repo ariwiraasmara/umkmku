@@ -40,7 +40,14 @@ class ProcessUserController extends Controller {
     }
 
     public function daftar_pengguna_baru(Request $request) {
-
+        $res = $this->service->storeAccount(
+            $request->username,
+            $request->email,
+            $request->password,
+            2
+        );
+        if(empty($res) || is_null($res)) return redirect('/daftar-pengguna-baru'); 
+        else return redirect('/login');
     }
 
     public function lupa_password(Request $request) {

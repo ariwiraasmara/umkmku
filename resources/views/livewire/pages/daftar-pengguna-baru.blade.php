@@ -9,6 +9,7 @@
 
         <div class="mt-4">
             <form action="/process/daftar-pengguna-baru" method="POST">
+                @csrf
                 <!-- Username -->
                 <div>
                     {{-- <input type="text" wire:model="title" class="form-control @error('title') is-invalid @enderror" placeholder="Masukkan Title"> --}}

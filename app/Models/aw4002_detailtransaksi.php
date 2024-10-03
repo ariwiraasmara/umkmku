@@ -11,7 +11,7 @@ class aw4002_detailtransaksi extends Model
     use HasFactory;
 
     protected $guarded = [];
-    protected $table = 'aw2001_umkmku';
+    protected $table = 'aw4002_detailtransaksi';
     protected $primaryKey = 'id_detailtransaksi';
     protected $fillable = [
         'id_detailtransaksi',

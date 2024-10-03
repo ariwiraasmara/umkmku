@@ -17,13 +17,13 @@ return new class extends Migration
             $table->string('id_produk')->primary();
             $table->string('id_umkm')->foreignId();
             $table->string('nama');
-            $table->string('merk')->nullable();
-            $table->string('jenis')->nullable();
-            $table->string('deskripsi')->nullable();
+            $table->string('merk')->nullable()->default(null);
+            $table->string('jenis')->nullable()->default(null);
+            $table->string('deskripsi')->nullable()->default(null);
             $table->integer('harga');
-            $table->integer('stok')->nullable();
-            $table->string('satuan_unit')->nullable();
-            $table->double('diskon')->nullable();
+            $table->integer('stok')->nullable()->default(0);
+            $table->string('satuan_unit')->nullable()->default(null);
+            $table->double('diskon')->nullable()->default(0);
         });
     }
 

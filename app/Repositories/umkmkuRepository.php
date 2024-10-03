@@ -9,13 +9,13 @@ use App\Libraries\crud;
 class umkmkuRepository implements umkmkuRepositoryInterface {
 
     protected $model;
-    public function __construct(aw2001_umkmku $model) {
-        $this->model = $model;
+    public function __construct() {
+        $this->model = new aw2001_umkmku();
     }
 
     public function getID(int $id_user, string $email): String {
         //* Format id_umkm sebagai contoh : UMKM_fulan@felan.com-001
-        $query = $this->model->where(['id_user' => $id_user])->orderBy('id_umkm', 'desc')->first();
+        $query = $this->model->where(['id' => $id_user])->orderBy('id_umkm', 'desc')->first();
         if($query) {
             $id_umkm = $query->id_umkm;
             $strpos = (int)strpos($id_umkm, "-") + 1; //? => 001
@@ -28,22 +28,20 @@ class umkmkuRepository implements umkmkuRepositoryInterface {
 
     //? get all umkmku list berdasarkan id_user
     public function getAll(array $where, String $by = 'id_umkm', String $orderBy = 'asc') {
-        $res = $this->model->where($where);
-        if($res->first()) return $res->orderBy($by, $orderBy)->getAll();
-        else return null;
+        if($this->model->where($where)->first()) return $this->model->where($where)->orderBy($by, $orderBy)->get();
+        else return 0;
     }
 
     //? get one umkm detail
     public function get(array $where = null) {
-        $res = $this->model->where($where);
-        if($res->first()) return $res->get();
-        else return null;
+        if($this->model->where($where)->first()) return $this->model->where($where)->get();
+        else return 0;
     }
 
     public function store(array $val): int {
         // return implode($val);
         // return crud::procuser(1, $val);
-        if(crud::procumkmku(1, $val) > 0) return 1;
+        if(!empty(crud::procumkmku(1, $val))) return 1;
         else return 0;
     }
 

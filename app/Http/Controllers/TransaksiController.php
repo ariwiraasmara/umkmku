@@ -30,17 +30,19 @@ class TransaksiController extends Controller {
 
     public function store(Request $request) {
         return $this->service->store(
-            [
-                'id_transaksi'  => $request['id_transaksi'],
-                'id_umkm'        => $request['id_umkm'],
-                'tgl'            => $request['tgl'],
-                'id_user'        => $request['id_user'],
-                'diskon'         => $request['diskon'],
-                'nama_pelanggan' => $request['nama_pelanggan'],
-                'uang_diterima'  => $request['uang_diterima'],
-            ],
-            $request->detail_pemesanan
-        );
+        [
+            'id_transaksi'   => $request['id_transaksi'],
+            'id_umkm'        => $request['id_umkm'],
+            'tgl'            => $request['tgl'],
+            'id_user'        => $request['id_user'],
+            'diskon'         => $request['diskon'],
+            'nama_pelanggan' => $request['nama_pelanggan'],
+            'uang_diterima'  => $request['uang_diterima'],
+        ],
+        [
+            'id_produk' => $request->id_produk,
+            'jumlah'    => $request->jumlah
+        ]);
     }
 
     public function delete(Request $request) {

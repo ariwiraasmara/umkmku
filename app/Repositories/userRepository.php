@@ -9,25 +9,25 @@ use App\Libraries\crud;
 class userRepository implements userRepositoryInterface {
 
     protected $model;
-    public function __construct(User $model) {
-        $this->model = $model;
+    public function __construct() {
+        $this->model = new User();
     }
 
     //? get all user list
     //! dipakai untuk admin, direktur/manager
     // saat direktur/manager login, parameter where adalah penempatan_umkm = id_umkm
     public function getAll(String $by = 'id', String $orderBy = 'asc', array $where = null) {
-        if($this->model->orderBy($by, $orderBy)->first()) {
-            $res = $this->model->orderBy($by, $orderBy);
+        $res = $this->model->join('aw1002_userprofil', 'aw1002_userprofil.id', '=', 'users.id');
+        if($res->orderBy($by, $orderBy)->first()) {
             $res->select(
-                'users.id, users.username', 'users.email', 
+                'users.id', 'users.username', 'aw1002_userprofil.id_umkm', 'users.email', 
                 'aw1002_userprofil.nama', 'aw1002_userprofil.foto',
                 'aw1002_userprofil.status', 'aw1002_userprofil.jabatan',
-            )
-            ->join('aw1002_userprofil', 'aw1002_userprofil.id', '=', 'users.id');
+            )->orderBy($by, $orderBy);
 
-            if(is_null($where)) return $res->getAll();
-            else return $res->where($where)->getAll();
+            if(is_null($where) || empty($where)) return $res->get();
+            else return $res->where($where)->get();
+            // return $res->where($where)->get();
         }
         return null;
     }

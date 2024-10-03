@@ -10,12 +10,19 @@
 
             <div class="order-first">
                 <h1 class="text-2xl font-bold p-2 text-white leading-tight">
-                    {{ $nama_umkm }}
+                    {{ $title }}
                 </h1>
             </div>
 
             <div class="order-last text-white">
-                <ion-icon name="trash-outline" size="large" style="margin-top: 5px;"></ion-icon>
+                <a href="{{ '/umkmku/edit/'.$id_umkm }}" style="margin-right: 20px;">
+                    <ion-icon name="pencil-outline" size="large" style="margin-top: 5px;"></ion-icon>
+                </a>
+
+                <a href="{{ '/process/umkm/delete/'.$id_umkm }}">
+                    <ion-icon name="trash-outline" size="large" style="margin-top: 5px;"></ion-icon>
+                </a>
+                
             </div>
         </div>
     </div>
@@ -55,76 +62,46 @@
         </nav>
       
         <div id="tab1" class="p-4 bg-white border-t border-gray-200 static">
-            <x-item-list vartoclick="x()">
-                Produk 1
-            </x-item-list>
+            <a href="{{ '/produk/baru/'.$id_umkm }}">
+                <div class="w-full text-center">
+                    <ion-icon name="add-outline" size="large"></ion-icon>
+                </div>
+            </a>
 
-            <x-item-list vartoclick="x()">
-                Produk 2
-            </x-item-list>
-
-            <x-item-list vartoclick="x()">
-                Produk 3
-            </x-item-list>
-
-            <x-item-list vartoclick="x()">
-                Produk 4
-            </x-item-list>
-
-            <x-item-list vartoclick="x()">
-                Produk 5
-            </x-item-list>
-
-            {{-- <a href="#produk/baru" class="inline-flex items-center p-4 m-3 bg-sky-800 border border-transparent rounded-full font-semibold text-xs text-white uppercase tracking-widest hover:bg-sky-600 focus:bg-sky-500 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150 fixed bottom-0 right-0">
-                <ion-icon name="add-outline" size="large"></ion-icon>
-            </a> --}}
+            {{--
+            @if ($data_produk->getData()->data != 0)
+                @foreach ($data_produk->getData()->data as $dt)
+                    <a href="{{ '/umkmku/detil/'. $dt->id_produk }}">
+                        <p class="py-2 mb-2 border-b">{{ $dt->nama }}</p>
+                    </a>
+                @endforeach
+            @else
+                <a href="{{ '/umkmku/detil/#' }}">
+                    <p class="py-2 mb-2 border-b">Data Produk Kosong</p>
+                </a>
+            @endif
+            --}}
         </div>
 
         <div id="tab2" class="hidden p-4 bg-white border-t border-gray-200 static">
-            <x-item-list vartoclick="openModal(11, 'Siomayku', '1 Oktober 2024 12:15:10', 'Ari')">
-                <p>1 Oktober 2024 12:15:10</p>
-                <p>by Ari</p>
-            </x-item-list>
-
-            <x-item-list vartoclick="openModal(11, 'Siomayku', '1 Oktober 2024 12:15:10', 'Ari')">
-                <p>1 Oktober 2024 12:15:10</p>
-                <p>by Ari</p>
-            </x-item-list>
-
-            <x-item-list vartoclick="openModal(11, 'Siomayku', '1 Oktober 2024 12:15:10', 'Ari')">
-                <p>1 Oktober 2024 12:15:10</p>
-                <p>by Ari</p>
-            </x-item-list>
-
-            <x-item-list vartoclick="openModal(11, 'Siomayku', '1 Oktober 2024 12:15:10', 'Ari')">
-                <p>1 Oktober 2024 12:15:10</p>
-                <p>by Ari</p>
-            </x-item-list>
-
-            <x-item-list vartoclick="openModal(11, 'Siomayku', '1 Oktober 2024 12:15:10', 'Ari')">
-                <p>1 Oktober 2024 12:15:10</p>
-                <p>by Ari</p>
-            </x-item-list>
-
-            {{-- <a href="#transaksi/baru" class="inline-flex items-center p-4 m-3 bg-sky-800 border border-transparent rounded-full font-semibold text-xs text-white uppercase tracking-widest hover:bg-sky-600 focus:bg-sky-500 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150 fixed bottom-0 right-0">
-                <ion-icon name="add-outline" size="large"></ion-icon>
-            </a> --}}
+            <a href="{{ '/transaksi/baru/'.$id_user.'/'.$id_umkm }}">
+                <div class="w-full text-center">
+                    <ion-icon name="add-outline" size="large"></ion-icon>
+                </div>
+            </a>
         </div>
 
         <div id="tab3" class="hidden p-4 bg-white border-t border-gray-200 static">
-            <x-item-list vartoclick="x()">
+            <a href="{{ '/staff/baru/'.$id_umkm }}">
+                <div class="w-full text-center">
+                    <ion-icon name="add-outline" size="large"></ion-icon>
+                </div>
+            </a>
+
+            {{-- <x-item-list vartoclick="x()">
                 <p>Syahri Ramadhan Wiraasmara</p>
                 <p>ariwiraasmara.sc37@gmail.com</p>
-            </x-item-list>
-
-            <x-item-list vartoclick="x()">
-                <p>Fulan contoh</p>
-                <p>fulancontoh@contohmail.com</p>
-            </x-item-list>
-
-            {{-- <a href="#user/baru" class="inline-flex items-center p-4 m-3 bg-sky-800 border border-transparent rounded-full font-semibold text-xs text-white uppercase tracking-widest hover:bg-sky-600 focus:bg-sky-500 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150 fixed bottom-0 right-0">
-                <ion-icon name="add-outline" size="large"></ion-icon>
-            </a> --}}
+            </x-item-list> --}}
         </div>
     </div>
 

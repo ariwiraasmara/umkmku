@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('password')->default(null);
             $table->integer('roles')->default(0);
             $table->rememberToken()->nullable()->default(null);
-            $table->timestamps();
+            // $table->timestamps();
         });
 
         Schema::create('aw1002_userprofil', function (Blueprint $table) {

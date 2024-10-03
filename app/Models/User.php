@@ -28,6 +28,10 @@ class User extends Authenticatable
         'roles',
     ];
 
+    public $timestamps = false;
+    const CREATED_AT = 'creation_date';
+    const UPDATED_AT = 'updated_date';
+
     /**
      * The attributes that should be hidden for serialization.
      *

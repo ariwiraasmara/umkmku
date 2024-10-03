@@ -15,6 +15,8 @@ class umkmkuService {
     protected $repo_user;
     protected $repo_produk;
     protected $repo_transaksi;
+    
+    /*
     public function __construct(
         umkmkuRepository $repo1,
         produkkuRepository $repo2,
@@ -26,8 +28,13 @@ class umkmkuService {
         $this->repo_transaksi = $repo3;
         $this->repo_user = $repo4;
     }
+    */
 
-    public function getAll(array $where, String $by = 'id_umkm', String $orderBy = 'asc') {
+    public function __construct() {
+        $this->repo = new umkmkuRepository();
+    }
+
+    public function getAll(array $where = null, String $by = 'id_umkm', String $orderBy = 'asc') {
         return jsr::print([
             'pesan' => 'Data Daftar Semua UMKM!',
             'success' => 1,
@@ -113,7 +120,7 @@ class umkmkuService {
         };
     }
 
-    public function delete(int $id_umkm) {
+    public function delete(String $id_umkm) {
         return match($this->repo->delete(['id_umkm' => $id_umkm])) {
             1 => jsr::print(['pesan' => 'hapus umkm berhasil', 'success' => 1], 'created'),
             default => jsr::print(['pesan' => 'hapus umkm gagal', 'error' => 1], null)

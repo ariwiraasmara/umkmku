@@ -9,17 +9,16 @@ use App\Libraries\jsr;
 class produkkuService {
 
     protected $repo;
-    public function __contruct(produkkuRepository $repo) {
-        $this->repo = $repo;
+    public function __contruct() {
+        $this->repo = new produkkuRepository();
     }
 
-    public function getAll(array $where, String $by = 'id_produk', String $orderBy = 'asc') {
+    public function getAll(array $where = null, String $by = 'id_umkm', String $orderBy = 'asc') {
         return jsr::print([
-            'pesan' => 'Data Daftar Semua Produk!', 
+            'pesan' => 'Data Daftar Semua Produk!',
             'success' => 1,
             'data' => $this->repo->getAll($where, $by, $orderBy)
-        ], 
-        'ok');
+        ], 'ok');
     }
 
     public function get(array $where = null) {
@@ -34,7 +33,8 @@ class produkkuService {
     
     public function store(array $val) {
         return match($this->repo->store([
-            'id_produk'     => $this->repo->getID($val['id_user'], $val['email']),
+            'id_produk'     => $this->repo->getID($val['id_umkm'], $val['email']),
+            'id_umkm'       => $val['id_umkm'],
             'nama'          => $val['nama'],
             'merk'          => $val['merk'],
             'jenis'         => $val['jenis'],

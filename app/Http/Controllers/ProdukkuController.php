@@ -31,6 +31,7 @@ class ProdukkuController extends Controller {
 
     public function store(Request $request) {
         return $this->service->store([
+            'email'         => $request['email'],
             'nama'          => $request['nama'],
             'merk'          => $request['merk'],
             'jenis'         => $request['jenis'],

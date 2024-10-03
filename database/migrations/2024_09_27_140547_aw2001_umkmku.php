@@ -17,15 +17,15 @@ return new class extends Migration
             $table->string('id_umkm')->primary();
             $table->integer('id')->foreignId();
             $table->string('nama_umkm');
-            $table->date('tgl_berdiri')->nullable();
+            $table->date('tgl_berdiri')->nullable()->default(null);
             $table->string('jenis_usaha');
-            $table->string('deskripsi')->nullable();
-            $table->string('no_tlp', 20)->nullable();
-            $table->string('logo_umkm')->nullable();
-            $table->string('foto_umkm')->nullable();
-            $table->string('alamat')->nullable();
-            $table->bigInteger('longitude')->nullable();
-            $table->bigInteger('latitude')->nullable(); 
+            $table->string('deskripsi')->nullable()->default(null);
+            $table->string('no_tlp', 20)->nullable()->default(null);
+            $table->string('logo_umkm')->nullable()->default(null);
+            $table->string('foto_umkm')->nullable()->default(null);
+            $table->string('alamat')->nullable()->default(null);
+            $table->bigInteger('longitude')->nullable()->default(null);
+            $table->bigInteger('latitude')->nullable()->default(null); 
         });
     }
 

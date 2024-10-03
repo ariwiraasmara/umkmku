@@ -101,7 +101,7 @@ class crud {
         if($type == 1) { 
             return aw2001_umkmku::create([
                 'id_umkm'       => $val['id_umkm'],
-                'id_user'       => $val['id_user'],
+                'id'            => $val['id_user'],
                 'nama_umkm'     => $val['nama_umkm'],
                 'tgl_berdiri'   => $val['tgl_berdiri'],
                 'jenis_usaha'   => $val['jenis_usaha'],
@@ -137,7 +137,7 @@ class crud {
             return aw2001_umkmku::where($val)->delete() 
                     && aw1002_userprofil::where($val)
                         ->join('aw1002_userprofil', 'aw1002_userprofil.id', '=', 'users.id')
-                        ->delete()
+                        ->update(['id_umkm' => null])
                     && aw3001_produkku::where($val)->delete() 
                     && aw4001_transaksi::where($val)->select('aw4001_transaksi.id_umkmku')
                         ->join('aw4001_transaksi', 'aw4001_transaksi.id_transaksi', '=', 'aw4002_detailtransaksi.id_transaksi')
@@ -207,6 +207,7 @@ class crud {
                 'tgl'           => $val['tgl'],
                 'id_user'       => $val['id_user'],
                 'diskon'        => $val['diskon'],
+                'nama_pelanggan'=> $val['nama_pelanggan'],
                 'uang_diterima' => $val['uang_diterima'],
             ]);
         }

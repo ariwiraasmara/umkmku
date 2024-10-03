@@ -24,8 +24,7 @@
 
                 {{-- ? id_umkm dan id_user hidden --}}
                 <input wire:model="id_umkm" :value="{{ $id_umkm }}" id="id_umkm" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" type="hidden" name="id_umkm" required autofocus autocomplete="id_umkm" />
-                <input wire:model="id_user" :value="{{ $id_user }}" id="id_user" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" type="hidden" name="id_user" required autofocus autocomplete="id_user" />
-
+                
                 {{-- ? nama_umkm --}}
                 <div>
                     <span class="text-sm text-black font-bold">{{ __('Nama Umkm') }}</span>
@@ -60,14 +59,14 @@
                 <div class="mt-3">
                     <span class="text-sm text-black font-bold">{{ __('Logo UMKM') }}</span>
                     <img src="" />
-                    <input wire:model="logo_umkm" id="logo_umkm" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" type="file" name="logo_umkm" required autofocus autocomplete="logo_umkm" />
+                    <input wire:model="logo_umkm" id="logo_umkm" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" type="file" name="logo_umkm" autofocus autocomplete="logo_umkm" />
                 </div>
 
                 {{-- ? foto_umkm --}}
                 <div class="mt-3">
                     <span class="text-sm text-black font-bold">{{ __('Foto UMKM') }}</span>
                     <img src="" />
-                    <input wire:model="foto_umkm" id="foto_umkm" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" type="file" name="foto_umkm" required autofocus autocomplete="foto_umkm" />
+                    <input wire:model="foto_umkm" id="foto_umkm" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" type="file" name="foto_umkm" autofocus autocomplete="foto_umkm" />
                 </div>
 
                 {{-- ? alamat --}}
@@ -83,13 +82,13 @@
                 {{-- ? longitude --}}
                 <div class="mt-3">
                     <span class="text-sm text-black font-bold">{{ __('Nilai Longitude') }}</span>
-                    <input wire:model="longitude" :value="{{ $longitude }}" id="longitude" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" type="text" name="longitude" required autofocus autocomplete="longitude" />
+                    <input wire:model="longitude" :value="{{ $longitude }}" id="longitude" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" type="text" name="longitude" autofocus autocomplete="longitude" />
                 </div>
 
                 {{-- ? latitude --}}
                 <div class="mt-3">
                     <span class="text-sm text-black font-bold">{{ __('Nilai Latitude') }}</span>
-                    <input wire:model="latitude" :value="{{ $latitude }}" id="latitude" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" type="text" name="latitude" required autofocus autocomplete="latitude" />
+                    <input wire:model="latitude" :value="{{ $latitude }}" id="latitude" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" type="text" name="latitude" autofocus autocomplete="latitude" />
                 </div>
 
                 <x-primary-button class="mt-3 block w-full justify-center">
