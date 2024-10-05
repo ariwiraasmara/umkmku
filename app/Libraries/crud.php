@@ -204,7 +204,7 @@ class crud {
             return aw4001_transaksi::create([
                 'id_transaksi'  => $val['id_transaksi'],
                 'id_umkm'       => $val['id_umkm'],
-                'tgl'           => $val['tgl'],
+                'tgl'           => date('Y-m-d H:i:s'),
                 'id_user'       => $val['id_user'],
                 'diskon'        => $val['diskon'],
                 'nama_pelanggan'=> $val['nama_pelanggan'],

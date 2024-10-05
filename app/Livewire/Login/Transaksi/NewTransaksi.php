@@ -14,20 +14,19 @@ class NewTransaksi extends Component {
     protected String $id_umkm;
     protected $nama_user;
 
-    public function mount(String $id1, String $id2) {
+    public function mount(String $id) {
         if( fun::getRawCookie('islogin') == null ) return redirect('login');
         $this->userService = new userService();
         $this->title       = 'Transaksi Baru';
 
-        $this->id_user = $id1;
-        $this->id_umkm = $id2;
-        $this->nama_user = $this->userService->getProfil($id1)->getData()->data[0]->nama;
+        $this->id_user = fun::getCookie('mcr_x_aswq_1');
+        $this->id_umkm = $id;
+        $this->nama_user = $this->userService->getProfil($this->id_user)->getData()->data[0]->nama;
     }
 
     public function render() {
-        return view('livewire.pages.transaksi.new_edit', [
+        return view('livewire.pages.transaksi.new', [
             'title'     => $this->title,
-            'id_user'   => $this->id_user,
             'id_umkm'   => $this->id_umkm,
             'nama_user' => $this->nama_user
         ])

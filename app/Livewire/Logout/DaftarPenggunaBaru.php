@@ -7,7 +7,7 @@ use App\Libraries\myfunction as fun;
 
 class DaftarPenggunaBaru extends Component {
 
-    public String $title = 'Daftar Pengguna Baru';4
+    public String $title = 'Daftar Pengguna Baru';
     public function mount() {
         if( fun::getRawCookie('islogin') != null ) return redirect('dashboard');
     }

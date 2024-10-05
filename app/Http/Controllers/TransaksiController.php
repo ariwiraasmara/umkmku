@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Services\transaksiService;
 // use Illuminate\Http\JsonResponse;
 // use App\Libraries\jsr;
-// use App\Libraries\myfunction as fun;
+use App\Libraries\myfunction as fun;
 // use File;
 
 class TransaksiController extends Controller {
@@ -31,13 +31,13 @@ class TransaksiController extends Controller {
     public function store(Request $request) {
         return $this->service->store(
         [
-            'id_transaksi'   => $request['id_transaksi'],
-            'id_umkm'        => $request['id_umkm'],
-            'tgl'            => $request['tgl'],
-            'id_user'        => $request['id_user'],
-            'diskon'         => $request['diskon'],
-            'nama_pelanggan' => $request['nama_pelanggan'],
-            'uang_diterima'  => $request['uang_diterima'],
+            'id_transaksi'   => $request->id_transaksi,
+            'email'          => fun::getCookie('mcr_x_aswq_3'),
+            'id_umkm'        => $request->id_umkm,
+            'id_user'        => fun::getCookie('mcr_x_aswq_1'),
+            'diskon'         => $request->diskon,
+            'nama_pelanggan' => $request->nama_pelanggan,
+            'uang_diterima'  => $request->uang_diterima,
         ],
         [
             'id_produk' => $request->id_produk,

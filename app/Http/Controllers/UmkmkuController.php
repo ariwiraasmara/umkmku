@@ -17,7 +17,7 @@ class UmkmkuController extends Controller {
         $this->service = $service;
     }
 
-    public function getAll(Request $request) {
+    public function getAll(Request $request, $id) {
         return $this->service->getAll(
             $request->where,
             $request->by,

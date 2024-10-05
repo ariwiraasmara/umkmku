@@ -22,7 +22,6 @@ class ProcessTransaksiController extends Controller {
             'id_transaksi'   => $request->id_transaksi,
             'email'          => fun::getCookie('mcr_x_aswq_3'),
             'id_umkm'        => $request->id_umkm,
-            'tgl'            => $request->tgl,
             'id_user'        => fun::getCookie('mcr_x_aswq_1'),
             'diskon'         => $request->diskon,
             'nama_pelanggan' => $request->nama_pelanggan,
@@ -32,7 +31,7 @@ class ProcessTransaksiController extends Controller {
             'id_produk' => $request->id_produk,
             'jumlah'    => $request->jumlah
         ]);
-        return $res;
+        // return $res;
         return redirect('/dashboard');
     }
 

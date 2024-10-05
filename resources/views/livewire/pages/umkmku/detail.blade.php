@@ -1,4 +1,6 @@
 {{-- ! Copyright @ Syahri Ramadhan Wiraasmara (ARI) --}}
+{{-- @extends('layouts.authorized')
+@section('content') --}}
 <div class="flex flex-col static">
     <div class="grow w-full bg-blue-400 static">
         <div class="inset-x-0 top-0 h-16 p-2 flex justify-between">
@@ -84,11 +86,44 @@
         </div>
 
         <div id="tab2" class="hidden p-4 bg-white border-t border-gray-200 static">
-            <a href="{{ '/transaksi/baru/'.$id_user.'/'.$id_umkm }}">
-                <div class="w-full text-center">
+            <a href="{{ '/transaksi/baru/'.$id_umkm }}">
+                <div class="w-full text-center border-b border-gray-600">
                     <ion-icon name="add-outline" size="large"></ion-icon>
                 </div>
             </a>
+
+            {{-- {{ var_dump($data_transaksi) }} --}}
+            
+            {{-- <livewire:pages.transaksi.list_in_umkm :id_transaksi="$dt->id_transaksi" /> --}}
+                    {{-- @include('livewire.pages.transaksi.list_in_umkm') --}}
+                    {{-- @livewire('pages.transaksi.list_in_umkm', [
+                        'id_transaksi' => $dt->id_transaksi, 
+                        'tgl' => $dt->tgl
+                    ]) 
+            --}}
+
+            @if ($data_transaksi)
+                @foreach ($data_transaksi as $dt)
+                    
+
+                    <div class="static mt-3 flex flex-row justify-between border-b border-gray-600">
+                        <div class="order-first">
+                            <a href="{{ 'transaksi/detil/'.$dt->id_transaksi }}">
+                                <p>{{ $dt->tgl }}</p>
+                            </a>
+                        </div>
+                        <div class="order-last text-white">
+                            <a href="{{ 'transaksi/hapus/'.$dt->id_transaksi }}">
+                                <ion-icon name="trash-outline" size="large" style="margin-top: 5px;"></ion-icon>
+                            </a>
+                        </div>
+                    </div>
+                @endforeach
+            @else
+                <a href="#">
+                    <p class="py-2 mb-2 border-b">Data Transaksi Kosong</p>
+                </a>
+            @endif
         </div>
 
         <div id="tab3" class="hidden p-4 bg-white border-t border-gray-200 static">
@@ -116,3 +151,4 @@
     }
 </script>   
 </div>       
+{{-- @endsection --}}

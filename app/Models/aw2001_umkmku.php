@@ -12,7 +12,7 @@ class aw2001_umkmku extends Model
 
     protected $guarded = [];
     protected $table = 'aw2001_umkmku';
-    protected $primaryKey = 'id';
+    // protected $primaryKey = 'id_umkm';
     protected $fillable = [
         'id_umkm',
         'id',

@@ -10,6 +10,8 @@ use App\Services\umkmkuService;
 use App\Services\produkkuService;
 use App\Services\transaksiService;
 use App\Libraries\myfunction as fun;
+use Illuminate\Support\Facades\Http;
+
 class DetailUmkmku extends Component {
 
     protected String $id;
@@ -18,10 +20,12 @@ class DetailUmkmku extends Component {
     protected object $userService;
     protected object $produkkuService;
     protected object $transaksiService;
-    protected $data_umkm;
-    protected $data_user;
-    protected $data_produk;
+    public $data_umkm;
+    public $data_user;
+    public $data_produk;
     protected $data_transaksi;
+
+    public $data;
 
     public function mount(String $id) {
         if( fun::getRawCookie('islogin') == null ) return redirect('login');
@@ -32,9 +36,13 @@ class DetailUmkmku extends Component {
         $this->transaksiService = new transaksiService();
         $this->data_umkm = $this->umkmService->get(['id_umkm' => $id], 'id_umkm', 'asc');        
         $this->data_user = $this->userService->getAllStaff($id);
-        $this->data_produk = [0];
         // $this->data_produk = $this->produkkuService->getAll(['id_umkm' => $id], 'nama', 'asc');
-        $this->data_transaksi = $this->transaksiService->getAll($id, 'tgl', 'asc');
+        // $this->data_transaksi = json_decode($this->transaksiService->getAll($id, 'tgl', 'desc'), true);
+        $this->data_transaksi = $this->transaksiService->getAll($id, 'nama', 'desc');
+        // $res = $this->transaksiService->getAll($id, 'tgl', 'desc');
+        // $data = json_decode($res, true);
+        // if (isset($data['pesan'], $data['success'], $data['data'])) $this->data_transaksi = $data['data'];
+        // else $this->data_transaksi = 0;
     }
 
     public function render() {
@@ -54,12 +62,11 @@ class DetailUmkmku extends Component {
             'logo_umkm'      => $this->data_umkm->getData()->data[0]->logo_umkm,
             'data_produk'    => $this->data_produk,
             'data_transaksi' => $this->data_transaksi,
-            'data_user'      => $this->data_user
+            'data_user'      => $this->data_user,
         ])
         ->layout(
             'layouts.authorized', [
             'pagetitle' => $this->title.$this->data_umkm->getData()->data[0]->nama_umkm.' | UMKMKU'
         ]);
-        return view('livewire.');
     }
 }

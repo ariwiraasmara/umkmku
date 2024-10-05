@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Repositories\transaksiRepository;
 use App\Libraries\jsr;
+use Exception;
 // use App\Libraries\myfunction as fun;
 
 class transaksiService {
@@ -14,11 +15,23 @@ class transaksiService {
     }
 
     public function getAll(String $id_umkm, String $by = 'id_transaksi', String $orderBy = 'asc') {
-        return jsr::print([
-            'pesan' => 'Data Semua Transaksi!', 
-            'success' => 1,
-            'data' => $this->repo->getAll(['id_umkm' => $id_umkm], $by, $orderBy) 
-        ], 'ok');
+        try {
+            // return jsr::print([
+            //     'pesan' => 'Data Semua Transaksi!', 
+            //     'success' => 1,
+            //     'data' => $this->repo->getAll(['id_umkm' => $id_umkm], $by, $orderBy) 
+            // ], 'ok');
+            // return collect([
+            //     'pesan' => 'Data Semua Transaksi!', 
+            //     'success' => 1,
+            //     'data' => $this->repo->getAll(['id_umkm' => $id_umkm], $by, $orderBy)
+            // ]);
+            return $this->repo->getAll(['id_umkm' => $id_umkm], $by, $orderBy); 
+        }
+        catch(Exception $e) {
+            return $e;
+        }
+        
     }
 
     //* untuk detail transaksi
@@ -41,32 +54,37 @@ class transaksiService {
     public function store(array $val1, array $val2) {
         // $id_transaksi = $this->repo->getID($val1['id_user'], $val1['id_umkm']);
         // return $val1;
-        return $this->repo->store([
-            'id_transaksi'   => $this->repo->getID($val1['id_user'], $val1['email']),
-            'id_umkm'        => $val1['id_umkm'],
-            'tgl'            => $val1['tgl'],
-            'id_user'        => $val1['id_user'],
-            'diskon'         => $val1['diskon'],
-            'nama_pelanggan' => $val1['nama_pelanggan'],
-            'uang_diterima'  => $val1['uang_diterima'],
-        ]);
+        // return $this->repo->store([
+        //     'id_transaksi'   => $this->repo->getID($val1['id_user'], $val1['email']),
+        //     'id_umkm'        => $val1['id_umkm'],
+        //     'tgl'            => date('Y-m-d H:i:s'),
+        //     'id_user'        => $val1['id_user'],
+        //     'diskon'         => $val1['diskon'],
+        //     'nama_pelanggan' => $val1['nama_pelanggan'],
+        //     'uang_diterima'  => $val1['uang_diterima'],
+        // ]);
 
+        $id_transaksi = $this->repo->getID($val1['id_user'], $val1['email']);
         if($this->repo->store([
-            'id_transaksi'   => $val1['id_transaksi'],
+            'id_transaksi'   => $id_transaksi,
             'id_umkm'        => $val1['id_umkm'],
-            'tgl'            => $val1['tgl'],
             'id_user'        => $val1['id_user'],
             'diskon'         => $val1['diskon'],
             'nama_pelanggan' => $val1['nama_pelanggan'],
             'uang_diterima'  => $val1['uang_diterima'],
         ])) {
             $res = 0;
-            foreach($val2 as $res) {
-                $this->repo->storeDetail($res);
+            for($x = 0; $x < count($val2['id_produk']); $x++) {
+                $this->repo->storeDetail([
+                    'id_detailtransaksi' => $this->repo->getIDDetail($id_transaksi, (int)$x+1),
+                    'id_transaksi'       => $id_transaksi,
+                    'id_produk'          => $val2['id_produk'][$x],
+                    'jumlah'             => $val2['jumlah'][$x],
+                ]);
                 $res++;
             }
 
-            if($res > 1) return jsr::print(['pesan' => 'tambah transaksi berhasil', 'success' => 1], 'created');
+            if($res > 0) return jsr::print(['pesan' => 'tambah transaksi berhasil', 'success' => 1], 'created');
             else return jsr::print(['pesan' => 'tambah transaksi gagal', 'error' => 1], null);
         }
         else return jsr::print(['pesan' => 'tambah transaksi gagal', 'error' => 2], null);

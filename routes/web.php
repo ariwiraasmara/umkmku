@@ -24,12 +24,15 @@ Route::get('/daftar-pengguna-baru', \App\Livewire\Logout\DaftarPenggunaBaru::cla
 
 Route::get('/dashboard', \App\Livewire\Login\Dashboard::class);
 Route::get('/umkmku', \App\Livewire\Login\Umkmku\Umkmku::class);
+
 Route::get('/umkmku/detil/{id}', \App\Livewire\Login\Umkmku\DetailUmkmku::class);
+// Route::get('/umkmku/detil/{id}', '\App\Http\Controllers\View\Login\Umkm\DetailUmkm@view');
+
 Route::get('/umkmku/baru', \App\Livewire\Login\Umkmku\NEUmkmku::class);
 Route::put('/umkmku/edit/{id}', \App\Livewire\Login\Umkmku\NEUmkmku::class);
 Route::get('/transaksi', \App\Livewire\Login\Transaksi\TransaksiNonDM::class);
 Route::get('/transaksi/detil/{id}', \App\Livewire\Login\Transaksi\DetailTransaksi::class);
-Route::get('/transaksi/baru/{id1}/{id2}', \App\Livewire\Login\Transaksi\NewTransaksi::class);
+// Route::get('/transaksi/baru/{id}', \App\Livewire\Login\Transaksi\NewTransaksi::class);
 
 Route::get('/profil', \App\Livewire\Login\Profil::class);
 

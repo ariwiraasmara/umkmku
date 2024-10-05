@@ -20,7 +20,7 @@
         <h2 class="text-black text-xl font-bold">Selamat Datang, {{ $username }}</h2>
         
         {{-- @foreach ($data as $d)
-            <livewire:login.transaksi.transaksilist :id_umkm="$d['id_umkm']" :nama_umkmku="$d['nama_umkmku']" :waktu="$d['waktu']" :kasir="$d['kasir']"  />
+            <livewire:pages.transaksi.list_in_dashboard :id_umkm="$d['id_umkm']" :nama_umkmku="$d['nama_umkmku']" :waktu="$d['waktu']" :kasir="$d['kasir']"  />
         @endforeach --}}
 
         {{-- <a href="#transaksi/baru" class="inline-flex items-center p-4 m-3 bg-sky-800 border border-transparent rounded-full font-semibold text-xs text-white uppercase tracking-widest hover:bg-sky-600 focus:bg-sky-500 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150 fixed bottom-0 right-0">

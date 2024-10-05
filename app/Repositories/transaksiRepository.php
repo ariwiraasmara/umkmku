@@ -4,13 +4,16 @@ namespace App\Repositories;
 
 use App\Interfaces\transaksiRepositoryInterface;
 use App\Models\aw4001_transaksi;
+use App\Models\aw4002_detailtransaksi;
 use App\Libraries\crud;
 
 class transaksiRepository implements transaksiRepositoryInterface {
 
     protected $model;
+    protected $model_detail;
     public function __construct() {
         $this->model = new aw4001_transaksi();
+        $this->model_detail = new aw4002_detailtransaksi();
     }
 
     public function getID(int $id_user, string $email): String {
@@ -21,20 +24,20 @@ class transaksiRepository implements transaksiRepositoryInterface {
             $strpos = (int)strpos($id_umkm, "-") + 1; //? => 001
             $counter = (int)substr($id_umkm, $strpos)+1;
             return 'Transaksi@UMKM_'.$email.'-'.str_pad($counter, 3, "0", STR_PAD_LEFT);
-
         }
         else return 'Transaksi@UMKM_'.$email.'-001';
     }
 
-    public function getIDDetail(String $id_transaksi = null): String {
-        //* Format id_transaksidetail sebagai contoh : Transaksi@UMKM_fulan@felan.com-001.001
-        if($id_transaksi != null) {
-            $strpos = (int)strpos($id_transaksi, ".") + 1; //? => 001
-            $counter = (int)substr($id_transaksi, $strpos)+1;
-            return $id_transaksi.'-'.str_pad($counter, 3, "0", STR_PAD_LEFT);
-
+    public function getIDDetail(String $id_transaksi = null, int $x): String {
+        //* Format id_transaksidetail sebagai contoh : Transaksi@UMKM_fulan@felan.com-001:001
+        $query = $this->model_detail->where(['id_transaksi' => $id_transaksi])->orderBy('id_detailtransaksi', 'desc')->first();
+        if($query) {
+            $id_detailtransaksi = $query->id_detailtransaksi;
+            $strpos = (int)strpos($id_detailtransaksi, ":") + 1; //? => 001
+            $counter = (int)substr($id_detailtransaksi, $strpos)+$x;
+            return $id_transaksi.':'.str_pad($counter, 3, "0", STR_PAD_LEFT);
         }
-        else return $id_transaksi.'-001';
+        else return $id_transaksi.':'.str_pad($x, 3, "0", STR_PAD_LEFT);
     }
 
     //? get all transaksi list berdasarkan id_umkm
@@ -105,12 +108,12 @@ class transaksiRepository implements transaksiRepositoryInterface {
     public function store(array $val): int {
         // return implode($val);
         // return crud::procuser(1, $val);
-        if(crud::proctransaksi(1, $val) > 0) return 1;
+        if(crud::proctransaksi(1, $val)) return 1;
         else return 0;
     }
 
     public function storeDetail(array $val): int {
-        if(crud::procdetailtransaksi(1, $val) > 0) return 1;
+        if(crud::procdetailtransaksi(1, $val)) return 1;
         else return 0;
     }
 

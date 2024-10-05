@@ -41,7 +41,7 @@ class produkkuRepository implements produkkuRepositoryInterface {
     public function store(array $val): int {
         // return implode($val);
         // return crud::procuser(1, $val);
-        if(crud::procprodukku(1, $val) > 0) return 1;
+        if(crud::procprodukku(1, $val)) return 1;
         else return 0;
     }
 

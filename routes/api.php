@@ -21,7 +21,7 @@ Route::delete('/pengguna/hapus', myroute::API('UserController','delete'));
 Route::post('/logout', myroute::API('UserController', 'logout'));
 
 Route::get('/umkm/list', myroute::API('UmkmkuController', 'getAll'));
-Route::get('/umkm/detail', myroute::API('UmkmkuController', 'get'));
+Route::get('/umkm/detail/{id}', myroute::API('UmkmkuController', 'get'));
 Route::post('/umkm/baru', myroute::API('UmkmkuController', 'store'));
 Route::put('/umkm/update', myroute::API('UmkmkuController', 'update'));
 Route::delete('/umkm/delete', myroute::API('UmkmkuController', 'delete'));

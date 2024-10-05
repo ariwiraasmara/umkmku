@@ -10,9 +10,12 @@ class aw4001_transaksi extends Model
 {
     use HasFactory;
 
-    protected $guarded = [];
+    protected $guarded = [
+        'id_transaksi',
+        'id_umkm',
+    ];
     protected $table = 'aw4001_transaksi';
-    protected $primaryKey = 'id_transaksi';
+    // protected $primaryKey = 'id_transaksi';
     protected $fillable = [
         'id_transaksi',
         'id_umkm',
@@ -26,8 +29,8 @@ class aw4001_transaksi extends Model
     const CREATED_AT = 'creation_date';
     const UPDATED_AT = 'updated_date';
 
-    public function aw2001_umkmku() {
-        // NamaModel::class, 'foreign_key', 'local_key'
-        return $this->hasOne(aw2001_umkmku::class, 'id_umkm', 'id_umkm');
-    }
+    // public function aw2001_umkmku() {
+    //     // NamaModel::class, 'foreign_key', 'local_key'
+    //     return $this->hasOne(aw2001_umkmku::class, 'id_umkm', 'id_umkm');
+    // }
 }

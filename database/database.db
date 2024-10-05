@@ -61,7 +61,7 @@ create table aw4001_transaksi(
 );
 
 create table aw4002_detailtransaksi(
-   id_detailtransaksi int(100) not null primary key,
+   id_detailtransaksi varchar(100) not null primary key,
    id_transaksi varchar(255) not null foreign key,
    id_produk varchar(255) not null foreign key,
    jumlah int not null
