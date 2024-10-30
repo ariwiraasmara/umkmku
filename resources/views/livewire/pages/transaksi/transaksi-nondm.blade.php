@@ -16,20 +16,22 @@
         </div>
     </div>
 
-
-    <div class="p-2 static mb-3">
-        <x-item-list vartoclick="openModal(11, 'Siomayku', '1 Oktober 2024 12:15:10', 'Ari')">
-            <p>Siomayku</p>
-            <p>1 Oktober 2024 12:15:10</p>
-            <p>by Ari</p>
-        </x-item-list>
-
-        <x-item-list vartoclick="openModal(12, 'Baksoku', '30 September 2024 13:15:10', 'Fulan')">
-            <p>Baksoku</p>
-            <p>30 September 2024 13:15:10</p>
-            <p>by Fulan</p>
-        </x-item-list>
-        {{-- ? Disini menampilkan daftar item list transaksi yang dimiliki.  --}}
+    <div class="mt-3">
+        @if ($data_transaksi)
+            @foreach ($data_transaksi as $dt)
+                <div class="border-b border-gray-600 p-2">
+                    <a href="{{ '/transaksi/detil/'.$dt->id_transaksi }}">
+                        <p>{{ $dt->tgl }}</p>
+                    </a>
+                </div>
+            @endforeach
+        @else
+            <div class="text-center">
+                <h1 class="font-bold text-2xl py-2 mb-2 border-b">
+                    Data Transaksi Kosong
+                </h1>
+            </div>
+        @endif
     </div>
 
     <div id="myModal" class="modal">

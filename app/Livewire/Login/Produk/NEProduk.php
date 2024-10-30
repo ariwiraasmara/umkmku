@@ -25,19 +25,18 @@ class NEProduk extends Component {
     public function mount(String $id = null, String $title = null, array $data = null) {
         if( fun::getRawCookie('islogin') == null ) return redirect('login');
         $this->title            = $title == null ? 'Produk Baru' : 'Edit Produk';
-        $this->isedit           = $data == null ? 'new' : $data['isedit'];
-        $this->url              = $data == null ? '/process/produk/baru' : 'process/produk/edit/'.$data['id_produk'];
-        $this->method_request   = $data == null ? 'POST' : $data['method_request'];
+        $this->isedit           = $title == null ? 'new' : $data['isedit'];
+        $this->url              = $title == null ? '/process/produk/baru/'.$id : '/process/produk/edit/'.$data['id_produk'];
         $this->id_umkm          = $id;
-        $this->id_produk        = $data == null ? '' : $data['id_produk'];
-        $this->nama             = $data == null ? '' : $data['nama'];
-        $this->merk             = $data == null ? '' : $data['merk'];
-        $this->jenis            = $data == null ? '' : $data['jenis'];
-        $this->deskripsi        = $data == null ? '' : $data['deskripsi'];
-        $this->harga            = $data == null ? 0 : $data['harga'];
-        $this->stok             = $data == null ? 0 : $data['stok'];
-        $this->satuan_unit      = $data == null ? '' : $data['satuan_unit'];
-        $this->diskon           = $data == null ? 0 : $data['diskon'];
+        $this->id_produk        = $title == null ? '' : $data['id_produk'];
+        $this->nama             = $title == null ? '' : $data['nama'];
+        $this->merk             = $title == null ? '' : $data['merk'];
+        $this->jenis            = $title == null ? '' : $data['jenis'];
+        $this->deskripsi        = $title == null ? '' : $data['deskripsi'];
+        $this->harga            = $title == null ? 0 : $data['harga'];
+        $this->stok             = $title == null ? 0 : $data['stok'];
+        $this->satuan_unit      = $title == null ? '' : $data['satuan_unit'];
+        $this->diskon           = $title == null ? 0 : $data['diskon'];
     }
 
     public function render() {

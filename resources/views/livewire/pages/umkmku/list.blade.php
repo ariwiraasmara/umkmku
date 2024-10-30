@@ -18,8 +18,8 @@
 
 
     <div class="p-2 static" style="margin-bottom: 60px;">
-        @if ($data->getData()->data != 0)
-            @foreach ($data->getData()->data as $dt)
+        @if ($data != null)
+            @foreach ($data as $dt)
                 <a href="{{ '/umkmku/detil/'. $dt->id_umkm }}">
                     <p class="py-2 mb-2 border-b">{{ $dt->nama_umkm }}</p>
                 </a>

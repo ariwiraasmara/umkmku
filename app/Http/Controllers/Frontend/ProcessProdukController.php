@@ -15,10 +15,10 @@ class ProcessProdukController extends Controller {
         $this->service = $service;
     }
 
-    public function store(Request $request) {
+    public function store(Request $request, String $id) {
+        // return $request;
         $res = $this->service->store([
-            'id_umkm'       => $request->id_umkm,
-            'email'         => fun::getCookie('mcr_x_aswq_3'),
+            'id_umkm'       => $id,
             'nama'          => $request->nama,
             'merk'          => $request->merk,
             'jenis'         => $request->jenis,
@@ -28,11 +28,12 @@ class ProcessProdukController extends Controller {
             'satuan_unit'   => $request->satuan_unit,
             'diskon'        => $request->diskon,
         ]);
+        // return $res;
         if(empty($res) || is_null($res)) return redirect('/produk/baru/'.$request->id_umkm); 
         else return redirect('/umkmku/detil/'.$request->id_umkm);
     }
 
-    public function update(Request $request) {
+    public function update(Request $request, String $id) {
         $res = $this->service->store([
             'id_produk'     => $request->id_produk,
             'nama'          => $request->nama,
@@ -48,8 +49,8 @@ class ProcessProdukController extends Controller {
         else return redirect('/umkmku');
     }
 
-    public function delete(Request $request) {
-        $res = $this->service->delete($request['id_produk']);
+    public function delete(String $id) {
+        $res = $this->service->delete($id);
         return redirect('/umkmku');
     }
 }

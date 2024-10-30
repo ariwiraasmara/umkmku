@@ -12,7 +12,7 @@ class aw3001_produkku extends Model
 
     protected $guarded = [];
     protected $table = 'aw3001_produkku';
-    protected $primaryKey = 'id_produk';
+    // protected $primaryKey = 'id_produk';
     protected $fillable = [
         'id_produk',
         'id_umkm',

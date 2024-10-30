@@ -15,23 +15,11 @@ class transaksiService {
     }
 
     public function getAll(String $id_umkm, String $by = 'id_transaksi', String $orderBy = 'asc') {
-        try {
-            // return jsr::print([
-            //     'pesan' => 'Data Semua Transaksi!', 
-            //     'success' => 1,
-            //     'data' => $this->repo->getAll(['id_umkm' => $id_umkm], $by, $orderBy) 
-            // ], 'ok');
-            // return collect([
-            //     'pesan' => 'Data Semua Transaksi!', 
-            //     'success' => 1,
-            //     'data' => $this->repo->getAll(['id_umkm' => $id_umkm], $by, $orderBy)
-            // ]);
-            return $this->repo->getAll(['id_umkm' => $id_umkm], $by, $orderBy); 
-        }
-        catch(Exception $e) {
-            return $e;
-        }
-        
+        return $this->repo->getAll(['id_umkm' => $id_umkm], $by, $orderBy);
+    }
+
+    public function ga() {
+        return 1;
     }
 
     //* untuk detail transaksi
@@ -39,15 +27,26 @@ class transaksiService {
     public function get(String $id_transaksi) {
         $data = $this->repo->get(['id_transaksi' => $id_transaksi]);
         $data_detail = $this->repo->getDetail($id_transaksi);
-        $jumlah = array_sum($data->harga_produk_akhir);
+        // $jumlah = array_sum($data->harga_produk_akhir);
 
-        return jsr::print([
+        // return jsr::print([
+        //     'pesan' => 'Data Detail Transaksi!', 
+        //     'success' => 1,
+        //     'data' => $data,
+        //     'detail_transaksi' => $data_detail,
+        //     'total_pembelian' => $jumlah
+        // ], 'ok');
+        return collect([
             'pesan' => 'Data Detail Transaksi!', 
             'success' => 1,
             'data' => $data,
             'detail_transaksi' => $data_detail,
-            'total_pembelian' => $jumlah
-        ], 'ok');
+            // 'total_pembelian' => $jumlah
+        ]);
+    }
+
+    public function getDashboard(array $where = null, String $by = 'tgl', String $orderBy = 'desc') {
+        return $this->repo->getDashboard($where, $by, $orderBy);
     }
 
     //* kompleks juga, harus insert ke kedua tabel

@@ -16,38 +16,19 @@ class umkmkuService {
     protected $repo_produk;
     protected $repo_transaksi;
     
-    /*
-    public function __construct(
-        umkmkuRepository $repo1,
-        produkkuRepository $repo2,
-        transaksiRepository $repo3,
-        userRepository $repo4,
-    ) {
-        $this->repo = $repo1;
-        $this->repo_produk = $repo2;
-        $this->repo_transaksi = $repo3;
-        $this->repo_user = $repo4;
-    }
-    */
-
     public function __construct() {
         $this->repo = new umkmkuRepository();
+        $this->repo_user = new userRepository();
+        $this->repo_produk = new produkkuRepository();
+        $this->repo_transaksi = new transaksiRepository();
     }
 
     public function getAll(array $where = null, String $by = 'id_umkm', String $orderBy = 'asc') {
-        return jsr::print([
-            'pesan' => 'Data Daftar Semua UMKM!',
-            'success' => 1,
-            'data' => $this->repo->getAll($where, $by, $orderBy)
-        ], 'ok');
+                return $this->repo->getAll($where, $by, $orderBy);
     }
 
     public function get(array $where = null) {
-        return jsr::print([
-            'pesan' => 'Data Detail UMKM!',
-            'success' => 1,
-            'data' => $this->repo->get($where)
-        ], 'ok');
+        return $this->repo->get($where);
     }
 
     public function getAllDetail(array $where = null) {
@@ -68,17 +49,24 @@ class umkmkuService {
             $where
         );
 
-        return jsr::print(
-            [
-                'success' => 1,
-                'pesan' => 'Data Profil Detail UMKM!',
-                'data_umkm' => $data_umkm,
-                'data_produk' => $data_produk,
-                'data_transaksi' => $data_transaksi,
-                'data_pegawai' => $data_pegawai,
-            ], 
-            'ok'
-        );
+        return collect([
+            'data_umkm'      => $data_umkm,
+            'data_pegawai'   => $data_pegawai,
+            'data_produk'    => $data_produk,
+            'data_transaksi' => $data_transaksi
+        ]);
+
+        // return jsr::print(
+        //     [
+        //         'success' => 1,
+        //         'pesan' => 'Data Profil Detail UMKM!',
+        //         'data_umkm' => $data_umkm,
+        //         'data_produk' => $data_produk,
+        //         'data_transaksi' => $data_transaksi,
+        //         'data_pegawai' => $data_pegawai,
+        //     ], 
+        //     'ok'
+        // );
     }
 
     public function store(array $val) {

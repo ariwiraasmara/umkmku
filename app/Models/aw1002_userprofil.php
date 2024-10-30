@@ -11,7 +11,7 @@ class aw1002_userprofil extends Model
 
     protected $guarded = [];
     protected $table = 'aw1002_userprofil';
-    protected $primaryKey = 'id';
+    // protected $primaryKey = 'id';
     protected $fillable = [
         'id',
         'nama',
@@ -20,7 +20,7 @@ class aw1002_userprofil extends Model
         'foto',
         'tempat_lahir',
         'tgl_lahir',
-        'penempatan_umkm',
+        'id_umkm',
         'status',
         'jabatan',
     ];

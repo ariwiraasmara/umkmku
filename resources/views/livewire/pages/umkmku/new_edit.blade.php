@@ -18,41 +18,40 @@
 
     <div class="py-12">
         <div class="max-w-3xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            
-            <form action="{{ $url }}" method="{{ $method_request }}">
+            <form action="{{ $url }}" method="POST">
                 @csrf
 
                 {{-- ? id_umkm dan id_user hidden --}}
-                <input wire:model="id_umkm" :value="{{ $id_umkm }}" id="id_umkm" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" type="hidden" name="id_umkm" required autofocus autocomplete="id_umkm" />
+                <input wire:model="id_umkm" value="{{ $id_umkm }}" id="id_umkm" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" type="hidden" name="id_umkm" required autofocus autocomplete="id_umkm" />
                 
                 {{-- ? nama_umkm --}}
                 <div>
                     <span class="text-sm text-black font-bold">{{ __('Nama Umkm') }}</span>
-                    <input wire:model="nama_umkm" :value="{{ $nama_umkm }}" id="nama_umkm" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" type="text" name="nama_umkm" required autofocus autocomplete="nama_umkm" />
+                    <input wire:model="nama_umkm" value="{{ $nama_umkm }}" id="nama_umkm" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" type="text" name="nama_umkm" required autofocus autocomplete="nama_umkm" />
                 </div>
 
                 {{-- ?tgl_berdiri --}}
                 <div class="mt-3">
                     <span class="text-sm text-black font-bold">{{ __('Tanggal Berdiri') }}</span>
-                    <input wire:model="tgl_berdiri" id="tgl_berdiri" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" type="date" name="tgl_berdiri" required autofocus />
+                    <input wire:model="tgl_berdiri" value="{{ $tgl_berdiri }}" id="tgl_berdiri" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" type="date" name="tgl_berdiri" required autofocus />
                 </div>
 
                 {{-- ? jenis_usaha --}}
                 <div class="mt-3">
                     <span class="text-sm text-black font-bold">{{ __('Jenis Usaha') }}</span>
-                    <input wire:model="jenis_usaha" :value="{{ $jenis_usaha }}" id="jenis_usaha" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" type="text" name="jenis_usaha" required autofocus autocomplete="jenis_usaha" />
+                    <input wire:model="jenis_usaha" value="{{ $jenis_usaha }}" id="jenis_usaha" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" type="text" name="jenis_usaha" required autofocus autocomplete="jenis_usaha" />
                 </div>
 
                 {{-- ? deskripsi --}}
                 <div class="mt-3">
                     <span class="text-sm text-black font-bold">{{ __('Deskripsi') }}</span>
-                    <input wire:model="deskripsi" :value="{{ $deskripsi }}" id="deskripsi" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" type="text" name="deskripsi" required autofocus autocomplete="deskripsi" />
+                    <input wire:model="deskripsi" value="{{ $deskripsi }}" id="deskripsi" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" type="text" name="deskripsi" required autofocus autocomplete="deskripsi" />
                 </div>
 
                 {{-- ? no_tlp --}}
                 <div class="mt-3">
                     <span class="text-sm text-black font-bold">{{ __('No. Telepon') }}</span>
-                    <input wire:model="no_tlp" :value="{{ $no_tlp }}" id="no_tlp" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" type="text" name="no_tlp" required autofocus autocomplete="no_tlp" />
+                    <input wire:model="no_tlp" value="{{ $no_tlp }}" id="no_tlp" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" type="text" name="no_tlp" required autofocus autocomplete="no_tlp" />
                 </div>
 
                 {{-- ? logo_umkm --}}
@@ -72,7 +71,7 @@
                 {{-- ? alamat --}}
                 <div class="mt-3">
                     <span class="text-sm text-black font-bold">{{ __('Alamat') }}</span>
-                    <input wire:model="alamat" :value="{{ $alamat }}" id="alamat" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" type="text" name="alamat" required autofocus autocomplete="alamat" />
+                    <input wire:model="alamat" value="{{ $alamat }}" id="alamat" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" type="text" name="alamat" required autofocus autocomplete="alamat" />
                 </div>
 
                 <div class="mt-3">
@@ -82,13 +81,13 @@
                 {{-- ? longitude --}}
                 <div class="mt-3">
                     <span class="text-sm text-black font-bold">{{ __('Nilai Longitude') }}</span>
-                    <input wire:model="longitude" :value="{{ $longitude }}" id="longitude" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" type="text" name="longitude" autofocus autocomplete="longitude" />
+                    <input wire:model="longitude" value="{{ $longitude }}" id="longitude" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" type="text" name="longitude" autofocus autocomplete="longitude" />
                 </div>
 
                 {{-- ? latitude --}}
                 <div class="mt-3">
                     <span class="text-sm text-black font-bold">{{ __('Nilai Latitude') }}</span>
-                    <input wire:model="latitude" :value="{{ $latitude }}" id="latitude" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" type="text" name="latitude" autofocus autocomplete="latitude" />
+                    <input wire:model="latitude" value="{{ $latitude }}" id="latitude" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" type="text" name="latitude" autofocus autocomplete="latitude" />
                 </div>
 
                 <x-primary-button class="mt-3 block w-full justify-center">

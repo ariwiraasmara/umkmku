@@ -43,45 +43,36 @@ class transaksiRepository implements transaksiRepositoryInterface {
     //? get all transaksi list berdasarkan id_umkm
     public function getAll(array $where = null, String $by = 'id_transaksi', String $orderBy = 'asc') {
         if($this->model->where($where)->first()) return $this->model->where($where)->orderBy($by, $orderBy)->get();
-        else return 0;
+        else return null;
+    }
+
+    public function getDashboard(array $where = null, String $by = 'tgl', String $orderBy = 'desc') {
+        if($this->model->where($where)->first()) {
+            return $this->model->where($where)
+                        ->orderBy($by, $orderBy)
+                        ->join('aw2001_umkmku', 'aw2001_umkmku.id_umkm', '=', 'aw4001_transaksi.id_umkm')
+                        ->limit(10)
+                        ->get();
+        }
+        else return null;
     }
 
     public function get(array $where = null) {
-        if($this->model->where($where)->first()) return $this->model->where($where)->get();
-        else return 0;
+        if($this->model->where($where)->first()) {
+            return $this->model
+                    ->where($where)
+                    ->join('aw2001_umkmku', 'aw4001_transaksi.id_umkm', '=', 'aw2001_umkmku.id_umkm')
+                    ->join('aw1002_userprofil', 'aw4001_transaksi.id_user', '=', 'aw1002_userprofil.id')
+                    ->get();
+        }
+        else return null;
     }
 
     //? get one transaksi dan detailnya
-    public function getDetail(int $id_transaksi = 0) {
-        $res = $this->model->where(['id_transaksi' => $id_transaksi]);
-        if($res->first()) {
-            // aw1002_userprofil
-            // nama
-
-            // aw3001_produkku
-            // id_produk
-            // id_umkm
-            // nama
-            // merk
-            // harga
-            // stok
-            // diskon
-            // satuan_unit
-
-            // aw4001_transaksi
-            // id_transaksi
-            // id_umkm
-            // tgl
-            // id_user
-            // diskon
-            // nama_pelanggan
-            // uang_diterima
-
-            // aw4002_detailtransaksi
-            // id_detailtransaksi
-            // id_produk
-            // jumlah
-
+    public function getDetail(String $id_transaksi) {
+        if($this->model_detail->where(['aw4002_detailtransaksi.id_transaksi' => $id_transaksi])) {
+            $res = $this->model_detail->where(['aw4002_detailtransaksi.id_transaksi' => $id_transaksi]);
+            
             //* | id_detailtransaksi | input_by | tgl | nama_pelanggan | produk | merk | harga | produk_diskon | jumlah_dibeli | satuan_unit | diskon | harga_produk_akhir |
             //? hasilnya jika id_transaksi = transaksi1, sebagai contoh :
             // detailtransaksi1 | fulan | 2024-09-28 | fulani | Bakso Kikil | Warung Fulan | 10000 | 0 | 1 | porsi | 0 | 1000 | 9000 |
@@ -89,18 +80,19 @@ class transaksiRepository implements transaksiRepositoryInterface {
             // detailtransaksi3 | fulan | 2024-09-28 | fulano | Bakso Ikan | Warung Fulan | 15000 | 2000 | 3 | porsi | 1000 | 39000 |
             $res->select(
                 'aw4002_detailtransaksi.id_detailtransaksi', 'aw4001_transaksi.id_user', 
-                'aw1002_userprofil.nama as input_by', 'aw4001_transaksi.tgl', 'aw4001_transaksi.nama_pelanggan',
+                'aw1002_userprofil.nama as nama_kasir', 'aw4001_transaksi.tgl', 'aw4001_transaksi.nama_pelanggan',
                 'aw3001_produkku.nama as produk', 'aw3001_produkku.merk', 
                 'aw3001_produkku.harga', 'aw3001_produkku.diskon as produk_diskon', 
                 'aw4002_detailtransaksi.jumlah as jumlah_dibeli', 'aw3001_produkku.satuan_unit', 
                 'aw3001_produkku.stok', 'aw4001_transaksi.diskon',
-                '((aw3001_produkku.harga - aw3001_produkku.diskon) * aw4002_detailtransaksi.jumlah) - aw4001_transaksi.diskon as harga_produk_akhir',
+                // '((aw3001_produkku.harga - aw3001_produkku.diskon) * aw4002_detailtransaksi.jumlah) - aw4001_transaksi.diskon as harga_produk_akhir',
             )
-            ->join('aw4001_transaksi', 'aw4001_transaksi.id_transaksi', '=', 'aw4002_detailtransaksi.id_transaksi')
-            ->join('aw4001_transaksi', 'aw4001_transaksi.id_user', '=', 'users.id')
-            ->join('aw4002_detailtransaksi', 'aw4002_detailtransaksi.id_produk', '=', 'aw3001_produkku.id_produk')
+            ->join('aw4001_transaksi', 'aw4002_detailtransaksi.id_transaksi', '=', 'aw4001_transaksi.id_transaksi')
+            ->join('aw1002_userprofil', 'aw4001_transaksi.id_user', '=', 'aw1002_userprofil.id')
+            ->join('aw3001_produkku', 'aw4002_detailtransaksi.id_produk', '=', 'aw3001_produkku.id_produk')
             ->orderBy('id_detailtransaksi', 'asc');
-            return $res->getAll();
+
+            return $res->get();
         }
         else return null;
     }

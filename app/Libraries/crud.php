@@ -39,13 +39,13 @@ class crud {
         else if($type == 2) { 
             return User::where('id', '=', $val['id'])->update([
                 $val['field']   => $val['field_values'],
-                'update_at'     => date('Y-m-d H:i:s')
+                // 'update_at'     => date('Y-m-d H:i:s')
             ]);
         }
 
         //? hard delete
         else if($type == 3) { 
-            return User::where($val)->delete();
+            return User::where($val)->delete() && aw1002_userprofil::where($val)->delete();
         }
 
         //! yeah, ketika variable $type bernilai 0
@@ -75,14 +75,41 @@ class crud {
                 'foto'         => $val['foto'],
                 'tempat_lahir' => $val['tempat_lahir'],
                 'tgl_lahir'    => $val['tgl_lahir'],
-                'id_umkm'      => $val['penempatan_umkm'],
+                'id_umkm'      => $val['id_umkm'],
                 'status'       => $val['status'],
                 'jabatan'      => $val['jabatan']
             ]);
         }
 
-        //? hard delete
+        //? new staff
+        else if($type == 3) { 
+            return aw1002_userprofil::create([
+                'id'        => $val['id'],
+                'nama'      => $val['nama'],
+                'id_umkm'   => $val['id_umkm'],
+                'status'    => $val['status'],
+                'jabatan'   => $val['jabatan']
+            ]);
+        }
+
+        //? edit staff
         else if($type == 4) { 
+            return aw1002_userprofil::where('id', '=', $val['id'])->update([
+                'id_umkm'      => $val['id_umkm'],
+                'status'       => $val['status'],
+                'jabatan'      => $val['jabatan']
+            ]);
+        }
+
+        //? edit specific one field
+        else if($type == 5) {
+            return aw1002_userprofil::where('id', '=', $val['id'])->update([
+                $val['field'] => $val['field_values'],
+            ]);
+        }
+
+        //? hard delete
+        else if($type == 6) { 
             return aw1002_userprofil::where($val)->delete();
         }
 
@@ -135,11 +162,9 @@ class crud {
         else if($type == 3) {
             //! menghapus 1 umkm, berarti menghapus semua data yang terkait dan bersangkutan
             return aw2001_umkmku::where($val)->delete() 
-                    && aw1002_userprofil::where($val)
-                        ->join('aw1002_userprofil', 'aw1002_userprofil.id', '=', 'users.id')
-                        ->update(['id_umkm' => null])
-                    && aw3001_produkku::where($val)->delete() 
-                    && aw4001_transaksi::where($val)->select('aw4001_transaksi.id_umkmku')
+                && aw1002_userprofil::where($val)->update(['id_umkm' => ''])
+                && aw3001_produkku::where($val)->delete() 
+                && aw4001_transaksi::where($val)->select('aw4001_transaksi.id_umkmku')
                         ->join('aw4001_transaksi', 'aw4001_transaksi.id_transaksi', '=', 'aw4002_detailtransaksi.id_transaksi')
                         ->delete();
         }
@@ -156,6 +181,8 @@ class crud {
     ) {
         // ? insert
         if($type == 1) { 
+            return $val;
+
             return aw3001_produkku::create([
                 'id_produk'     => $val['id_produk'],
                 'id_umkm'       => $val['id_umkm'],

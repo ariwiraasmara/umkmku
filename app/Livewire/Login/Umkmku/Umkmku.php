@@ -14,6 +14,7 @@ class Umkmku extends Component {
 
     public function mount() {
         if( fun::getRawCookie('islogin') == null ) return redirect('login');
+        if( fun::getRawCookie('mcr_x_aswq_4') < 3 ) return redirect('dashboard');
         $this->service = new umkmkuService();
         $this->data = $this->service->getAll(['id' => fun::getCookie('mcr_x_aswq_1')], 'id_umkm', 'asc');
     }

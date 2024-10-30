@@ -8,8 +8,10 @@ use App\Libraries\myfunction as fun;
 
 class NewTransaksi extends Component {
 
-    protected $userService;
+    
     protected String $title;
+    protected String $linkback;
+    protected $userService;
     protected int $id_user;
     protected String $id_umkm;
     protected $nama_user;
@@ -21,14 +23,18 @@ class NewTransaksi extends Component {
 
         $this->id_user = fun::getCookie('mcr_x_aswq_1');
         $this->id_umkm = $id;
-        $this->nama_user = $this->userService->getProfil($this->id_user)->getData()->data[0]->nama;
+        $this->nama_user = $this->userService->getProfil($this->id_user);
+
+        if(fun::getCookie('mcr_x_aswq_4') < 3) $this->linkback = '/umkmku/detil/'.$this->id_umkm;
+        else if(fun::getCookie('mcr_x_aswq_4') > 2) $this->linkback = '/transaksi';
     }
 
     public function render() {
         return view('livewire.pages.transaksi.new', [
             'title'     => $this->title,
             'id_umkm'   => $this->id_umkm,
-            'nama_user' => $this->nama_user
+            'nama_user' => $this->nama_user[0]->nama,
+            'linkback'  => $this->linkback
         ])
         ->layout(
             'layouts.authorized', [

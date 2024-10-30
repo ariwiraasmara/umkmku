@@ -33,8 +33,8 @@ class ProcessUmkmkuController extends Controller {
                 'latitude'      => $request->latitude,
             ]
         );
-        if(empty($res) || is_null($res)) return redirect('/umkmku/baru'); 
-        else return redirect('/umkmku');
+        if($res) return redirect('/umkmku');
+        else return redirect('/umkmku/baru'); 
     }
 
     public function update(Request $request) {
@@ -51,13 +51,14 @@ class ProcessUmkmkuController extends Controller {
             'longitude'   => $request->longitude,
             'latitude'    => $request->latitude,
         ]);
-        if(empty($res) || is_null($res)) return redirect('/umkmku/edit/'.$request->id_umkm); 
+        if($res) return redirect('/umkmku/detil/'.$request->id_umkm); 
         else return redirect('/umkmku');
     }
 
     public function delete(String $id_umkm) {
         $res = $this->service->delete($id_umkm);
-        return redirect('/umkmku');
+        if($res) return redirect('/umkmku'); 
+        else return redirect('/dashboard');
     }
 
 }

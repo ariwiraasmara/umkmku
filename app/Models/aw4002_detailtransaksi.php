@@ -12,7 +12,7 @@ class aw4002_detailtransaksi extends Model
 
     protected $guarded = [];
     protected $table = 'aw4002_detailtransaksi';
-    protected $primaryKey = 'id_detailtransaksi';
+    // protected $primaryKey = 'id_detailtransaksi';
     protected $fillable = [
         'id_detailtransaksi',
         'id_transaksi',
