@@ -13,12 +13,14 @@ class aw4001_transaksi extends Model
     protected $guarded = [
         'id_transaksi',
         'id_umkm',
+        // 'no_nota',
     ];
     protected $table = 'aw4001_transaksi';
     // protected $primaryKey = 'id_transaksi';
     protected $fillable = [
         'id_transaksi',
         'id_umkm',
+        // 'no_nota',
         'tgl',
         'id_user',
         'diskon',

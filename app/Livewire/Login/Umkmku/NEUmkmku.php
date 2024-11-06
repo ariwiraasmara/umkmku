@@ -3,37 +3,39 @@
 namespace App\Livewire\Login\Umkmku;
 
 use Livewire\Component;
-use App\Libraries\myfunction as fun;
 use App\Services\umkmkuService;
+use App\Libraries\myfunction as fun;
+use Illuminate\Support\Collection;
+use Illuminate\Http\JsonResponse;
 
 class NEUmkmku extends Component {
 
-    protected String $title;
-    protected String $isedit;
-    protected String $url;
-    protected $service;
-    protected $data;
+    protected String|null $title;
+    protected String|null $isedit;
+    protected String|null $url;
+    protected umkmkuService|String|null $service;
+    protected array|Collection|JsonResponse|String|null $data;
 
-    protected String $id_umkm;
-    protected String $nama_umkm;
-    protected String $tgl_berdiri;
-    protected String $jenis_usaha;
-    protected String $deskripsi;
-    protected String $no_tlp;
-    protected String $logo_umkm;
-    protected String $foto_umkm;
-    protected String $alamat;
-    protected String $longitude;
-    protected String $latitude;
+    protected String|null $id_umkm;
+    protected String|null $nama_umkm;
+    protected String|null $tgl_berdiri;
+    protected String|null $jenis_usaha;
+    protected String|null $deskripsi;
+    protected String|null $no_tlp;
+    protected String|null $logo_umkm;
+    protected String|null $foto_umkm;
+    protected String|null $alamat;
+    protected String|null $longitude;
+    protected String|null $latitude;
 
-    public function mount(String $id = null, String $title = null, array $data = null) {
+    public function mount(String $id = null, String $title = null) {
         if( fun::getRawCookie('islogin') == null ) return redirect('login');
         $this->title            = $title == null ? 'UMKM Baru' : 'Edit UMKM';
         $this->isedit           = $title == null ? 'new' : 'isedit';
         $this->url              = $title == null ? '/process/umkm/baru' : '/process/umkm/update/'.$id;
 
         $this->service          = $title == null ? '' : new umkmkuService();
-        $this->data             = $title == null ? '' : $this->service->get(['id_umkm' => $id]);
+        $this->data             = $title == null ? '' : $this->service->get(['id_umkm' => fun::denval($id)]);
 
         $this->id_umkm          = $title == null ? '' : $this->data[0]['id_umkm'];
         $this->nama_umkm        = $title == null ? '' : $this->data[0]['nama_umkm'];

@@ -17,8 +17,8 @@
         </div>
     </div>
 
-    <div class="py-12">
-        <div class="max-w-3xl mx-auto sm:px-6 lg:px-8 space-y-6">
+    <div class="py-6 px-6">
+        <div class="">
             
             <form action="{{ $url }}" method="POST">
                 @csrf

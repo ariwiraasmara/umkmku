@@ -33,6 +33,7 @@ Route::get('/umkmku/detil/{id}', \App\Livewire\Login\Umkmku\DetailUmkmku::class)
 
 Route::get('/transaksi', \App\Livewire\Login\Transaksi\TransaksiNonDM::class);
 Route::get('/transaksi/detil/{id}', \App\Livewire\Login\Transaksi\DetailTransaksi::class);
+Route::get('/transaksi/detil/view/{tipe}/{id}/{from}/{to}', \App\Livewire\Login\Transaksi\DetilTabelTransaksi::class);
 Route::get('/transaksi/baru/{id}', \App\Livewire\Login\Transaksi\NewTransaksi::class);
 
 Route::get('/profil', \App\Livewire\Login\Profil::class);
@@ -40,9 +41,9 @@ Route::get('/staff/baru/{id}', \App\Livewire\Login\Staff\NEStaff::class);
 Route::get('/staff/edit/{id}/{title}', \App\Livewire\Login\Staff\NEStaff::class);
 Route::get('/staff/detil/{id}', \App\Livewire\Login\Staff\DetailStaff::class);
 
-Route::get('/produk/detil/{id}', App\Livewire\Login\Produk\DetailProduk::class);
+Route::get('/produk/detil/{id1}/{id2}', App\Livewire\Login\Produk\DetailProduk::class);
 Route::get('/produk/baru/{id}', App\Livewire\Login\Produk\NEProduk::class);
-Route::get('/produk/edit/{id}', App\Livewire\Login\Produk\NEProduk::class);
+Route::get('/produk/edit/{id}/{id2}/{title}', App\Livewire\Login\Produk\NEProduk::class);
 
 Route::post('/process/login', myroute::process('ProcessUserController', 'login'));
 Route::get('/logout', myroute::process('ProcessUserController', 'logout'));
@@ -62,11 +63,11 @@ Route::post('/process/umkm/update/{id}', myroute::process('ProcessUmkmkuControll
 Route::get('/process/umkm/delete/{id}', myroute::process('ProcessUmkmkuController', 'delete'));
 
 Route::post('/process/produk/baru/{id}', myroute::process('ProcessProdukController', 'store'));
-Route::put('/process/produk/update/{id}', myroute::process('ProcessProdukController', 'update'));
-Route::delete('/process/produk/delete/{id}', myroute::process('ProcessProdukController', 'delete'));
+Route::post('/process/produk/update/{id}', myroute::process('ProcessProdukController', 'update'));
+Route::get('/process/produk/delete/{id}/{id2}', myroute::process('ProcessProdukController', 'delete'));
 
 Route::post('/process/transaksi/baru', myroute::process('ProcessTransaksiController', 'store'));
-Route::delete('/process/transaksi/delete/{id}', myroute::process('ProcessTransaksiController', 'delete'));
+Route::post('/process/transaksi/delete/{id}', myroute::process('ProcessTransaksiController', 'delete'));
 
 
 Route::get('/hello-livewire', \App\Livewire\HelloLivewire::class);
@@ -81,6 +82,7 @@ Route::get('/coba_repo', function() {
 
 Route::get('/coba_service', function() {
     $service = new produkkuService();
+    $service->repo();
     // return $service->getID('UMKM_coba@coba.com-003');
     // return $service->store(['nilai'=>'coba']);
     // return $service->hello();

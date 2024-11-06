@@ -4,21 +4,21 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Services\produkkuService;
+use App\Services\umkmkuService;
 use App\Libraries\myfunction as fun;
+
 
 class ProcessProdukController extends Controller {
     //
 
-    protected $service;
-    public function __construct(produkkuService $service) {
+    protected umkmkuService|null $service;
+    public function __construct(umkmkuService $service) {
         $this->service = $service;
     }
 
     public function store(Request $request, String $id) {
-        // return $request;
-        $res = $this->service->store([
-            'id_umkm'       => $id,
+        if($this->service->storeProduk([
+            'id_umkm'       => fun::denval($id),
             'nama'          => $request->nama,
             'merk'          => $request->merk,
             'jenis'         => $request->jenis,
@@ -27,15 +27,13 @@ class ProcessProdukController extends Controller {
             'stok'          => $request->stok,
             'satuan_unit'   => $request->satuan_unit,
             'diskon'        => $request->diskon,
-        ]);
-        // return $res;
-        if(empty($res) || is_null($res)) return redirect('/produk/baru/'.$request->id_umkm); 
-        else return redirect('/umkmku/detil/'.$request->id_umkm);
+        ])) return redirect('/umkmku/detil/'.fun::enval($request->id_umkm)); 
+        else return redirect('/dashboard');
     }
 
     public function update(Request $request, String $id) {
-        $res = $this->service->store([
-            'id_produk'     => $request->id_produk,
+        if($this->service->updateProduk([
+            'id_produk'     => fun::denval($id),
             'nama'          => $request->nama,
             'merk'          => $request->merk,
             'jenis'         => $request->jenis,
@@ -44,13 +42,12 @@ class ProcessProdukController extends Controller {
             'stok'          => $request->stok,
             'satuan_unit'   => $request->satuan_unit,
             'diskon'        => $request->diskon,
-        ]);
-        if(empty($res) || is_null($res)) return redirect('/umkmku/edit/'.$request->id_produk); 
-        else return redirect('/umkmku');
+        ])) return redirect('/produk/detil/'.$id.'/'.fun::enval($request->id_umkm)); 
+        else return redirect('/dashboard');
     }
 
-    public function delete(String $id) {
-        $res = $this->service->delete($id);
-        return redirect('/umkmku');
+    public function delete(String $id, String $id2) {
+        if($this->service->deleteProduk(fun::denval($id))) return redirect('/umkmku/detil/'.$id2); 
+        else return redirect('/dashboard');
     }
 }

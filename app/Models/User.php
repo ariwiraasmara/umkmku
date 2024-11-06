@@ -28,7 +28,7 @@ class User extends Authenticatable
         'roles',
     ];
 
-    public $timestamps = false;
+    public $timestamps = true;
     const CREATED_AT = 'creation_date';
     const UPDATED_AT = 'updated_date';
 

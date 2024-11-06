@@ -6,11 +6,14 @@ use App\Interfaces\transaksiRepositoryInterface;
 use App\Models\aw4001_transaksi;
 use App\Models\aw4002_detailtransaksi;
 use App\Libraries\crud;
+use Illuminate\Support\Collection;
+use App\Libraries\myfunction as fun;
+use Illuminate\Support\Facades\DB;
 
 class transaksiRepository implements transaksiRepositoryInterface {
 
-    protected $model;
-    protected $model_detail;
+    protected aw4001_transaksi|null $model;
+    protected aw4002_detailtransaksi|null $model_detail;
     public function __construct() {
         $this->model = new aw4001_transaksi();
         $this->model_detail = new aw4002_detailtransaksi();
@@ -18,6 +21,7 @@ class transaksiRepository implements transaksiRepositoryInterface {
 
     public function getID(int $id_user, string $email): String {
         //* Format id_transaksi sebagai contoh : Transaksi@UMKM_fulan@felan.com-001
+        // 
         $query = $this->model->where(['id_user' => $id_user])->orderBy('id_umkm', 'desc')->first();
         if($query) {
             $id_umkm = $query->id_umkm;
@@ -26,6 +30,10 @@ class transaksiRepository implements transaksiRepositoryInterface {
             return 'Transaksi@UMKM_'.$email.'-'.str_pad($counter, 3, "0", STR_PAD_LEFT);
         }
         else return 'Transaksi@UMKM_'.$email.'-001';
+    }
+
+    public function generateNomorNota(int $id_user): String {
+        return fun::random('numb', $id_user).$id_user.date('YmdHis');
     }
 
     public function getIDDetail(String $id_transaksi = null, int $x): String {
@@ -41,12 +49,12 @@ class transaksiRepository implements transaksiRepositoryInterface {
     }
 
     //? get all transaksi list berdasarkan id_umkm
-    public function getAll(array $where = null, String $by = 'id_transaksi', String $orderBy = 'asc') {
+    public function getAll(array $where = null, String $by = 'id_transaksi', String $orderBy = 'asc'): array|Collection|null {
         if($this->model->where($where)->first()) return $this->model->where($where)->orderBy($by, $orderBy)->get();
         else return null;
     }
 
-    public function getDashboard(array $where = null, String $by = 'tgl', String $orderBy = 'desc') {
+    public function getDashboard(array $where = null, String $by = 'tgl', String $orderBy = 'desc'): array|Collection|null {
         if($this->model->where($where)->first()) {
             return $this->model->where($where)
                         ->orderBy($by, $orderBy)
@@ -57,7 +65,7 @@ class transaksiRepository implements transaksiRepositoryInterface {
         else return null;
     }
 
-    public function get(array $where = null) {
+    public function get(array $where = null): array|Collection|null {
         if($this->model->where($where)->first()) {
             return $this->model
                     ->where($where)
@@ -69,7 +77,7 @@ class transaksiRepository implements transaksiRepositoryInterface {
     }
 
     //? get one transaksi dan detailnya
-    public function getDetail(String $id_transaksi) {
+    public function getDetail(String $id_transaksi): array|Collection|null {
         if($this->model_detail->where(['aw4002_detailtransaksi.id_transaksi' => $id_transaksi])) {
             $res = $this->model_detail->where(['aw4002_detailtransaksi.id_transaksi' => $id_transaksi]);
             
@@ -97,9 +105,53 @@ class transaksiRepository implements transaksiRepositoryInterface {
         else return null;
     }
 
+    public function getDetailHarian(String $id, String $tgl) {
+        //whereBetween('reservation_from', [$from, $to])->get();
+        $id_umkm = ['aw4001_transaksi.id_umkm' => $id];
+        $from = $tgl.' 00:00:00';
+        $to = $tgl.' 23:59.59';
+        if($this->model->where($id_umkm)->whereBetween('aw4001_transaksi.tgl', [$from, $to])->first()) {
+            // return 1;
+            return DB::table('aw4002_detailtransaksi as dtr')
+                        
+                        ->select(
+                            'tr.tgl', 
+                            'tr.id_transaksi',
+                            DB::table('aw4002_detailtransaksi as dtr')
+                                ->sum('sum(pr.harga * dtr.jumlah) as total')
+                                ->join('aw3001_produkku as pr', function ($join) {
+                                    $join->on('dtr.id_produk', '=', 'pr.id_produk');
+                                })
+                                ->where(['tr.id_umkm' => $id])
+                                ->whereBetween('tr.tgl', [$from, $to])
+                        )
+                        ->join('aw4001_transaksi as tr', function ($join) {
+                            $join->on('dtr.id_transaksi', '=', 'tr.id_transaksi');
+                        })
+                        ->join('aw3001_produkku as pr', function ($join) {
+                            $join->on('dtr.id_produk', '=', 'pr.id_produk');
+                        })
+                        // ->distinct()
+                        ->orderBy('tr.tgl', 'asc')
+                        // ->groupBy('tr.tgl', 'tr.id_transaksi')
+                        ->get();
+
+            // $res = $this->model_detail->where($id_umkm)->whereBetween('aw4001_transaksi.tgl', [$from, $to]);
+            // $res->select(
+            //     'aw4001_transaksi.tgl', 
+            //     'aw4001_transaksi.id_transaksi',
+            // )
+            // ->sum(DB::raw('aw3001_produkku.harga * aw4002_detailtransaksi.jumlah'))
+            // // ->distinct()
+            // ->join('aw4001_transaksi', 'aw4002_detailtransaksi.id_transaksi', '=', 'aw4001_transaksi.id_transaksi')
+            // ->join('aw3001_produkku', 'aw4002_detailtransaksi.id_produk', '=', 'aw3001_produkku.id_produk')
+            // ->orderBy('aw4001_transaksi.tgl', 'asc');
+            // return $res->get();
+        }
+        else return null;
+    }
+
     public function store(array $val): int {
-        // return implode($val);
-        // return crud::procuser(1, $val);
         if(crud::proctransaksi(1, $val)) return 1;
         else return 0;
     }

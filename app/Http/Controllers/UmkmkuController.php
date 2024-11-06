@@ -26,8 +26,8 @@ class UmkmkuController extends Controller {
     }
 
     //
-    public function get(Request $request) {
-        return $this->service->getAllDetail(['id_umkm' => $request->id_umkm]);
+    public function get(Request $request, String $id_umkm) {
+        return $this->service->getAllDetail($id_umkm);
     }
 
     public function store(Request $request) {

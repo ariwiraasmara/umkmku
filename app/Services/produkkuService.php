@@ -14,16 +14,16 @@ class produkkuService {
         $this->repo = new produkkuRepository();
     }
 
+    public function repo() {
+        return $this->repo;
+    }
+
     public function hello() {
         return 'hello produkkuService';
     }
-
+    
     public function getAll(array $where, String $by = 'id_umkm', String $orderBy = 'asc') {
         // return 1;
-        return $this->repo->getAll($where, $by, $orderBy);
-    }
-
-    public function ga(array $where, String $by = 'id_umkm', String $orderBy = 'asc') {
         return $this->repo->getAll($where, $by, $orderBy);
     }
 

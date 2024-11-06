@@ -1,4 +1,7 @@
 {{-- ! Copyright @ Syahri Ramadhan Wiraasmara (ARI) --}}
+<?php
+use App\Libraries\myfunction;
+?>
 <div class="flex flex-col static">
     <div class="grow w-full bg-blue-400 static">
         <div class="inset-x-0 top-0 h-16 p-2">
@@ -8,10 +11,10 @@
         </div>
     </div>
 
-    <div class="py-12 static">
-        <div class="max-w-3xl mx-auto sm:px-6 lg:px-8 space-y-6">
+    <div class="py-6 px-6 static" style="margin-bottom: 50px;">
+        <div class="">
             {{-- ?Foto --}}
-            <form action="/process/user/update/foto" method="POST">
+            <form action="{{ '/process/user/update/foto/'.myfunction::enval($data[0]['id']) }}" method="POST" enctype="multipart/form-data">
                 @csrf
 
                 <div class="flex flex-col static items-center justify-center">
@@ -21,7 +24,7 @@
                                 Belum Ada Foto
                             </h1>
                         @else
-                            <img src="{{ '/public/user/photos'.$data[0]['foto'] }}" />
+                            <img src="{{ $path_foto }}" />
                         @endif
                     </div>
 
@@ -39,7 +42,9 @@
                 </div>
             </form>
 
-            <hr/>
+            <div class="mt-3 mb-3">
+                <hr/>
+            </div>
 
             <form action="/process/user/update" method="POST">
                 @csrf
@@ -115,8 +120,6 @@
                     <input wire:model="tlp" value="{{ $data[0]['tlp'] }}" id="tlp" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" type="text" name="tlp" autofocus autocomplete="tlp" />
                 </div>
 
-                
-
                 {{-- ?Alamat --}}
                 <div class="mt-3">
                     <span class="text-sm text-black font-bold">{{ __('Alamat') }}</span>
@@ -128,10 +131,12 @@
                 </x-primary-button>
             </form>
 
-            <hr/>
+            <div class="mt-3 mb-3">
+                <hr/>
+            </div>
 
             {{-- ?Password --}}
-            <div class="mt-3">
+            <div class="mt-3 mb-3">
                 <span class="text-sm text-black font-bold">{{ __('Update Password') }}</span>
                 <form action="{{ '/process/user/update/password/'.$data[0]['id'] }}" method="POST">
                     @csrf

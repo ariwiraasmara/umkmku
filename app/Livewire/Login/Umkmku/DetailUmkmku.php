@@ -3,77 +3,80 @@
 namespace App\Livewire\Login\Umkmku;
 
 use Livewire\Component;
-use App\Models\aw3001_produkku;
-use App\Repositories\produkkuRepository;
 use App\Services\userService;
 use App\Services\umkmkuService;
-use App\Services\produkkuService;
-use App\Services\transaksiService;
 use App\Libraries\myfunction as fun;
-use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Collection;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Cache;
 
 class DetailUmkmku extends Component {
 
-    protected String $id;
-    protected String $title = 'Detil UMKM ';
-    protected object $umkmService;
-    protected object $userService;
-    protected object $produkkuService;
-    protected object $transaksiService;
-    public $data_umkm;
-    public $data_user;
-    public $data_produk;
-    protected $data_transaksi;
-
-    protected $data;
+    protected String|null $id;
+    protected String|null $title;
+    protected umkmkuService|null $umkmService;
+    protected userService|null $userService;
+    protected array|Collection|JsonResponse|null $data;
+    protected String|null $path_fotoumkm;
+    protected String|null $path_logoumkm;
 
     public function mount(String $id) {
         if( fun::getRawCookie('islogin') == null ) return redirect('login');
         if( fun::getRawCookie('mcr_x_aswq_4') < 3 ) return redirect('dashboard');
         if($id < 1 || $id == null) return redirect('umkmku');
-        $this->id = $id;
+        $this->id = fun::denval($id);
+        $this->title = 'Detil UMKM ';
         $this->umkmService = new umkmkuService();
         $this->userService = new userService();
-        $this->produkkuService = new produkkuService();
-        $this->transaksiService = new transaksiService();
-        $this->data_umkm = $this->umkmService->get(['id_umkm' => $this->id], 'id_umkm', 'asc');        
-        $this->data_user = $this->userService->getAllStaff($this->id);
-        // $this->data_produk = $this->produkkuService->getAll(['id_umkm' => $id], 'nama', 'asc');
-        // $this->data_transaksi = json_decode($this->transaksiService->getAll($id, 'tgl', 'desc'), true);
-        $this->data_transaksi = $this->transaksiService->getAll($this->id, 'tgl', 'desc');
-        // $res = $this->transaksiService->getAll($id, 'tgl', 'desc');
         // $data = json_decode($res, true);
         // if (isset($data['pesan'], $data['success'], $data['data'])) $this->data_transaksi = $data['data'];
         // else $this->data_transaksi = 0;
 
-        $this->data = $this->umkmService->getAllDetail(['id_umkm' => $this->id]);
+        if(Cache::has('pageumkmku_datadetailumkm')) $this->data = Cache::get('pageumkmku_datadetailumkm');
+        else {
+            Cache::put('pageumkmku_datadetailumkm', $this->umkmService->getAllDetail($this->id), 1*24*60*60);
+            $this->data = Cache::get('pageumkmku_datadetailumkm');
+        }
+
+        if(Cache::has('pageumkmku_pathfotoumkm')) $this->path_fotoumkm = Cache::get('pageumkmku_pathfotoumkm');
+        else {
+            Cache::put('pageumkmku_pathfotoumkm', $this->userService->readFile(fun::getCookie('mcr_x_aswq_2'), $this->data['data_umkm'][0]['foto_umkm']), 1*24*60*60);
+            $this->path_fotoumkm = Cache::get('pageumkmku_pathfotoumkm');
+        }
+
+        if(Cache::has('pageumkmku_pathlogoumkm')) $this->path_logoumkm = Cache::get('pageumkmku_pathlogoumkm');
+        else {
+            Cache::put('pageumkmku_pathlogoumkm', $this->userService->readFile(fun::getCookie('mcr_x_aswq_2'), $this->data['data_umkm'][0]['logo_umkm']), 1*24*60*60);
+            $this->path_logoumkm = Cache::get('pageumkmku_pathlogoumkm');
+        }
     }
 
     public function render() {
     // return '<html>'.$this->data_umkm->get('id_umkm').'</html>';
         return view('livewire.pages.umkmku.detail', [
-            'title'          => $this->title.$this->data_umkm[0]['nama_umkm'], 
+            'title'          => $this->title.$this->data['data_umkm'][0]['nama_umkm'], 
             'id_user'        => fun::getCookie('mcr_x_aswq_1'),
-            'id_umkm'        => $this->data_umkm[0]['id_umkm'],
-            'nama_umkm'      => $this->data_umkm[0]['nama_umkm'],
-            'tgl_berdiri'    => $this->data_umkm[0]['tgl_berdiri'],
-            'jenis_usaha'    => $this->data_umkm[0]['jenis_usaha'],
-            'deskripsi'      => $this->data_umkm[0]['deskripsi'],
-            'alamat'         => $this->data_umkm[0]['alamat'],
-            'longitude'      => $this->data_umkm[0]['longitude'],
-            'latitude'       => $this->data_umkm[0]['latitude'],
-            'no_tlp'         => $this->data_umkm[0]['no_tlp'],
-            'foto_umkm'      => $this->data_umkm[0]['foto_umkm'],
-            'logo_umkm'      => $this->data_umkm[0]['logo_umkm'],
-            'data_produk'    => $this->data_produk,
-            'data_transaksi' => $this->data_transaksi,
-            'data_user'      => $this->data_user,
-            'data'           => $this->data,
-            'id' => $this->id
+            'id_umkm'        => $this->data['data_umkm'][0]['id_umkm'],
+            'nama_umkm'      => $this->data['data_umkm'][0]['nama_umkm'],
+            'tgl_berdiri'    => $this->data['data_umkm'][0]['tgl_berdiri'],
+            'jenis_usaha'    => $this->data['data_umkm'][0]['jenis_usaha'],
+            'deskripsi'      => $this->data['data_umkm'][0]['deskripsi'],
+            'alamat'         => $this->data['data_umkm'][0]['alamat'],
+            'longitude'      => $this->data['data_umkm'][0]['longitude'],
+            'latitude'       => $this->data['data_umkm'][0]['latitude'],
+            'no_tlp'         => $this->data['data_umkm'][0]['no_tlp'],
+            'foto_umkm'      => $this->data['data_umkm'][0]['foto_umkm'],
+            'logo_umkm'      => $this->data['data_umkm'][0]['logo_umkm'],
+            'data_produk'    => $this->data['data_produk'],
+            'data_transaksi' => $this->data['data_transaksi'],
+            'data_user'      => $this->data['data_pegawai'],
+            'path_fotoumkm'  => $this->path_fotoumkm,
+            'path_logoumkm'  => $this->path_logoumkm
+            // 'data'           => $this->data,
         ])
         ->layout(
             'layouts.authorized', [
-            'pagetitle' => $this->title.$this->data_umkm[0]['nama_umkm'].' | UMKMKU'
+            'pagetitle' => $this->title.$this->data['data_umkm'][0]['nama_umkm'].' | UMKMKU'
         ]);
     }
 }

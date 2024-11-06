@@ -16,8 +16,8 @@
         </div>
     </div>
 
-    <div class="py-12">
-        <div class="max-w-3xl mx-auto sm:px-6 lg:px-8 space-y-6">
+    <div class="py-6 px-6">
+        <div class="">
             <form action="/process/transaksi/baru/" method="POST">
                 @csrf
 
@@ -25,7 +25,8 @@
                 <input wire:model="id_umkm" value="{{ $id_umkm }}" id="id_umkm" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" type="hidden" name="id_umkm" required autofocus autocomplete="id_umkm" />
                 
                 <div>
-                    <span class="font-bold">Data diinput oleh : {{ $nama_user }} </span>
+                    <p><span class="font-bold">Data Input Masuk Ke : {{ $nama_umkm }} </span></p>
+                    <p><span class="font-bold">Data Di Input Oleh : {{ $nama_user }} </span></p>
                 </div>
 
                 {{-- ? nama_pelanggan --}}
@@ -52,18 +53,41 @@
                         <div><span class="text-sm text-black font-bold">{{ __('Tambah Produk') }}</span></div>
                         <div><span class="text-sm text-black font-bold">{{ __('Jumlah Produk') }}</span></div>
                     </div>
-                    <livewire:pages.transaksi.append-produk-detil-transaksi />
-                    <livewire:pages.transaksi.append-produk-detil-transaksi />
-                    <livewire:pages.transaksi.append-produk-detil-transaksi />
-                    <livewire:pages.transaksi.append-produk-detil-transaksi />
-                    <livewire:pages.transaksi.append-produk-detil-transaksi />
+
+                    @if($data_produk)
+                        @for($x = 0; $x < count($data_produk); $x++)
+                            <div class="static grid grid-cols-2 gap-4 mt-3">
+                                <div>
+                                    <select id="id_produk" name="id_produk[]" class="block w-full rounded">
+                                        <option value="" disabled selected>Pilih Produk</option>
+                                        <option value="" disabled>----------</option>
+                                        @foreach($data_produk as $item)
+                                            <option value="{{ $item['id_produk'] }}">{{ $item['nama'] }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            
+                                <div>
+                                    <input type="number" id="jumlah" name="jumlah[]" class="block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" />
+                                </div>
+                            </div>
+                        @endfor
+                    @else
+                        <div class="text-center">
+                            <h1 class="font-bold text-2xl py-2 mb-2 border-b">
+                                Data Produk Kosong
+                            </h1>
+                        </div>
+                    @endif
+
+                    {{-- <livewire:pages.transaksi.append-produk-detil-transaksi /> --}}
                 </div>
 
-                <div>
+                {{-- <div>
                     <button type="button" id="add_produk" class="mt-3 block w-full justify-center">
                         <ion-icon name="add-circle-outline" size="large"></ion-icon>
                     </button>
-                </div>
+                </div> --}}
 
                 <x-primary-button class="mt-3 block w-full justify-center">
                     {{ __('Simpan') }}

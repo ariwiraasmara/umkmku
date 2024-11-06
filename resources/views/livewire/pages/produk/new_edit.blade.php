@@ -16,62 +16,62 @@
         </div>
     </div>
 
-    <div class="py-12">
-        <div class="max-w-3xl mx-auto sm:px-6 lg:px-8 space-y-6">
+    <div class="py-6 px-6">
+        <div class="">
             
-            <form action="{{ $url }}" method="{{ $method_request }}">
+            <form action="{{ $url }}" method="POST">
                 @csrf
 
                 {{-- ? id_produk dan id_umkm hidden --}}
-                <input wire:model="id_produk" :value="{{ $id_produk }}" id="id_produk" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" type="hidden" name="id_produk" required autofocus autocomplete="id_produk" />
-                <input wire:model="id_umkm" :value="{{ $id_umkm }}" id="id_umkm" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" type="hidden" name="id_umkm" required autofocus autocomplete="id_umkm" />
+                <input wire:model="id_produk" value="{{ $id_produk }}" id="id_produk" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" type="hidden" name="id_produk" required autofocus autocomplete="id_produk" />
+                <input wire:model="id_umkm" value="{{ $id_umkm }}" id="id_umkm" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" type="hidden" name="id_umkm" required autofocus autocomplete="id_umkm" />
                 
                 {{-- ? nama --}}
                 <div>
                     <span class="text-sm text-black font-bold">{{ __('Nama Produk') }}</span>
-                    <input wire:model="nama" :value="{{ $nama }}" id="nama_umkm" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" type="text" name="nama" required autofocus autocomplete="nama" />
+                    <input wire:model="nama" value="{{ $nama }}" id="nama_umkm" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" type="text" name="nama" required autofocus autocomplete="nama" />
                 </div>
 
                 {{-- ? merk --}}
                 <div class="mt-3">
                     <span class="text-sm text-black font-bold">{{ __('Merk *boleh dikosongkan') }}</span>
-                    <input wire:model="merk" id="tgl_berdiri" :value="{{ $merk }}" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" type="text" name="merk" required autofocus autocomplete="merk"/>
+                    <input wire:model="merk" id="tgl_berdiri" value="{{ $merk }}" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" type="text" name="merk" required autofocus autocomplete="merk"/>
                 </div>
 
                 {{-- ? jenis --}}
                 <div class="mt-3">
                     <span class="text-sm text-black font-bold">{{ __('Jenis *boleh dikosongkan') }}</span>
-                    <input wire:model="jenis" :value="{{ $jenis }}" id="jenis" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" type="text" name="jenis" required autofocus autocomplete="jenis" />
+                    <input wire:model="jenis" value="{{ $jenis }}" id="jenis" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" type="text" name="jenis" required autofocus autocomplete="jenis" />
                 </div>
 
                 {{-- ? deskripsi --}}
                 <div class="mt-3">
                     <span class="text-sm text-black font-bold">{{ __('Deskripsi *boleh dikosongkan') }}</span>
-                    <input wire:model="deskripsi" :value="{{ $deskripsi }}" id="deskripsi" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" type="text" name="deskripsi" required autofocus autocomplete="deskripsi" />
+                    <input wire:model="deskripsi" value="{{ $deskripsi }}" id="deskripsi" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" type="text" name="deskripsi" required autofocus autocomplete="deskripsi" />
                 </div>
 
                 {{-- ? harga --}}
                 <div class="mt-3">
                     <span class="text-sm text-black font-bold">{{ __('Harga') }}</span>
-                    <input wire:model="harga" :value="{{ $harga }}" id="no_tlp" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" type="number" name="harga" required autofocus autocomplete="harga" />
+                    <input wire:model="harga" value="{{ $harga }}" id="no_tlp" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" type="number" name="harga" required autofocus autocomplete="harga" />
                 </div>
 
                 {{-- ? stok --}}
                 <div class="mt-3">
                     <span class="text-sm text-black font-bold">{{ __('Stok') }}</span>
-                    <input wire:model="stok" :value="{{ $stok }}" id="no_tlp" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" type="number" name="stok" required autofocus autocomplete="stok" />
+                    <input wire:model="stok" value="{{ $stok }}" id="no_tlp" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" type="number" name="stok" required autofocus autocomplete="stok" />
                 </div>
 
                 {{-- ? satuan_unit --}}
                 <div class="mt-3">
                     <span class="text-sm text-black font-bold">{{ __('Satuan Unit') }}</span>
-                    <input wire:model="satuan_unit" :value="{{ $satuan_unit }}" id="no_tlp" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" type="text" name="satuan_unit" required autofocus autocomplete="satuan_unit" />
+                    <input wire:model="satuan_unit" value="{{ $satuan_unit }}" id="no_tlp" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" type="text" name="satuan_unit" required autofocus autocomplete="satuan_unit" />
                 </div>
 
                 {{-- ? diskon --}}
                 <div class="mt-3">
                     <span class="text-sm text-black font-bold">{{ __('Diskon') }}</span>
-                    <input wire:model="diskon" :value="{{ $diskon }}" id="no_tlp" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" type="text" name="diskon" required autofocus autocomplete="diskon" />
+                    <input wire:model="diskon" value="{{ $diskon }}" id="no_tlp" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" type="text" name="diskon" required autofocus autocomplete="diskon" />
                 </div>
 
                 <x-primary-button class="mt-3 block w-full justify-center">

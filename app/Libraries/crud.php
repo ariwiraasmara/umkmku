@@ -23,14 +23,15 @@ class crud {
     ) {
         //? insert
         if($type == 1) {
+            $date = date('Y-m-d H:i:s');
             $res = User::create([
                 'username'          => $val['username'],
                 'email'             => $val['email'],
                 'password'          => $val['password'],
                 'remember_token'    => null,
                 'roles'             => $val['roles'],
-                'email_verified_at' => date('Y-m-d H:i:s'),
-                'created_at'        => date('Y-m-d H:i:s')
+                'email_verified_at' => $date,
+                'created_at'        => $date
             ]);
             return $res->id;
         }
@@ -39,7 +40,7 @@ class crud {
         else if($type == 2) { 
             return User::where('id', '=', $val['id'])->update([
                 $val['field']   => $val['field_values'],
-                // 'update_at'     => date('Y-m-d H:i:s')
+                'update_at'     => date('Y-m-d H:i:s')
             ]);
         }
 
@@ -181,8 +182,6 @@ class crud {
     ) {
         // ? insert
         if($type == 1) { 
-            return $val;
-
             return aw3001_produkku::create([
                 'id_produk'     => $val['id_produk'],
                 'id_umkm'       => $val['id_umkm'],

@@ -3,32 +3,34 @@
 namespace App\Livewire\Login\Staff;
 
 use Livewire\Component;
-use App\Libraries\myfunction as fun;
 use App\Services\userService;
+use App\Libraries\myfunction as fun;
+use Illuminate\Support\Collection;
+use Illuminate\Http\JsonResponse;
 
 class NEStaff extends Component {
 
-    protected String $title;
-    protected String $isedit;
-    protected String $url;
-    protected $service;
-    protected $data;
+    protected String|null $title;
+    protected String|null $isedit;
+    protected String|null $url;
+    protected userService|String|null $service;
+    protected array|Collection|JsonResponse|String|null $data;
 
-    protected $id_user;
-    protected $username;
-    protected $email;
-    protected $password;
-    protected $tlp;
-    protected $roles;
-    protected $nama;
-    protected $jk;
-    protected $alamat;
-    protected $foto;
-    protected $tempat_lahir;
-    protected $tgl_lahir;
-    protected $id_umkm;
-    protected $status;
-    protected $jabatan;
+    protected int|null $id_user;
+    protected String|null $username;
+    protected String|null $email;
+    protected String|null $password;
+    protected String|null $tlp;
+    protected int|null $roles;
+    protected String|null $nama;
+    protected String|null $jk;
+    protected String|null $alamat;
+    protected String|null $foto;
+    protected String|null $tempat_lahir;
+    protected String|null $tgl_lahir;
+    protected String|null $id_umkm;
+    protected String|null $status;
+    protected String|null $jabatan;
     
     public function mount(String $id = null, String $title = null) {
         if( fun::getRawCookie('islogin') == null ) return redirect('login');
@@ -37,7 +39,7 @@ class NEStaff extends Component {
         $this->url              = $title == null ? '/process/staff/baru/'.$id : '/process/staff/edit/'.$id;
         
         $this->service          = $title == null ? null : new userService();
-        $this->data             = $title == null ? null : $this->service->getStaff($id);
+        $this->data             = $title == null ? null : $this->service->getStaff(fun::denval($id));
 
         $this->id_user          = $title == null ? '' : $id;
         $this->username         = $title == null ? '' : $this->data[0]['username'];

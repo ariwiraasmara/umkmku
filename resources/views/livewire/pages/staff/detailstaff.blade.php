@@ -1,10 +1,12 @@
-{{-- ! Copyright @ Syahri Ramadhan Wiraasmara --}}
 {{-- ! Copyright @ Syahri Ramadhan Wiraasmara (ARI) --}}
+<?php
+use App\Libraries\myfunction;
+?>
 <div class="flex flex-col static">
     <div class="grow w-full bg-blue-400 static">
         <div class="inset-x-0 top-0 h-16 p-2 flex">
             <div class="">
-                <a href="{{ '/umkmku/detil/'.$data[0]['id_umkm'] }}" class="font-bold p-2 text-white leading-tight">
+                <a href="{{ '/umkmku/detil/'.myfunction::enval($data[0]['id_umkm']) }}" class="font-bold p-2 text-white leading-tight">
                     <ion-icon name="arrow-back-outline" style="font-size: 30px; margin-top:8px;"></ion-icon>
                 </a>
             </div>
@@ -17,8 +19,7 @@
         </div>
     </div>
 
-    <div class="p-2 static">
-
+    <div class="py-6 px-6 static">
         @if ($data[0]['foto'] == null || empty($data[0]['foto']) || is_null($data[0]['foto'] || $data[0]['foto'] = '') )
             <div class="flex justify-center">
                 <div>
@@ -30,12 +31,12 @@
         @else
             <div class="flex justify-center">
                 <div>
-                    <img src="{{ '/public/user/photos/'.$data[0]['foto'] }}" width="500" height="500" alt="{{ $data[0]['nama'] }}"/>
+                    <img src="{{ $path_foto }}" width="500" height="500" alt="{{ $data[0]['nama'] }}"/>
                 </div>
             </div>
         @endif
         
-        <div class="mt-3 ml-3">
+        <div class="">
             <p><span class="font-bold">Nama : </span> {{ $data[0]['nama'] }}</p>
             <p><span class="font-bold">Username : </span> {{ $data[0]['username'] }}</p>
             <p><span class="font-bold">Email : </span> {{ $data[0]['email'] }}</p>
@@ -50,21 +51,20 @@
         
         <div class="flex items-center justify-center mt-3">
             <div class="flex-initial w-50">
-                <a href="{{ '/staff/edit/'.$data[0]['id'].'/e' }}">
+                <a href="{{ '/staff/edit/'.myfunction::enval($data[0]['id']).'/e' }}">
                     <x-secondary-button class="ms-3">
-                        {{ __('Edit') }}
+                        <ion-icon name="pencil-outline" size="large" style="margin-top: 5px;"></ion-icon>
                     </x-secondary-button>
                 </a>
             </div>
             
             <div class="flex-initial w-50">
-                <a href="{{ '/process/staff/delete/'.$data[0]['id'].'/'.$data[0]['id_umkm'] }}">
+                <a href="{{ '/process/staff/delete/'.myfunction::enval($data[0]['id']).'/'.myfunction::enval($data[0]['id_umkm']) }}">
                     <x-secondary-button class="ms-3">
-                        {{ __('Hapus') }}
+                        <ion-icon name="trash-outline" size="large" style="margin-top: 5px;"></ion-icon>
                     </x-secondary-button>
                 </a>
             </div>
         </div>
     </div> 
-
 </div>   

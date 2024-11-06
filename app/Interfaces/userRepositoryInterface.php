@@ -19,5 +19,13 @@ interface userRepositoryInterface {
 
     public function updateProfilUser(array $val): int;
     public function deleteProfilUser(array $val): int;
+
+    public function createDir(String $username = '');
+    public function readDir(String $username): String;
+    public function deleteDir(String $username = ''): String;
+    public function readFile(String $username, String $file): String;
+    public function getFile(int $id, String $username): String;
+    public function uploadFile($username, $file);
+    public function getExtension(String $str = null);
 }
 ?>

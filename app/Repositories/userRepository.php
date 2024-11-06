@@ -7,11 +7,12 @@ use App\Models\User;
 use App\Models\aw1002_userprofil;
 use App\Libraries\crud;
 use Illuminate\Support\Collection;
+use Illuminate\Http\File;
 
 class userRepository implements userRepositoryInterface {
 
-    protected $model;
-    protected $model2;
+    protected User|null $model;
+    protected aw1002_userprofil|null $model2;
     public function __construct() {
         $this->model = new User();
         $this->model2 = new aw1002_userprofil();
@@ -23,7 +24,7 @@ class userRepository implements userRepositoryInterface {
     public function getAll(String $by = 'id', String $orderBy = 'asc', array $where = null): array|Collection|null {
         $res = $this->model->join('aw1002_userprofil', 'aw1002_userprofil.id', '=', 'users.id');
         if($res->orderBy($by, $orderBy)->first()) {
-            $res->select(
+            $this->model->join('aw1002_userprofil', 'aw1002_userprofil.id', '=', 'users.id')->select(
                 'users.id', 'users.username', 'aw1002_userprofil.id_umkm', 'users.email', 
                 'aw1002_userprofil.nama', 'aw1002_userprofil.foto',
                 'aw1002_userprofil.status', 'aw1002_userprofil.jabatan',
@@ -86,8 +87,6 @@ class userRepository implements userRepositoryInterface {
     }
 
     public function storeAccount(array $val): String|int {
-        // return implode($val);
-        // return crud::procuser(1, $val);
         $res1 = crud::procuser(1, $val);
         if($res1 > 0) {
             if(crud::procuserprofil(1, ['id' => $res1])) return 1;
@@ -139,6 +138,47 @@ class userRepository implements userRepositoryInterface {
     public function deleteProfilUser(array $val): int {
         if(crud::procuserprofil(4, $val)) return 1;
         else return 0;
+    }
+
+    public function createDir(String $username = '') {
+        return File::makeDirectory($this->readDir($username).'/first.md', 0777, true, true);
+        // return $this->model->createDir($username);
+    }
+
+    public function readDir(String $username): String {
+        // path : umkmku/public/users/[username]/photos/;
+        return "/users/".$username."/photos";
+    }
+
+    public function deleteDir(String $username = ''): String {
+        return $this->model->deleteDir($username);
+    }
+
+    public function readFile(String $username, String $file): String {
+        // path : umkmku/public/[username]/photos/[file]
+        return $this->readDir($username).$file;
+    }
+
+    public function getFile(int $id, String $username): String {
+        $res = $this->model2->get(['id'=>$id]);
+        return $this->readFile($username, $res[0]['foto']);
+    }
+
+    public function uploadFile($username, $file) {
+        if(!File::isDirectory($this->model->readFile($username, $file))) 
+            return File::makeDirectory($this->model->readFile($username, $file), 0777, true, true);
+    }
+
+    public function getExtension(String $str = null) {
+        return match($str){
+            'jfif'  => 'image', 
+            'pjpeg' => 'image', 
+            'jpeg'  => 'image', 
+            'pjp'   => 'image', 
+            'jpg'   => 'image', 
+            'png'   => 'image', 
+            default => null
+        };
     }
 }
 ?>

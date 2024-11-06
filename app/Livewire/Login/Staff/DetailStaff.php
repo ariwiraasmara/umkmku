@@ -2,20 +2,33 @@
 namespace App\Livewire\Login\Staff;
 
 use Livewire\Component;
-use App\Libraries\myfunction as fun;
 use App\Services\userService;
+use Illuminate\Support\Collection;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Cache;
+use App\Libraries\myfunction as fun;
 
 class DetailStaff extends Component {
 
-    protected $service;
-    protected String $title;
-    protected $data;
+    protected String|null $title;
+    protected userService|null $service;
+    protected int|null $id;
+    protected array|Collection|JsonResponse|null $data;
+    protected String|null $path_foto;
 
-    public function mount(String $id = null, String $title = null, array $data = null) {
+    public function mount(String $id = null) {
         if( fun::getRawCookie('islogin') == null ) return redirect('login');
-        $this->service          = new userService();
-        $this->data             = $this->service->getStaff($id);
-        $this->title            = 'Detail Staff - '.$this->data[0]['nama'];
+        $this->id = fun::denval($id);
+        
+        if(Cache::has('pagedetailstaff_data')) $this->data = Cache::get('pagedetailstaff_data');
+        else {
+            $this->service = new userService();
+            Cache::put('pagedetailstaff_data', $this->service->getStaff($this->id), 1*24*60*60);
+            $this->data = Cache::get('pagedetailstaff_data');
+        }
+        
+        $this->title     = 'Detail Staff - '.$this->data[0]['nama'];
+        $this->path_foto = '/users/photos/'.$this->data[0]['foto'];
     }
 
     public function render() {

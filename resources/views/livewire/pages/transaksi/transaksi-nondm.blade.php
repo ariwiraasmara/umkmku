@@ -1,4 +1,7 @@
 {{-- ! Copyright @ Syahri Ramadhan Wiraasmara (ARI) --}}
+<?php
+use App\Libraries\myfunction;
+?>
 <div class="flex flex-col static">
     <div class="grow w-full bg-blue-400 static">
         <div class="inset-x-0 top-0 h-16 p-2 flex justify-between">
@@ -16,11 +19,11 @@
         </div>
     </div>
 
-    <div class="mt-3">
+    <div class="py-6 px-6">
         @if ($data_transaksi)
             @foreach ($data_transaksi as $dt)
                 <div class="border-b border-gray-600 p-2">
-                    <a href="{{ '/transaksi/detil/'.$dt->id_transaksi }}">
+                    <a href="{{ '/transaksi/detil/'.myfunction::enval($dt->id_transaksi) }}">
                         <p>{{ $dt->tgl }}</p>
                     </a>
                 </div>

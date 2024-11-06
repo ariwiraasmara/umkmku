@@ -53,6 +53,7 @@ create table aw3001_produkku(
 create table aw4001_transaksi(
    id_transaksi varchar(255) not null primary key,
    id_umkm varchar(255) not null foreign key,
+   no_nota varchar(255) not null foreign key,
    tgl date not null,
    id_user varchar(255) not null foreign key,
    diskon double null,

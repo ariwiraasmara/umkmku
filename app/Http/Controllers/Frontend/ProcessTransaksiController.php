@@ -10,14 +10,14 @@ use App\Libraries\myfunction as fun;
 class ProcessTransaksiController extends Controller {
     //
 
-    protected $service;
+    protected transaksiService|null $service;
     public function __construct(transaksiService $service) {
         $this->service = $service;
     }
 
     public function store(Request $request) {
         // return $request;
-        $res = $this->service->store(
+        if($this->service->store(
         [
             'id_transaksi'   => $request->id_transaksi,
             'email'          => fun::getCookie('mcr_x_aswq_3'),
@@ -30,13 +30,12 @@ class ProcessTransaksiController extends Controller {
         [
             'id_produk' => $request->id_produk,
             'jumlah'    => $request->jumlah
-        ]);
-        // return $res;
-        return redirect('/dashboard');
+        ])) return redirect('/umkmku/detil/'.fun::enval($request->id_umkm)); 
+        else return redirect('/dashboard');
     }
 
-    public function delete(Request $request) {
-        $res = $this->service->delete($request->id_transaksi);
+    public function delete(Request $request, $id1, $id2) {
+        if($this->service->delete(fun::denval($id1))) return redirect('/umkmku/detil/'.$id2);
         return redirect('/dashboard');
     }
 }

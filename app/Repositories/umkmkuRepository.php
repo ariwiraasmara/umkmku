@@ -5,10 +5,11 @@ namespace App\Repositories;
 use App\Interfaces\umkmkuRepositoryInterface;
 use App\Models\aw2001_umkmku;
 use App\Libraries\crud;
+use Illuminate\Support\Collection;
 
 class umkmkuRepository implements umkmkuRepositoryInterface {
 
-    protected $model;
+    protected aw2001_umkmku|null $model;
     public function __construct() {
         $this->model = new aw2001_umkmku();
     }
@@ -27,20 +28,18 @@ class umkmkuRepository implements umkmkuRepositoryInterface {
     }
 
     //? get all umkmku list berdasarkan id_user
-    public function getAll(array $where, String $by = 'id_umkm', String $orderBy = 'asc') {
+    public function getAll(array $where, String $by = 'id_umkm', String $orderBy = 'asc'): array|Collection|null {
         if($this->model->where($where)->first()) return $this->model->where($where)->orderBy($by, $orderBy)->get();
         else return 0;
     }
 
     //? get one umkm detail
-    public function get(array $where = null) {
+    public function get(array $where = null): array|Collection|null {
         if($this->model->where($where)->first()) return $this->model->where($where)->get();
         else return 0;
     }
 
     public function store(array $val): int {
-        // return implode($val);
-        // return crud::procuser(1, $val);
         if(!empty(crud::procumkmku(1, $val))) return 1;
         else return 0;
     }

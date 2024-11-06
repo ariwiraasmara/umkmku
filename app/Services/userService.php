@@ -6,16 +6,17 @@ use App\Repositories\userRepository;
 use App\Libraries\jsr;
 use Illuminate\Support\Facades\Hash;
 use App\Libraries\myfunction as fun;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Collection;
 
 class userService {
 
-    protected $repo;
+    protected userRepository|null $repo;
     public function __construct() {
         $this->repo = new userRepository();
     }
 
-    public function login(string $user, $pass) {
+    public function login(string $user, $pass): array|Collection {
         $where = array([
             ['username' => $user],
             'or',
@@ -34,19 +35,19 @@ class userService {
         ], 'ok');
     }
 
-    public function getProfil(int $id) {
+    public function getProfil(int $id): array|Collection|null {
         return $this->repo->getProfil(['users.id' => $id]);
     }
 
-    public function getAllStaff(String $id) {
+    public function getAllStaff(String $id): array|Collection|null {
         return $this->repo->getAllStaff($id, 'nama', 'asc');
     }
 
-    public function getStaff(int $id) {
+    public function getStaff(int $id): array|Collection|null {
         return $this->repo->getStaff($id);
     }
 
-    public function storeAccount(string $username, string $email, string $password, $roles) {
+    public function storeAccount(string $username, string $email, string $password, $roles): JsonResponse {
         // return 'in service username : '. $username;
         if($this->repo->get(['username' => $username])) {
             if($this->repo->get(['email' => $email])) {
@@ -61,36 +62,32 @@ class userService {
             ]);        
         }
         else {
-            $res = $this->repo->storeAccount([
-                    'username'  => $username,
-                    'email'     => $email, 
-                    'password'  => $password,
-                    'roles'     => $roles
-            ]);
-    
-            return match($res) {
+            return match($this->repo->storeAccount([
+                'username'  => $username,
+                'email'     => $email, 
+                'password'  => $password,
+                'roles'     => $roles
+            ])) {
                 1 => jsr::print(['pesan' => 'insert user baru berhasil', 'success' => 1], 'created'),
                 default => jsr::print(['pesan' => 'insert user baru gagal', 'error' => 3], null)
             };
         }
     }
 
-    public function updateAccount(int $id, String $field, String $field_value) {
-        $res = $this->repo->updateAccount([
+    public function updateAccount(int $id, String $field, String $field_value): JsonResponse {
+        return match($this->repo->updateAccount([
             'id' => $id,
             'field' => $field, 
             'field_values' => $field_value
-        ]);
-
-        return match($res) {
+        ])) {
             1 => jsr::print(['pesan' => 'update akun user berhasil', 'success' => 1], 'ok'),
-            default => jsr::print(['pesan' => 'update akun user gagal', 'hasil'=>$res], null)
+            default => jsr::print(['pesan' => 'update akun user gagal'], null)
         };
     }
 
-    public function new_staff(array $val) {
+    public function new_staff(array $val): JsonResponse {
         $jabatan = $val['roles'] == 3 ? 'Staff Senior' : 'Staff Junior';
-        $res = $this->repo->storeNewStaff(
+        return match($this->repo->storeNewStaff(
             [
                 'username'  => $val['username'],
                 'email'     => $val['email'],
@@ -103,18 +100,16 @@ class userService {
                 'status'    => 'Aktif',
                 'jabatan'   => $jabatan
             ]
-        );
-
-        return match($res) {
+        )) {
             1 => jsr::print(['pesan' => 'tambah pegawai berhasil', 'success' => 1], 'ok'),
-            default => jsr::print(['pesan' => 'tambah pegawai gagal', 'hasil'=>$res], null)
+            default => jsr::print(['pesan' => 'tambah pegawai gagal'], null)
         };
     }
 
-    public function updateStaff(array $val) {
+    public function updateStaff(array $val): JsonResponse {
         // return $val;
         $jabatan = $val['roles'] == 3 ? 'Staff Senior' : 'Staff Junior';
-        $res = $this->repo->updateStaff([
+        return match($this->repo->updateStaff([
             'id'            => $val['id'],
             'field'         => 'roles',
             'field_values'  => $val['roles']
@@ -123,15 +118,14 @@ class userService {
             'id_umkm' => $val['id_umkm'],
             'status'  => $val['status'],
             'jabatan' => $jabatan
-        ]);
-        return match($res) {
+        ])) {
             1 => jsr::print(['pesan' => 'update pegawai berhasil', 'success' => 1], 'ok'),
-            default => jsr::print(['pesan' => 'update pegawai gagal', 'hasil'=>$res], null)
+            default => jsr::print(['pesan' => 'update pegawai gagal'], null)
         };
     }
 
-    public function updateProfil(array $val) {
-        $res = $this->repo->updateProfilUser([
+    public function updateProfil(array $val): JsonResponse {
+        return match($this->repo->updateProfilUser([
             'id'            => $val['id'],
             'nama'          => $val['nama'],
             'jk'            => $val['jk'],
@@ -142,31 +136,54 @@ class userService {
             'id_umkm'       => $val['id_umkm'],
             'status'        => $val['status'],
             'jabatan'       => $val['jabatan']
-        ]);
-
-        return match($res) {
+        ])) {
             1 => jsr::print(['pesan' => 'update profil user berhasil', 'success' => 1], 'ok'),
-            default => jsr::print(['pesan' => 'update profil user gagal', 'hasil'=>$res], null)
+            default => jsr::print(['pesan' => 'update profil user gagal'], null)
         };
     }
 
-    public function updateFotoUser(int $id, String $values) {
-        return $this->repo->updateFieldProfilUser([
+    public function updateFotoUser(int $id, String $values): JsonResponse {
+        return match($this->repo->updateFieldProfilUser([
             'id'            => $id, 
             'field'         => 'foto', 
             'field_values'  => $values
-        ]);
-
-        return match($res) {
+        ])) {
             1 => jsr::print(['pesan' => 'update foto user berhasil', 'success' => 1], 'ok'),
-            default => jsr::print(['pesan' => 'update foto user gagal', 'hasil'=>$res], null)
+            default => jsr::print(['pesan' => 'update foto user gagal'], null)
         };
     }
 
-    public function deleteAccount(int $id) {
-        $where = array('id' => $id);
-        if(($this->repo->deleteAccount($where))) jsr::print(['pesan' => 'delete user berhasil', 'success' => 1], 'ok');
-        else jsr::print(['pesan' => 'delete user gagal', 'error' => 1], null);
+    public function deleteAccount(int $id): JsonResponse {
+        if(($this->repo->deleteAccount(['id' => $id]))) return jsr::print(['pesan' => 'delete user berhasil', 'success' => 1], 'ok');
+        else return jsr::print(['pesan' => 'delete user gagal', 'error' => 1], null);
+    }
+
+    public function createDir(String $username = '') {
+        return $this->repo->createDir($username);
+    }
+
+    public function readDir(String $username = ''): String {
+        return $this->repo->readDir($username);
+    }
+
+    public function deleteDir(String $username = '') {
+        return $this->repo->deleteDir($username);
+    }
+
+    public function readFile(String $username = null, String $file = null): String {
+        return $this->repo->readFile($username, $file);
+    }
+
+    public function getFile(int $id, String $username): String {
+        return $this->repo->getFile($id, $username);
+    }
+
+    public function uploadFile($username, $file) {
+        return $this->repo->uploadFile($username, $file);
+    }
+
+    public function getExtension(String $str = null): String {
+        return $this->repo->getExtension($str);
     }
 }
 ?>

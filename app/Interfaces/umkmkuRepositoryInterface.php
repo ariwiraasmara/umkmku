@@ -1,10 +1,11 @@
 <?php
 //! Copyright @ Syahri Ramadhan Wiraasmara (ARI)
 namespace App\Interfaces;
+use Illuminate\Support\Collection;
 interface umkmkuRepositoryInterface {
     public function getID(int $id_user, string $email): String;
-    public function getAll(array $where, String $by = 'id_umkm', String $orderBy = 'asc');
-    public function get(array $where = null);
+    public function getAll(array $where, String $by = 'id_umkm', String $orderBy = 'asc'): array|Collection|null;
+    public function get(array $where = null): array|Collection|null;
     
     public function store(array $val): int;
     public function update(array $val): int;

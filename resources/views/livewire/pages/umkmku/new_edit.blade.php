@@ -1,4 +1,7 @@
 {{-- ! Copyright @ Syahri Ramadhan Wiraasmara (ARI) --}}
+<?php
+use App\Libraries\myfunction;
+?>
 <div class="flex flex-col static">
     <div class="grow w-full bg-blue-400 static">
         <div class="inset-x-0 top-0 h-16 p-2 flex">
@@ -16,9 +19,9 @@
         </div>
     </div>
 
-    <div class="py-12">
-        <div class="max-w-3xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            <form action="{{ $url }}" method="POST">
+    <div class="py-6 px-6">
+        <div class="">
+            <form action="{{ $url }}" method="POST" enctype="multipart/form-data">
                 @csrf
 
                 {{-- ? id_umkm dan id_user hidden --}}

@@ -1,10 +1,15 @@
+@props(['data_produk'])
 <div class="static grid grid-cols-2 gap-4 mt-3">
+    {{ $data_produk }}
     <div>
         <select id="id_produk" name="id_produk[]" class="block w-full rounded">
             <option value="" disabled selected>Pilih Produk</option>
             <option value="" disabled>----------</option>
-            <option value="prod1">Produk 1</option>
-            <option value="prod2">Produk 2</option>
+            {{-- @foreach ( $data_produk as $item)
+            <option value="{{ $item['id_produk'] }}">{{ $item['nama'] }}</option>
+            @endforeach --}}
+            <option value="prod1coba">Produk 1 Coba</option>
+            <option value="prod2coba">Produk 2 Coba</option>
         </select>
     </div>
 
