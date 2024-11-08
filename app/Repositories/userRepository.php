@@ -8,6 +8,7 @@ use App\Models\aw1002_userprofil;
 use App\Libraries\crud;
 use Illuminate\Support\Collection;
 use Illuminate\Http\File;
+use Illuminate\Support\Facades\Storage;
 
 class userRepository implements userRepositoryInterface {
 
@@ -71,24 +72,21 @@ class userRepository implements userRepositoryInterface {
 
     //? get user profil
     public function getProfil(array $where = null): array|Collection|null {
-        // $res = $this->model->where($where);
         if($this->model->where($where)) {
-            return $this->model->where($where)->select(
+            return collect($this->model->where($where)->select(
                 'users.id', 'users.username', 'users.email', 'users.tlp', 'users.password', 'users.roles',
                 'aw1002_userprofil.nama', 'aw1002_userprofil.jk', 'aw1002_userprofil.alamat', 'aw1002_userprofil.foto',
                 'aw1002_userprofil.tempat_lahir', 'aw1002_userprofil.tgl_lahir', 'aw1002_userprofil.id_umkm',
                 'aw1002_userprofil.status', 'aw1002_userprofil.jabatan',
             )
             ->join('aw1002_userprofil', 'aw1002_userprofil.id', '=', 'users.id')
-            ->get();
-            return $res;
+            ->get());
         }
         return null;
     }
 
     public function storeAccount(array $val): String|int {
-        $res1 = crud::procuser(1, $val);
-        if($res1 > 0) {
+        if(crud::procuser(1, $val) > 0) {
             if(crud::procuserprofil(1, ['id' => $res1])) return 1;
             else return 'er02';
         }
@@ -141,7 +139,8 @@ class userRepository implements userRepositoryInterface {
     }
 
     public function createDir(String $username = '') {
-        return File::makeDirectory($this->readDir($username).'/first.md', 0777, true, true);
+        return Storage::put($this->readDir($username).'/ff.md', 'ff.md');
+        // return new File::makeDirectory($this->readDir($username).'/first.md', 0777, true, true);
         // return $this->model->createDir($username);
     }
 

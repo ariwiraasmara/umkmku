@@ -20,14 +20,14 @@ class DetailStaff extends Component {
         if( fun::getRawCookie('islogin') == null ) return redirect('login');
         $this->id = fun::denval($id);
         
-        if(Cache::has('pagedetailstaff_data')) $this->data = Cache::get('pagedetailstaff_data');
+        if(Cache::has('pagedetailstaff_data-'.$this->id)) $this->data = Cache::get('pagedetailstaff_data-'.$this->id);
         else {
             $this->service = new userService();
-            Cache::put('pagedetailstaff_data', $this->service->getStaff($this->id), 1*24*60*60);
-            $this->data = Cache::get('pagedetailstaff_data');
+            Cache::put('pagedetailstaff_data-'.$this->id, $this->service->getStaff($this->id), 1*24*60*60);
+            $this->data = Cache::get('pagedetailstaff_data-'.$this->id);
         }
         
-        $this->title     = 'Detail Staff - '.$this->data[0]['nama'];
+        $this->title     = 'Detail Staff';
         $this->path_foto = '/users/photos/'.$this->data[0]['foto'];
     }
 

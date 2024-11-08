@@ -1,6 +1,7 @@
 {{-- ! Copyright @ Syahri Ramadhan Wiraasmara (ARI) --}}
 <?php
 use App\Libraries\myfunction;
+use Illuminate\Support\Facades\Storage;
 ?>
 <div class="flex flex-col static">
     <div class="grow w-full bg-blue-400 static">
@@ -28,12 +29,12 @@ use App\Libraries\myfunction;
                         @endif
                     </div>
 
-                    <div class="mt-3 flex flex-row justify-between">
-                        <div>
-                            <input wire:model="foto" value="{{ $data[0]['foto'] }}" id="foto" class="mt-1 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" type="file" name="foto" autofocus autocomplete="foto" />
+                    <div class="mt-3 flex flex-row justify-between w-screen">
+                        <div class="w1/2">
+                            <input wire:model="foto" value="{{ $data[0]['foto'] }}" id="foto" class="mt-1 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" type="file" name="foto" style="width: 100%;" />
                         </div>
 
-                        <div>
+                        <div class="w1/2">
                             <x-primary-button class="block w-full justify-center">
                                 <ion-icon name="save-outline" size="" style="font-size : 20px"></ion-icon>
                             </x-primary-button>
@@ -45,6 +46,8 @@ use App\Libraries\myfunction;
             <div class="mt-3 mb-3">
                 <hr/>
             </div>
+
+            {{-- {{ base_path() }} --}}
 
             <form action="/process/user/update" method="POST">
                 @csrf

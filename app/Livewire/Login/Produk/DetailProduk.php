@@ -21,14 +21,14 @@ class DetailProduk extends Component {
         if( fun::getRawCookie('mcr_x_aswq_4') < 3 ) return redirect('dashboard');
         $this->id_umkm = fun::denval($id2);
 
-        if(Cache::has('pagedetailproduk_data')) $this->data = Cache::get('pagedetailproduk_data');
+        if(Cache::has('pagedetailproduk_data-'.$this->id1)) $this->data = Cache::get('pagedetailproduk_data-'.$this->id1);
         else {
             $this->service = new umkmkuService();
-            Cache::put('pagedetailproduk_data', $this->service->getProduk(['id_produk' => fun::denval($id1)]), 1*24*60*60);
-            $this->data = Cache::get('pagedetailproduk_data');
+            Cache::put('pagedetailproduk_data-'.$this->id1, $this->service->getProduk(['id_produk' => fun::denval($id1)]), 1*24*60*60);
+            $this->data = Cache::get('pagedetailproduk_data-'.$this->id1);
         }
 
-        $this->title = 'Detil Produk : '.$this->data[0]['nama'];
+        $this->title = 'Detil Produk';
     }
 
     public function render() {

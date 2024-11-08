@@ -65,6 +65,14 @@ class umkmkuService {
         ]);
     }
 
+    public function getFotoUmkm(String $username): String {
+        return $this->repo_user->readDir($username).'/foto_umkm.png';
+    }
+
+    public function getLogoUmkm(String $username): String {
+        return $this->repo_user->readDir($username).'/logo_umkm.png';
+    }
+
     public function store(array $val): JsonResponse {
         return match($this->repo->store([
             'id_umkm'       => $this->repo->getID($val['id_user'], $val['email']),

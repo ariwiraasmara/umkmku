@@ -6,7 +6,7 @@ use App\Libraries\myfunction;
     <div class="grow w-full bg-blue-400 static">
         <div class="inset-x-0 top-0 h-16 p-2 flex">
             <div class="">
-                <a href="{{ '/umkmku/detil/'.myfunction::enval($data[0]['id_umkm']) }}" class="font-bold p-2 text-white leading-tight">
+                <a href="{{ '/umkmku/detil/'.$data[0]['id_umkm'] }}" class="font-bold p-2 text-white leading-tight">
                     <ion-icon name="arrow-back-outline" style="font-size: 30px; margin-top:8px;"></ion-icon>
                 </a>
             </div>
@@ -59,12 +59,36 @@ use App\Libraries\myfunction;
             </div>
             
             <div class="flex-initial w-50">
-                <a href="{{ '/process/staff/delete/'.myfunction::enval($data[0]['id']).'/'.myfunction::enval($data[0]['id_umkm']) }}">
+                <span onclick="deletePegawai('{{ myfunction::enval($data[0]['id']) }}', '{{ $data[0]['id_umkm'] }}', '{{ $data[0]['nama'] }}')">
                     <x-secondary-button class="ms-3">
                         <ion-icon name="trash-outline" size="large" style="margin-top: 5px;"></ion-icon>
                     </x-secondary-button>
-                </a>
+                </span>
             </div>
         </div>
     </div> 
+
+    <script>
+        function deletePegawai(id1, id2, nama) {
+        let url = `/process/staff/delete/${id1}/${id2}`;
+        Swal.fire({
+            title: `Anda Yakin ini menghapus data pegawai ini? ${nama}`,
+            text: `Anda tidak dapat mengembalikan data ini kembali`,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: "Dihapus!",
+                    text: "Data Pegawai Anda Telah Berhasil Dihapus!",
+                    icon: "success"
+                });
+                window.open(url, value="_self");
+            }
+        });
+    }
+    </script>
 </div>   

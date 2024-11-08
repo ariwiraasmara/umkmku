@@ -3,7 +3,7 @@
     <div class="grow w-full bg-blue-400 static">
         <div class="inset-x-0 top-0 h-16 p-2 flex">
             <div class="">
-                <a href="/umkmku" class="font-bold p-2 text-white leading-tight">
+                <a href="{{ '/umkmku/detil/'.$id_umkm }}" class="font-bold p-2 text-white leading-tight">
                     <ion-icon name="arrow-back-outline" style="font-size: 30px; margin-top:8px;"></ion-icon>
                 </a>
             </div>

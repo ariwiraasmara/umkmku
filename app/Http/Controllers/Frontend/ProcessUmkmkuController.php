@@ -34,7 +34,7 @@ class ProcessUmkmkuController extends Controller {
             'alamat'        => $request->alamat,
             'longitude'     => $request->longitude,
             'latitude'      => $request->latitude,
-        ])) return redirect('/umkmku');
+        ])) return redirect('/umkmku')->with('pesan', 'Berhasil tambah UMKM Baru');
         else return redirect('/dashboard'); 
     }
 

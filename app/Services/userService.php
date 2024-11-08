@@ -153,6 +153,10 @@ class userService {
         };
     }
 
+    public function getFotoProfilUser(String $username): String {
+        return $this->repo->readDir($username).'/foto_profil.png';
+    }
+
     public function deleteAccount(int $id): JsonResponse {
         if(($this->repo->deleteAccount(['id' => $id]))) return jsr::print(['pesan' => 'delete user berhasil', 'success' => 1], 'ok');
         else return jsr::print(['pesan' => 'delete user gagal', 'error' => 1], null);

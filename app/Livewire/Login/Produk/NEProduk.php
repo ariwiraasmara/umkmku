@@ -33,7 +33,7 @@ class NEProduk extends Component {
         $this->title            = $title == null ? 'Produk Baru' : 'Edit Produk';
         $this->isedit           = $title == null ? 'new' : 'edit';
         $this->url              = $title == null ? '/process/produk/baru/'.$id : '/process/produk/update/'.$id;
-        $this->id_umkm          = $title == null ? $id : $id2;
+        $this->id_umkm          = $title == null ? fun::denval($id) : $id2;
 
         $this->service          = $title == null ? '' : new umkmkuService();
         $this->data             = $title == null ? '' : $this->service->getProduk(['id_produk' => fun::denval($id)]);

@@ -16,11 +16,11 @@
         </p>
     </div>
 
-    <div class="static border-b p-2">
+    <div class="static border-b p-2" style="width: 100%;">
         <table class="auto text-left">
             <tbody>
                 <tr>
-                    <td class="font-bold">No. Transaksi</td>
+                    <td class="font-bold">No. Nota</td>
                     <td>:</td>
                     <td>{{ $data['data'][0]['id_transaksi'] }}</td>
                 </tr>

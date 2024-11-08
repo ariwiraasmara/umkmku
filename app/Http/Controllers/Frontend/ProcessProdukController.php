@@ -46,8 +46,8 @@ class ProcessProdukController extends Controller {
         else return redirect('/dashboard');
     }
 
-    public function delete(String $id, String $id2) {
-        if($this->service->deleteProduk(fun::denval($id))) return redirect('/umkmku/detil/'.$id2); 
+    public function delete(String $id1, String $id2) {
+        if($this->service->deleteProduk(fun::denval($id1))) return redirect('/umkmku/detil/'.$id2); 
         else return redirect('/dashboard');
     }
 }

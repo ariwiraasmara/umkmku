@@ -41,12 +41,12 @@ class NEStaff extends Component {
         $this->service          = $title == null ? null : new userService();
         $this->data             = $title == null ? null : $this->service->getStaff(fun::denval($id));
 
-        $this->id_user          = $title == null ? '' : $id;
+        $this->id_user          = $title == null ? null : fun::denval($id);
         $this->username         = $title == null ? '' : $this->data[0]['username'];
         $this->email            = $title == null ? '' : $this->data[0]['email'];
         $this->password         = '';
         $this->tlp              = $title == null ? '' : $this->data[0]['tlp'];
-        $this->roles            = $title == null ? '' : $this->data[0]['roles'];
+        $this->roles            = $title == null ? null : $this->data[0]['roles'];
         $this->nama             = $title == null ? '' : $this->data[0]['nama'];
         $this->jk               = $title == null ? '' : $this->data[0]['jk'];
         $this->alamat           = $title == null ? '' : $this->data[0]['alamat'];

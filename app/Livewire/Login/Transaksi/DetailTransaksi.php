@@ -27,17 +27,17 @@ class DetailTransaksi extends Component {
         $this->id = fun::denval($id);
         $this->title = 'Detail Transaksi '.$id;
 
-        if(Cache::has('pagedetailtransaksi_data')) $this->data = Cache::get('pagedetailtransaksi_data');
+        if(Cache::has('pagedetailtransaksi_data-'.$this->id)) $this->data = Cache::get('pagedetailtransaksi_data-'.$this->id);
         else {
             $this->service = new transaksiService();
-            Cache::put('pagedetailtransaksi_data', $this->service->get($this->id), 1*24*60*60);
-            $this->data = Cache::get('pagedetailtransaksi_data');
+            Cache::put('pagedetailtransaksi_data-'.$this->id, $this->service->get($this->id), 1*24*60*60);
+            $this->data = Cache::get('pagedetailtransaksi_data-'.$this->id);
         }
 
-        if(Cache::has('pagedetailtransaksi_path_logo')) $this->path_logo = Cache::get('pagedetailtransaksi_path_logo');
+        if(Cache::has('pagedetailtransaksi_path_logo-'.$this->id)) $this->path_logo = Cache::get('pagedetailtransaksi_path_logo-'.$this->id);
         else {
-            Cache::put('pagedetailtransaksi_path_logo', '/users/'.fun::getCookie('islogin').'/photos/'.$this->data['data'][0]['logo_umkm'], 1*24*60*60);
-            $this->path_logo = Cache::get('pagedetailtransaksi_path_logo');
+            Cache::put('pagedetailtransaksi_path_logo-'.$this->id, '/users/'.fun::getCookie('islogin').'/photos/'.$this->data['data'][0]['logo_umkm'], 1*24*60*60);
+            $this->path_logo = Cache::get('pagedetailtransaksi_path_logo-'.$this->id);
         }
 
         // $this->pdf = Pdf::loadView('pdf.invoice', $data);

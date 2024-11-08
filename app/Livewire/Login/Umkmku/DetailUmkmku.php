@@ -15,7 +15,6 @@ class DetailUmkmku extends Component {
     protected String|null $id;
     protected String|null $title;
     protected umkmkuService|null $umkmService;
-    protected userService|null $userService;
     protected array|Collection|JsonResponse|null $data;
     protected String|null $path_fotoumkm;
     protected String|null $path_logoumkm;
@@ -24,37 +23,37 @@ class DetailUmkmku extends Component {
         if( fun::getRawCookie('islogin') == null ) return redirect('login');
         if( fun::getRawCookie('mcr_x_aswq_4') < 3 ) return redirect('dashboard');
         if($id < 1 || $id == null) return redirect('umkmku');
-        $this->id = fun::denval($id);
-        $this->title = 'Detil UMKM ';
+        $this->id = $id; //fun::denval($id);
+        $this->title = 'Detil UMKM';
         $this->umkmService = new umkmkuService();
-        $this->userService = new userService();
         // $data = json_decode($res, true);
         // if (isset($data['pesan'], $data['success'], $data['data'])) $this->data_transaksi = $data['data'];
         // else $this->data_transaksi = 0;
 
-        if(Cache::has('pageumkmku_datadetailumkm')) $this->data = Cache::get('pageumkmku_datadetailumkm');
+        // $this->data = $this->umkmService->getAllDetail($this->id);
+        if(Cache::has('pageumkmku_datadetailumkm-'.$this->id)) $this->data = Cache::get('pageumkmku_datadetailumkm-'.$this->id);
         else {
-            Cache::put('pageumkmku_datadetailumkm', $this->umkmService->getAllDetail($this->id), 1*24*60*60);
-            $this->data = Cache::get('pageumkmku_datadetailumkm');
+            Cache::put('pageumkmku_datadetailumkm-'.$this->id, $this->umkmService->getAllDetail($this->id), 1*24*60*60);
+            $this->data = Cache::get('pageumkmku_datadetailumkm-'.$this->id);
         }
 
-        if(Cache::has('pageumkmku_pathfotoumkm')) $this->path_fotoumkm = Cache::get('pageumkmku_pathfotoumkm');
+        if(Cache::has('pageumkmku_pathfotoumkm-'.$this->id)) $this->path_fotoumkm = Cache::get('pageumkmku_pathfotoumkm-'.$this->id);
         else {
-            Cache::put('pageumkmku_pathfotoumkm', $this->userService->readFile(fun::getCookie('mcr_x_aswq_2'), $this->data['data_umkm'][0]['foto_umkm']), 1*24*60*60);
-            $this->path_fotoumkm = Cache::get('pageumkmku_pathfotoumkm');
+            Cache::put('pageumkmku_pathfotoumkm-'.$this->id, $this->umkmService->getFotoUmkm(fun::getCookie('mcr_x_aswq_2')), 1*24*60*60);
+            $this->path_fotoumkm = Cache::get('pageumkmku_pathfotoumkm-'.$this->id);
         }
 
-        if(Cache::has('pageumkmku_pathlogoumkm')) $this->path_logoumkm = Cache::get('pageumkmku_pathlogoumkm');
+        if(Cache::has('pageumkmku_pathlogoumkm-'.$this->id)) $this->path_logoumkm = Cache::get('pageumkmku_pathlogoumkm-'.$this->id);
         else {
-            Cache::put('pageumkmku_pathlogoumkm', $this->userService->readFile(fun::getCookie('mcr_x_aswq_2'), $this->data['data_umkm'][0]['logo_umkm']), 1*24*60*60);
-            $this->path_logoumkm = Cache::get('pageumkmku_pathlogoumkm');
+            Cache::put('pageumkmku_pathlogoumkm-'.$this->id, $this->umkmService->getLogoUmkm(fun::getCookie('mcr_x_aswq_2')), 1*24*60*60);
+            $this->path_logoumkm = Cache::get('pageumkmku_pathlogoumkm-'.$this->id);
         }
     }
 
     public function render() {
     // return '<html>'.$this->data_umkm->get('id_umkm').'</html>';
         return view('livewire.pages.umkmku.detail', [
-            'title'          => $this->title.$this->data['data_umkm'][0]['nama_umkm'], 
+            'title'          => $this->title, 
             'id_user'        => fun::getCookie('mcr_x_aswq_1'),
             'id_umkm'        => $this->data['data_umkm'][0]['id_umkm'],
             'nama_umkm'      => $this->data['data_umkm'][0]['nama_umkm'],

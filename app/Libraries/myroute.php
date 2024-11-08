@@ -18,7 +18,7 @@ class myroute {
 
     // API ROUTES {
         public static function API(string $controller, string $procname = null) {
-            return '\App\Http\Controllers\\'.$controller.'@'.$procname;
+            return '\App\Http\Controllers\Backend\\'.$controller.'@'.$procname;
         }
     // }
 

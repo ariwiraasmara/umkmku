@@ -27,6 +27,7 @@
                 <div>
                     <p><span class="font-bold">Data Input Masuk Ke : {{ $nama_umkm }} </span></p>
                     <p><span class="font-bold">Data Di Input Oleh : {{ $nama_user }} </span></p>
+                    {{-- {{ $data_produk }} --}}
                 </div>
 
                 {{-- ? nama_pelanggan --}}

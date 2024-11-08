@@ -34,7 +34,7 @@ class ProcessTransaksiController extends Controller {
         else return redirect('/dashboard');
     }
 
-    public function delete(Request $request, $id1, $id2) {
+    public function delete(String $id1, String $id2) {
         if($this->service->delete(fun::denval($id1))) return redirect('/umkmku/detil/'.$id2);
         return redirect('/dashboard');
     }

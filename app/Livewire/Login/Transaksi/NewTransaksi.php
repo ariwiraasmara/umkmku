@@ -18,10 +18,11 @@ class NewTransaksi extends Component {
     protected umkmkuService|String|null $umkmService;
     protected array|Collection|JsonResponse|String|null $data_umkm;
     protected array|Collection|JsonResponse|String|null $data_produk;
+    protected array|Collection|JsonResponse|String|null $nama_user;
 
     protected int|null $id_user;
     protected String|null $id_umkm;
-    protected String|null $nama_user;
+    
 
     public function mount(String $id) {
         if( fun::getRawCookie('islogin') == null ) return redirect('login');

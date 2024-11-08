@@ -19,16 +19,20 @@ class Profil extends Component {
     protected String|null $path_foto;
 
     public function mount() {
+        // Cache::flush();
         if( fun::getRawCookie('islogin') == null ) return redirect('login');
         $this->service  = new userService();
         $this->title    = 'Profil';
 
-        $this->data = Cache::get('pageprofil_dataprofil');
-        $this->path_foto = Storage::get('/app/private/users/'.fun::getCookie('mcr_x_aswq_2').'/photos/foto_profil.png'); //Cache::get('pageprofil_pathfoto');
+        $this->path_foto = public_path($this->service->getFotoProfilUser(fun::getCookie('mcr_x_aswq_2')));
+        // $this->service->readDir(fun::getCookie('mcr_x_aswq_2')).'/foto_profil.png';
+        // Storage::get($this->service->readDir(fun::getCookie('mcr_x_aswq_2')).'/foto_profil.png');
+        //'/users/'.fun::getCookie('mcr_x_aswq_2').'/photos/foto_profil.png'; #Storage::get('/app/private/users/'.fun::getCookie('mcr_x_aswq_2').'/photos/foto_profil.png'); //Cache::get('pageprofil_pathfoto');
 
-        if(!Cache::has('pageprofil_dataprofil')) {
-            Cache::put('data_profil', $this->service->getProfil(fun::getCookie('mcr_x_aswq_1')), 1*24*60*60);
-            $this->data = Cache::get('data_profil');
+        if(Cache::has('pageprofil_dataprofil-'.fun::getCookie('mcr_x_aswq_1'))) $this->data = Cache::get('pageprofil_dataprofil-'.fun::getCookie('mcr_x_aswq_1'));
+        else {
+            Cache::put('pageprofil_dataprofil-'.fun::getCookie('mcr_x_aswq_1'), $this->service->getProfil(fun::getCookie('mcr_x_aswq_1')), 1*24*60*60);
+            $this->data = Cache::get('pageprofil_dataprofil-'.fun::getCookie('mcr_x_aswq_1'));
         }
 
         // if(!Cache::has('pageprofil_pathfoto')) {

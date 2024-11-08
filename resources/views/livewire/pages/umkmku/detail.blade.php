@@ -39,7 +39,7 @@ use App\Libraries\myfunction;
                         Foto Belum Ada
                     </h1>
                 @else
-                    <img src="{{ '/users/photos/'.$foto_umkm }}" width="350" height="350" alt="" />
+                    <img src="{{ $path_fotoumkm }}" style="width: 100%;" alt="" />
                 @endif
                 
             </div>
@@ -50,13 +50,14 @@ use App\Libraries\myfunction;
                         Logo Belum Ada
                     </h1>
                 @else
-                    <img src="{{ '/users/photos/'.$logo_umkm }}" width="350" height="350" alt="" />
+                    <img src="{{ $path_logoumkm }}" style="width: 100%;" alt="" />
                 @endif
 
             </div>
         </div>
 
         <div class="mt-3">
+            <p><span class="font-bold">Nama UMKM : </span> {{ $nama_umkm }}</p>
             <p><span class="font-bold">Tanggal Berdiri : </span> {{ $tgl_berdiri }}</p>
             <p><span class="font-bold">Jenis Usaha : </span> {{ $jenis_usaha }}</p>
             <p><span class="font-bold">Deskripsi : </span> {{ $deskripsi }}</p>
@@ -65,25 +66,25 @@ use App\Libraries\myfunction;
         </div>
     </div> 
 
-    <div class="py-6 px-6 mt-3 mb-3 static w-full">
+    <div class="py-6 px-6 mt-3 mb-3 static" style="width: 100%;">
         <nav class="flex flex-row">
-            <div class="basis-1/4 flex-1 px-6">
+            <div class="basis-1/4 flex-1 px-0 w-1/4">
                 <button class="w-full text-white px-4 py-2 bg-gray-500 hover:bg-gray-700 rounded-lg" onclick="openTab('tab1')">
-                    <ion-icon name="fast-food-outline" size="large"></ion-icon> <br/>
+                    <ion-icon name="fast-food-outline"></ion-icon> <br/>
                     Produk
                 </button>
             </div>
 
-            <div class="basis-1/4 flex-1 px-6">
+            <div class="basis-1/4 flex-1 px-0 w-1/4">
                 <button class="w-full text-white px-4 py-2 bg-gray-500 hover:bg-gray-700 rounded-lg" onclick="openTab('tab2')">
-                    <ion-icon name="cash-outline" size="large"></ion-icon> <br/>
+                    <ion-icon name="cash-outline"></ion-icon> <br/>
                     Transaksi
                 </button>
             </div>
 
-            <div class="basis-1/4 flex-1 px-6">
+            <div class="basis-1/4 flex-1 px-0 w-1/4">
                 <button class="w-full text-white px-4 py-2 bg-gray-500 hover:bg-gray-700 rounded-lg" onclick="openTab('tab3')">
-                    <ion-icon name="people-outline" size="large"></ion-icon> <br/>
+                    <ion-icon name="people-outline"></ion-icon> <br/>
                     Pegawai
                 </button>
             </div>
@@ -96,7 +97,6 @@ use App\Libraries\myfunction;
                 </div>
             </a>
 
-            
             @if ($data_produk)
                 @foreach ($data_produk as $dt)
                 <div class="static mt-3 flex flex-row justify-between border-b border-gray-600">
@@ -106,8 +106,7 @@ use App\Libraries\myfunction;
                         </a>
                     </div>
                     <div class="order-last ">
-                        {{-- {{ '/produk/hapus/'.$dt->id_produk }} --}}
-                        <span id="{{ 'prod'.myfunction::enval($dt->id_produk) }}" onclick="deleteProduk({{ 'prod'.myfunction::enval($dt->id_produk) }}, {{ $dt->id_produk }})">
+                        <span id="{{ 'prod'.myfunction::enval($dt->id_produk) }}" onclick="deleteProduk('{{ myfunction::enval($dt->id_produk) }}', '{{ $id_umkm }}')">
                             <ion-icon name="trash-outline" size="large" style="margin-top: 0px;"></ion-icon>
                         </span>
                     </div>
@@ -124,8 +123,6 @@ use App\Libraries\myfunction;
         </div>
 
         <div id="tab2" class="hidden p-4 bg-white border-t border-gray-200 static">
-            
-
             <div class="flex justify-center">
                 <div class="">
                     <select id="tipe_viewtable_transaksi" class="block w-full rounded">
@@ -139,8 +136,8 @@ use App\Libraries\myfunction;
                     </select>
                 </div>
                 <div class="">
-                    <x-secondary-button class="mx-3 block w-full" onclick="viewTable()">
-                        Lihat Tabel
+                    <x-secondary-button class="mx-3 mt-1 block w-full" onclick="viewTable()">
+                        <ion-icon name="eye-outline"></ion-icon>
                     </x-secondary-button>
                 </div>
                 <div class="">
@@ -175,7 +172,7 @@ use App\Libraries\myfunction;
                             </a>
                         </div>
                         <div class="order-last ">
-                            <span href="{{ '/transaksi/hapus/'.myfunction::enval($dt->id_transaksi) }}" id="{{ 'trans'.$dt->id_transaksi }}" onclick="deleteTransaksi({{ 'trans'.$dt->id_transaksi }}, {{ $dt->id_transaksi }})">
+                            <span id="{{ 'trans'.myfunction::enval($dt->id_transaksi) }}" onclick="deleteTransaksi('{{ myfunction::enval($dt->id_transaksi) }}', '{{ $dt->id_transaksi }}')">
                                 <ion-icon name="trash-outline" size="large" style="margin-top: 0px;"></ion-icon>
                             </span>
                         </div>
@@ -207,7 +204,7 @@ use App\Libraries\myfunction;
                             </a>
                         </div>
                         <div class="order-last text-black">
-                            <span href="{{ '/process/staff/delete/'.myfunction::enval($dtu->id).'/'.myfunction::enval($id_umkm) }}" id="{{ 'pegawai'.myfunction::enval($dtu->id) }}" onclick="deletePegawai({{ $dtu->id }}, {{ $dtu->nama }})">
+                            <span id="{{ 'pegawai'.myfunction::enval($dtu->id) }}" onclick="deletePegawai('{{ myfunction::enval($dtu->id) }}', '{{ $id_umkm }}', '{{ $dtu->nama }}')">
                                 <ion-icon name="trash-outline" size="large" style="margin-top: 0px;"></ion-icon>
                             </span>
                         </div>
@@ -244,7 +241,7 @@ use App\Libraries\myfunction;
     }
 
     function deleteProduk(id1, id2, nama) {
-        // document.getElementById(id1)
+        let url = `/process/produk/delete/${id1}/${id2}`;
         Swal.fire({
             title: "Anda yakin ingin menghapus data produk ini? ".nama,
             text: "Anda tidak dapat mengembalikan data ini kembali",
@@ -257,16 +254,17 @@ use App\Libraries\myfunction;
         }).then((result) => {
             if (result.isConfirmed) {
                 Swal.fire({
-                title: "Dihapus!",
-                text: "Data Produk Anda Telah Berhasil Dihapus!",
-                icon: "success"
+                    title: "Dihapus!",
+                    text: "Data Produk Anda Telah Berhasil Dihapus!",
+                    icon: "success"
                 });
+                window.open(url, value="_self");
             }
         });
     }
 
-    function deleteTransaksi(id, nama) {
-        // document.getElementById(id1)
+    function deleteTransaksi(id1, id2) {
+        let url = `/process/transaksi/delete/${id1}/${id2}`;
         Swal.fire({
             title: "Anda yakin ingin menghapus data transaksi ini? ".nama,
             text: "Anda tidak dapat mengembalikan data ini kembali",
@@ -279,19 +277,20 @@ use App\Libraries\myfunction;
         }).then((result) => {
             if (result.isConfirmed) {
                 Swal.fire({
-                title: "Dihapus!",
-                text: "Data Transaksi Anda Telah Berhasil Dihapus!",
-                icon: "success"
+                    title: "Dihapus!",
+                    text: "Data Transaksi Anda Telah Berhasil Dihapus!",
+                    icon: "success"
                 });
+                window.open(url, value="_self");
             }
         });
     }
 
     function deletePegawai(id1, id2, nama) {
-        // document.getElementById(id1)
+        let url = `/process/staff/delete/${id1}/${id2}`;
         Swal.fire({
-            title: "Anda Yakin?",
-            text: `Anda akan menghapus data pegawai ini : ${nama}. Anda Tidak akan dapat setelah menghapus data ini.`,
+            title: `Anda Yakin ini menghapus data pegawai ini? ${nama}`,
+            text: `Anda tidak dapat mengembalikan data ini kembali`,
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
@@ -300,10 +299,11 @@ use App\Libraries\myfunction;
         }).then((result) => {
             if (result.isConfirmed) {
                 Swal.fire({
-                title: "Dihapus!",
-                text: "Data Pegawai Anda Telah Berhasil Dihapus!",
-                icon: "success"
+                    title: "Dihapus!",
+                    text: "Data Pegawai Anda Telah Berhasil Dihapus!",
+                    icon: "success"
                 });
+                window.open(url, value="_self");
             }
         });
     }

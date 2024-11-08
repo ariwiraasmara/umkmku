@@ -31,7 +31,7 @@ class crud {
                 'remember_token'    => null,
                 'roles'             => $val['roles'],
                 'email_verified_at' => $date,
-                'created_at'        => $date
+                // 'created_at'        => $date
             ]);
             return $res->id;
         }
@@ -40,7 +40,7 @@ class crud {
         else if($type == 2) { 
             return User::where('id', '=', $val['id'])->update([
                 $val['field']   => $val['field_values'],
-                'update_at'     => date('Y-m-d H:i:s')
+                // 'update_at'     => date('Y-m-d H:i:s')
             ]);
         }
 

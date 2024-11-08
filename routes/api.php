@@ -13,29 +13,30 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 Route::post('/login', myroute::API('UserController','login'));
 Route::post('/daftar-pengguna-baru', myroute::API('UserController', 'register_dm'));
 
-Route::post('/pengguna/karyawan-baru', myroute::API('UserController', 'register_nondm'));
-Route::put('/pengguna/update/password', myroute::API('UserController','update_password'));
-Route::put('/pengguna/update/telpon', myroute::API('UserController','update_telpon'));
-Route::put('/pengguna/update/profil', myroute::API('UserController','update_profil'));
-Route::delete('/pengguna/hapus', myroute::API('UserController','delete'));
+Route::get('dashboard', myroute::API('UserController', 'dashboard'));
+Route::post('/pengguna/karyawan-baru/{id}', myroute::API('UserController', 'register_nondm'));
+Route::put('/pengguna/update/password/{id}', myroute::API('UserController','update_password'));
+Route::put('/pengguna/update/telpon/{id}', myroute::API('UserController','update_telpon'));
+Route::put('/pengguna/update/profil/{id}', myroute::API('UserController','update_profil'));
+Route::delete('/pengguna/hapus/{id}', myroute::API('UserController','delete'));
 Route::post('/logout', myroute::API('UserController', 'logout'));
 
-Route::get('/umkm/list', myroute::API('UmkmkuController', 'getAll'));
-Route::get('/umkm/detail/{id}', myroute::API('UmkmkuController', 'get'));
+Route::get('/umkm', myroute::API('UmkmkuController', 'getAll'));
+Route::get('/umkm/detail/{id}', myroute::API('UmkmkuController', 'getDetail'));
 Route::post('/umkm/baru', myroute::API('UmkmkuController', 'store'));
-Route::put('/umkm/update', myroute::API('UmkmkuController', 'update'));
-Route::delete('/umkm/delete', myroute::API('UmkmkuController', 'delete'));
+Route::put('/umkm/update/{id}', myroute::API('UmkmkuController', 'update'));
+Route::delete('/umkm/delete/{id}', myroute::API('UmkmkuController', 'delete'));
 
 Route::get('/produk', myroute::API('ProdukkuController', 'getAll'));
-Route::get('/produk/detail', myroute::API('ProdukkuController', 'get'));
+Route::get('/produk/detail/{id}', myroute::API('ProdukkuController', 'getDetail'));
 Route::post('/produk/baru', myroute::API('ProdukkuController', 'store'));
-Route::put('/produk/update', myroute::API('ProdukkuController', 'update'));
-Route::delete('/produk/hapus', myroute::API('ProdukkuController', 'delete'));
+Route::put('/produk/update/{id}', myroute::API('ProdukkuController', 'update'));
+Route::delete('/produk/hapus/{id}', myroute::API('ProdukkuController', 'delete'));
 
 Route::get('/transaksi', myroute::API('TransaksiController', 'getAll'));
-Route::get('/transaksi/detail', myroute::API('TransaksiController', 'get'));
-Route::post('/transaksi/baru', myroute::API('TransaksiController', 'store'));
-Route::delete('/transaksi/hapus', myroute::API('TransaksiController', 'delete'));
+Route::get('/transaksi/detail', myroute::API('TransaksiController', 'getDetail'));
+Route::post('/transaksi/baru/{id}', myroute::API('TransaksiController', 'store'));
+Route::delete('/transaksi/hapus/{id}', myroute::API('TransaksiController', 'delete'));
 
 //? Di bawah ini cuma percobaan
 Route::get('/hello', function () {

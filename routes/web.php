@@ -64,10 +64,10 @@ Route::get('/process/umkm/delete/{id}', myroute::process('ProcessUmkmkuControlle
 
 Route::post('/process/produk/baru/{id}', myroute::process('ProcessProdukController', 'store'));
 Route::post('/process/produk/update/{id}', myroute::process('ProcessProdukController', 'update'));
-Route::get('/process/produk/delete/{id}/{id2}', myroute::process('ProcessProdukController', 'delete'));
+Route::get('/process/produk/delete/{id1}/{id2}', myroute::process('ProcessProdukController', 'delete'));
 
 Route::post('/process/transaksi/baru', myroute::process('ProcessTransaksiController', 'store'));
-Route::post('/process/transaksi/delete/{id}', myroute::process('ProcessTransaksiController', 'delete'));
+Route::post('/process/transaksi/delete/{id1}/{id2}', myroute::process('ProcessTransaksiController', 'delete'));
 
 
 Route::get('/hello-livewire', \App\Livewire\HelloLivewire::class);

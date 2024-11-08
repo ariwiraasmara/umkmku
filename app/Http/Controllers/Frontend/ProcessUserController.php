@@ -114,20 +114,10 @@ class ProcessUserController extends Controller {
         $id = fun::denval($id);
         $file = $request->file('foto');
         if($file->getClientOriginalName() != '' || $file->getClientOriginalName() != null || !is_null($file->getClientOriginalName())) {
-            $file->move($this->service->readDir(fun::getCookie('mcr_x_aswq_2')), $file->getClientOriginalName());
-            // $file = @$_FILES['foto']['name'];
-            // $fileName = time() . '_' . $file->getClientOriginalName(); 
-            // $file->storeAs('public/user/photos/', $fileName); 
-            // $path = $request->foto->storeAs($this->service->readDir(fun::getCookie('mcr_x_aswq_2')), 'foto_profil.png');
-            // return $path;
-            // $file->move($path);
-            // Storage::putFile($this->service->readDir(fun::getCookie('mcr_x_aswq_2')), $file->getClientOriginalName());
-            // $path = Storage::putFile('/users/'.fun::getCookie('mcr_x_aswq_2').'/photos/', $file->getClientOriginalName());
-            $path = Storage::putFileAs('/users/'.fun::getCookie('mcr_x_aswq_2').'/photos', new File('/users/'.fun::getCookie('mcr_x_aswq_2').'/photos/'.$file->getClientOriginalName()), 'foto_profil.jpg');
-
-            $res = $this->service->updateFotoUser($id, $file->getClientOriginalName());
-            // return $res;
-            if($res) return redirect('/profil');
+            if( Storage::putFileAs($this->service->readDir(fun::getCookie('mcr_x_aswq_2')), new File($this->service->readDir(fun::getCookie('mcr_x_aswq_2')).'/'.$file->getClientOriginalName()), 'foto_profil.jpg')
+                &&
+                $this->service->updateFotoUser($id, $file->getClientOriginalName())
+            ) return redirect('/profil');
         }
         else return redirect('/dashboard'); 
     }
