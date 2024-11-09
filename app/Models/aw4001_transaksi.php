@@ -1,6 +1,5 @@
 <?php
-// ! Copyright @ Syahri Ramadhan Wiraasmara (ARI)
-
+//! Copyright @ Syahri Ramadhan Wiraasmara (ARI)
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -13,14 +12,14 @@ class aw4001_transaksi extends Model
     protected $guarded = [
         'id_transaksi',
         'id_umkm',
-        // 'no_nota',
+        'no_nota',
     ];
     protected $table = 'aw4001_transaksi';
     // protected $primaryKey = 'id_transaksi';
     protected $fillable = [
         'id_transaksi',
         'id_umkm',
-        // 'no_nota',
+        'no_nota',
         'tgl',
         'id_user',
         'diskon',

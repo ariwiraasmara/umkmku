@@ -1,5 +1,5 @@
 <?php
-// ! Copyright @ Syahri Ramadhan Wiraasmara (ARI)
+//! Copyright @ Syahri Ramadhan Wiraasmara (ARI)
 namespace App\Libraries;
 
 use Illuminate\Http\Request;

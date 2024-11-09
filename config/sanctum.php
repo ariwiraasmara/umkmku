@@ -1,5 +1,5 @@
 <?php
-
+//! Copyright @ Syahri Ramadhan Wiraasmara (ARI)
 use Laravel\Sanctum\Sanctum;
 
 return [

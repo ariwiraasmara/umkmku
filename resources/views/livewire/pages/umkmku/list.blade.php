@@ -1,4 +1,4 @@
-{{-- ! Copyright @ Syahri Ramadhan Wiraasmara (ARI) --}}
+{{--! Copyright @ Syahri Ramadhan Wiraasmara --}}
 <?php
 use App\Libraries\myfunction;
 ?>
@@ -19,22 +19,6 @@ use App\Libraries\myfunction;
         </div>
     </div>
 
-    @if(Session::has('pesan'))
-        <div id="pesan" class="py-6 px-6 static text-center">
-            <div class="text-white bg-blue-400 rounded-lg">
-                <p class="text-lg font-bold">{{ Session::get('pesan') }}</p>
-
-                <div class="">
-                    <span class="close" onclick="closePesan()">
-                        <ion-icon name="close-circle-outline" size="large"></ion-icon>
-                    </span>
-                </div>
-            </div>
-        </div>
-    @endif
-
-    
-
     <div class="py-6 px-6 static" style="margin-bottom: 60px;">
         @if ($data != null)
             @foreach ($data as $dt)
@@ -46,10 +30,4 @@ use App\Libraries\myfunction;
         {{-- ? Disini menampilkan daftar item list umkm yang dimiliki.  --}}
     </div>
     <x-navbottom/>
-
-    <script>
-    function closePesan() {
-        document.getElementById("pesan").style.display = "none";
-    }
-    </script>
 </div>

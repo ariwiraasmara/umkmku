@@ -1,5 +1,5 @@
 <?php
-
+//! Copyright @ Syahri Ramadhan Wiraasmara (ARI)
 namespace App\Livewire\Login\Transaksi;
 
 use Livewire\Component;
@@ -14,12 +14,12 @@ use Illuminate\Support\Facades\Cache;
 class TransaksiNonDM extends Component {
 
     protected String|null $title;
-    protected userService|null $userService;
-    protected umkmkuService|null $umkmService;
-    protected transaksiService|null $transaksiService;
-    protected array|Collection|JsonResponse|null $data_user;
-    protected array|Collection|JsonResponse|null $data_umkm;
-    protected array|Collection|JsonResponse|null $data_transaksi;
+    protected userService|String|null $userService;
+    protected umkmkuService|String|null $umkmService;
+    protected transaksiService|String|null $transaksiService;
+    protected array|Collection|JsonResponse|String|int|null $data_user;
+    protected array|Collection|JsonResponse|String|int|null $data_umkm;
+    protected array|Collection|JsonResponse|String|int|null $data_transaksi;
 
     public function mount() {
         if( fun::getRawCookie('islogin') == null ) return redirect('login');

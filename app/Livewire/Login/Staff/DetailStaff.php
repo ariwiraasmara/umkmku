@@ -1,4 +1,5 @@
 <?php
+//! Copyright @ Syahri Ramadhan Wiraasmara (ARI)
 namespace App\Livewire\Login\Staff;
 
 use Livewire\Component;
@@ -11,9 +12,9 @@ use App\Libraries\myfunction as fun;
 class DetailStaff extends Component {
 
     protected String|null $title;
-    protected userService|null $service;
-    protected int|null $id;
-    protected array|Collection|JsonResponse|null $data;
+    protected userService|String|null $service;
+    protected String|int|null $id;
+    protected array|Collection|JsonResponse|String|int|null $data;
     protected String|null $path_foto;
 
     public function mount(String $id = null) {

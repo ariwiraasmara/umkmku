@@ -14,7 +14,7 @@ class umkmkuRepository implements umkmkuRepositoryInterface {
         $this->model = new aw2001_umkmku();
     }
 
-    public function getID(int $id_user, string $email): String {
+    public function getID(int $id_user = null, string $email = null): String {
         //* Format id_umkm sebagai contoh : UMKM_fulan@felan.com-001
         $query = $this->model->where(['id' => $id_user])->orderBy('id_umkm', 'desc')->first();
         if($query) {
@@ -28,28 +28,28 @@ class umkmkuRepository implements umkmkuRepositoryInterface {
     }
 
     //? get all umkmku list berdasarkan id_user
-    public function getAll(array $where, String $by = 'id_umkm', String $orderBy = 'asc'): array|Collection|null {
+    public function getAll(array $where = null, String $by = 'id_umkm', String $orderBy = 'asc'): array|Collection|String|int|null {
         if($this->model->where($where)->first()) return $this->model->where($where)->orderBy($by, $orderBy)->get();
         else return 0;
     }
 
     //? get one umkm detail
-    public function get(array $where = null): array|Collection|null {
+    public function get(array $where = null): array|Collection|String|int|null {
         if($this->model->where($where)->first()) return $this->model->where($where)->get();
         else return 0;
     }
 
-    public function store(array $val): int {
+    public function store(array $val = null): String|int {
         if(!empty(crud::procumkmku(1, $val))) return 1;
         else return 0;
     }
 
-    public function update(array $val): int {
+    public function update(array $val = null): String|int {
         if(crud::procumkmku(2, $val)) return 1;
         else return 0;
     }
 
-    public function delete(array $val): int {
+    public function delete(array $val = null): String|int {
         if(crud::procumkmku(3, $val) ) return 1;
         else return 0;
     }

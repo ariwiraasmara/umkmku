@@ -1,5 +1,5 @@
 <?php
-
+//! Copyright @ Syahri Ramadhan Wiraasmara (ARI)
 namespace App\Livewire\Login\Transaksi;
 
 use Livewire\Component;
@@ -13,9 +13,9 @@ use Barryvdh\DomPDF\Facade\Pdf;
 class DetailTransaksi extends Component {
 
     protected String|null $title = 'Detail Transaksi';
-    protected transaksiService|null $service;
-    protected array|Collection|JsonResponse|null $data;
-    protected int|String|null $id;
+    protected transaksiService|String|null $service;
+    protected array|Collection|JsonResponse|String|int|null $data;
+    protected String|int|null $id;
 
     protected $pdf;
     protected $pdf_download;

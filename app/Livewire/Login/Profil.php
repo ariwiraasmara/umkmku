@@ -1,5 +1,5 @@
 <?php
-
+//! Copyright @ Syahri Ramadhan Wiraasmara (ARI)
 namespace App\Livewire\Login;
 
 use Livewire\Component;
@@ -10,12 +10,13 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Http\File;
 use Illuminate\Support\Facades\Storage;
+use Exception;
 
 class Profil extends Component {
 
     protected String|null $title;
-    protected userService|null $service;
-    protected array|Collection|JsonResponse|null $data;
+    protected userService|String|null $service;
+    protected array|Collection|JsonResponse|String|int|null $data;
     protected String|null $path_foto;
 
     public function mount() {

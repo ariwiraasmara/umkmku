@@ -1,5 +1,5 @@
 <?php
-
+//! Copyright @ Syahri Ramadhan Wiraasmara (ARI)
 namespace App\Livewire\Login\Produk;
 
 use Livewire\Component;
@@ -12,8 +12,8 @@ use App\Libraries\myfunction as fun;
 class DetailProduk extends Component {
 
     protected String|null $title;
-    protected umkmkuService|null $service;
-    protected array|Collection|JsonResponse|null $data;
+    protected umkmkuService|String|null $service;
+    protected array|Collection|JsonResponse|String|int|null $data;
     protected String|null $id_umkm;
 
     public function mount(String $id1, String $id2) {

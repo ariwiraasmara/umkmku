@@ -1,8 +1,32 @@
-{{-- ! Copyright @ Syahri Ramadhan Wiraasmara (ARI) --}}
+{{--! Copyright @ Syahri Ramadhan Wiraasmara --}}
 <?php
 use App\Libraries\myfunction;
 ?>
 <nav class="bg-sky-800 bottom-0 fixed w-full z-1">
+
+    @if(Session::has('pesan'))
+    <div id="navpesan" onclick="closePesan()" class="p-3 static text-center text-white" style="background: #37f">
+        <p class="text-lg font-bold">{{ Session:get('pesan') }}</p>
+        <span>
+            <ion-icon name="close-circle-outline" size="large"></ion-icon>
+        </span>
+    </div>
+    @endif
+
+    @if(Session::has('error'))
+    <div id="navpesan" onclick="closePesan()" class="p-3 static text-center text-white" style="background: #f37">
+        <div class="text-white rounded-lg">
+            <p class="text-lg font-bold">{{ Session:get('error') }}</p>
+
+            <div class="">
+                <span class="close" onclick="closePesan()">
+                    <ion-icon name="close-circle-outline" size="large"></ion-icon>
+                </span>
+            </div>
+        </div>
+    </div>
+    @endif
+    
     <div class="inset-x-0 h-16 shadow-lg ">
         <div class="flex flex-row p-4 items-center justify-center">
             <div class="flex-1 w-50 text-center text-white">
@@ -41,4 +65,10 @@ use App\Libraries\myfunction;
             </div>
         </div>
     </div>
+
+    <script>
+    function closePesan() {
+        document.getElementById("navpesan").style.display = "none";
+    }
+    </script>
 </nav>

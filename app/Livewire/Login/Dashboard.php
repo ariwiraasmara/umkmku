@@ -1,5 +1,5 @@
 <?php
-
+//! Copyright @ Syahri Ramadhan Wiraasmara (ARI)
 namespace App\Livewire\Login;
 
 use Livewire\Component;
@@ -10,20 +10,23 @@ use App\Libraries\myfunction as fun;
 use Illuminate\Support\Collection;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Cache;
+use Exception;
 
 class Dashboard extends Component {
 
     protected String|null $title;
-    protected userService|null $serviceUser;
-    protected umkmkuService|null $serviceUMKM;
+    protected userService|String|null $serviceUser;
+    protected umkmkuService|String|null $serviceUMKM;
     protected transaksiService|null $serviceTransaksi;
-    protected array|Collection|JsonResponse|null $data_user;
-    protected array|Collection|JsonResponse|null $data_umkm;
-    protected array|Collection|JsonResponse|null $data_transaksi;
+    protected array|Collection|JsonResponse|String|int|null $data_user;
+    protected array|Collection|JsonResponse|String|int|null $data_umkm;
+    protected array|Collection|JsonResponse|String|int|null $data_transaksi;
     protected String|null $username;
     protected int|null $roles;
 
-    protected $cache;
+    protected String|null $nama;
+    protected String|null $jk;
+    protected String|null $id_umkm;
 
     public function mount() {
         if( fun::getRawCookie('islogin') == null ) return redirect('login');
@@ -71,19 +74,29 @@ class Dashboard extends Component {
             Cache::put('pagedashboard_roles', fun::getCookie('mcr_x_aswq_4'), 1*24*60*60);
             $this->roles    = Cache::get('pagedashboard_roles');
         }
+
+        try {
+            $this->nama = $this->data_user[0]['nama'];
+            $this->jk = $this->data_user[0]['jk'];
+            $this->id_umkm = $this->data_user[0]['id_umkm'];
+        }
+        catch(Exception $e) {
+            $this->nama = null;
+            $this->jk = null;
+            $this->id_umkm = null;
+        }
     }
 
     public function render() {
         return view('livewire.pages.dashboard', [
             'title'         => $this->title,
-            'nama'          => $this->data_user[0]['nama'],
+            'nama'          => $this->nama,
             'username'      => $this->username,
             'roles'         => $this->roles,
-            'jk'            => $this->data_user[0]['jk'],
-            'id_umkm'       => $this->data_user[0]['id_umkm'],
+            'jk'            => $this->jk,
+            'id_umkm'       => $this->id_umkm,
             'data_transaksi'=> $this->data_transaksi,
             'data_umkm'     => $this->data_umkm,
-            'cache' => $this->cache
         ])
         ->layout(
             'layouts.authorized', [

@@ -49,6 +49,7 @@ class transaksiService {
         $id_transaksi = $this->repo->getID($val1['id_user'], $val1['email']);
         if($this->repo->store([
             'id_transaksi'   => $id_transaksi,
+            'no_nota'        => $this->repo->generateNomorNota($val1['id_user']),
             'id_umkm'        => $val1['id_umkm'],
             'id_user'        => $val1['id_user'],
             'diskon'         => $val1['diskon'],

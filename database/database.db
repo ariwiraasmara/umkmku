@@ -1,4 +1,4 @@
--- ! Copyright @ Syahri Ramadhan Wiraasmara (ARI)
+--! Copyright @ Syahri Ramadhan Wiraasmara (ARI)
 create database umkmku;
 create table aw1001_user(
    id_user int(255) not null primary_key auto_increment,

@@ -1,7 +1,8 @@
 <?php
 // ! Copyright Syahri Ramadhan Wiraasmara (ARI)
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Backend;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 // use Illuminate\Support\Facades\Auth;
@@ -13,8 +14,8 @@ use App\Libraries\myfunction as fun;
 // use File;
 class UserController extends Controller {
     //
-    protected $service;
 
+    protected $service;
     public function __construct(userService $service) {
         $this->service = $service;
     }
@@ -24,30 +25,27 @@ class UserController extends Controller {
     }
 
     public function login(Request $request) {
-        $validated = $request->validate([
-            'user'      => 'required|string',
-            'passsword' => 'required|string',
-        ]);
+        // return 'hello login '.$request->user;
+        // $validated = $request->validate([
+        //     'user'      => 'required|string',
+        //     'passsword' => 'required|string',
+        // ]);
 
-        if(!$validated) {
-            // return new JsonResponse(
-            //     ['msg' => 'Anda Tidak Tervalidasi!', 'error' => 1],
-            //     JsonResponse::HTTP_BAD_REQUEST,
-            // );
-            return jsr::print([
-                'pesan' => 'Anda Tidak Tervalidasi!', 
-                'error' => 1
-            ]);
-        }
+        // if(!$validated) {
+        //     return jsr::print([
+        //         'pesan' => 'Anda Tidak Tervalidasi!',
+        //     ]);
+        // }
 
-        $data = $this->service->login($request->user, $request->pass);
-        if($data['success'] == 1) {
+        $data = $this->service->login($request->user, $request->password);
+        // return $data;
+        if($data['success']) {
             fun::setCookie([
                 'islogin'      => 1,
                 "mcr_x_aswq_1" => $data['data'][0]['id'],
                 "mcr_x_aswq_2" => $data['data'][0]['username'],
                 "mcr_x_aswq_3" => $data['data'][0]['email'],
-                // "mcr_x_aswq_5" => $data['success'][0]['remember_token'],
+                "mcr_x_aswq_4" => $data['data'][0]['roles'],
             ], true, 1, 24, 60, 60);
 
             return jsr::print([

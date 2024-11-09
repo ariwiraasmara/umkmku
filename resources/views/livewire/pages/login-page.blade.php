@@ -1,4 +1,4 @@
-{{-- ! Copyright @ Syahri Ramadhan Wiraasmara (ARI) --}}
+{{--! Copyright @ Syahri Ramadhan Wiraasmara --}}
 <div class="flex items-center justify-center">
     <div class="w-full sm:max-w-md mt-6 px-6 py-4 shadow-md overflow-hidden sm:rounded-lg">
         <div class="mt-3">
@@ -58,6 +58,25 @@
                 </div>
             </form>
         </div>
+
+        @if(Session::has('pesan'))
+        <div id="pesan" class="mt-3 p-3 static text-center rounded-lg" onclick="closePesan()" style="background: #f00;">
+            <div class="text-white " >
+                <p class="text-lg font-bold">
+                    {{ Session::get('pesan') }} 
+                    <span class="close font-bold" style="font-size: 18px;">
+                        <ion-icon name="close-circle-outline"></ion-icon>
+                    </span>
+                </p>
+            </div>
+        </div>
+        @endif
     </div>
+
+    <script>
+    function closePesan() {
+        document.getElementById("pesan").style.display = "none";
+    }
+    </script>
 </div>
 

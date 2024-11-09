@@ -1,5 +1,5 @@
 <?php
-
+//! Copyright @ Syahri Ramadhan Wiraasmara (ARI)
 namespace App\Livewire\Login\Umkmku;
 
 use Livewire\Component;
@@ -13,8 +13,8 @@ use Illuminate\Support\Facades\Session;
 class Umkmku extends Component {
     
     protected String|null $title;
-    protected umkmkuService|null $service;
-    protected array|Collection|JsonResponse|null $data;
+    protected umkmkuService|String|null $service;
+    protected array|Collection|JsonResponse|String|int|null $data;
 
     public function mount() {
         // Cache::flush();

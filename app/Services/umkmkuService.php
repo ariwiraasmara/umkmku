@@ -25,20 +25,16 @@ class umkmkuService {
         $this->repo_transaksi = new transaksiRepository();
     }
 
-    public function getAll(array $where = null, String $by = 'id_umkm', String $orderBy = 'asc'): array|Collection|null {
+    public function getAll(array $where = null, String $by = 'id_umkm', String $orderBy = 'asc'): array|Collection|String|int|null {
         return $this->repo->getAll($where, $by, $orderBy);
     }
 
-    public function get(array $where = null): array|Collection|null {
+    public function get(array $where = null): array|Collection|String|int|null {
         return $this->repo->get($where);
     }
 
-    public function getAllProduk(array $where, String $by = 'id_umkm', String $orderBy = 'asc'): array|Collection|null {
-        // return 1;
-        return $this->repo_produk->getAll($where, $by, $orderBy);
-    }
 
-    public function getAllDetail(String $id): array|Collection|null {
+    public function getAllDetail(String $id = null): array|Collection|String|int|null {
         $where = ['id_umkm' => $id];
         $data_umkm = $this->repo->get($where);
         $data_produk = $this->repo_produk->getAll(
@@ -65,15 +61,15 @@ class umkmkuService {
         ]);
     }
 
-    public function getFotoUmkm(String $username): String {
+    public function getFotoUmkm(String $username = null): String {
         return $this->repo_user->readDir($username).'/foto_umkm.png';
     }
 
-    public function getLogoUmkm(String $username): String {
+    public function getLogoUmkm(String $username = null): String {
         return $this->repo_user->readDir($username).'/logo_umkm.png';
     }
 
-    public function store(array $val): JsonResponse {
+    public function store(array $val = null): JsonResponse {
         return match($this->repo->store([
             'id_umkm'       => $this->repo->getID($val['id_user'], $val['email']),
             'id_user'       => $val['id_user'],
@@ -93,7 +89,7 @@ class umkmkuService {
         };
     }
 
-    public function update(array $val): JsonResponse {
+    public function update(array $val = null): JsonResponse {
         return match($this->repo->update([
             'id_umkm'     => $val['id_umkm'],
             'nama_umkm'   => $val['nama_umkm'],
@@ -112,7 +108,7 @@ class umkmkuService {
         };
     }
 
-    public function delete(String $id_umkm): JsonResponse {
+    public function delete(String $id_umkm = null): JsonResponse {
         return match($this->repo->delete(['id_umkm' => $id_umkm])) {
             1 => jsr::print(['pesan' => 'hapus umkm berhasil', 'success' => 1], 'created'),
             default => jsr::print(['pesan' => 'hapus umkm gagal', 'error' => 1], null)
@@ -120,11 +116,15 @@ class umkmkuService {
     }
 
     //? DATA PRODUK NUMPANG DULU DISINI
-    public function getProduk(array $where = null): array|Collection|null {
+    public function getAllProduk(array $where = null, String $by = 'id_umkm', String $orderBy = 'asc'): array|Collection|String|int|null {
+        return $this->repo_produk->getAll($where, $by, $orderBy);
+    }
+
+    public function getProduk(array $where = null): array|Collection|String|int|null {
         return $this->repo_produk->get($where);
     }
 
-    public function storeProduk(array $val): JsonResponse {
+    public function storeProduk(array $val = null): JsonResponse {
         return match($this->repo_produk->store([
             'id_produk'     => $this->repo_produk->getID($val['id_umkm']),
             'id_umkm'       => $val['id_umkm'],
@@ -142,7 +142,7 @@ class umkmkuService {
         };
     }
 
-    public function updateProduk(array $val): JsonResponse {
+    public function updateProduk(array $val = null): JsonResponse {
         return match($this->repo_produk->update([
             'id_produk'   => $val['id_produk'],
             'nama'        => $val['nama'],
@@ -159,7 +159,7 @@ class umkmkuService {
         };
     }
 
-    public function deleteProduk(String $id_produk): JsonResponse {
+    public function deleteProduk(String $id_produk = null): JsonResponse {
         return match($this->repo_produk->delete(['id_produk' => $id_produk])) {
             1 => jsr::print(['pesan' => 'hapus produk berhasil', 'success' => 1], 'created'),
             default => jsr::print(['pesan' => 'hapus produk gagal', 'error' => 1], null)

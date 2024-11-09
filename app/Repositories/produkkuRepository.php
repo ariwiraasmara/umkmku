@@ -15,7 +15,7 @@ class produkkuRepository implements produkkuRepositoryInterface {
         $this->model = new aw3001_produkku();
     }
 
-    public function getID(String $id_umkm):String {
+    public function getID(String $id_umkm = null): String {
         //* Format id_produk sebagai contoh : Produk@UMKM_fulan@felan.com-001.
         $query = $this->model->where(['id_umkm' => $id_umkm])->orderBy('id_produk', 'desc')->first();
         if($query) {
@@ -27,28 +27,28 @@ class produkkuRepository implements produkkuRepositoryInterface {
     }
 
     //? get all produk list berdasarkan id_umkm
-    public function getAll(array $where, String $by = 'id_umkm', String $orderBy = 'asc'): array|Collection|null {
+    public function getAll(array $where = null, String $by = 'id_umkm', String $orderBy = 'asc'): array|Collection|String|int|null {
         if($this->model->where($where)->first()) return $this->model->where($where)->orderBy($by, $orderBy)->get();
         else return null;
     }
 
     //? get one produk detail
-    public function get(array $where = null): array|Collection|null {
+    public function get(array $where = null): array|Collection|String|int|null {
         if($this->model->where($where)->first()) return $this->model->where($where)->get();
         else return null;
     }
 
-    public static function store(array $val): int {
+    public static function store(array $val = null): String|int {
         if(crud::procprodukku(1, $val)) return 1;
         else return 0;
     }
 
-    public function update(array $val): int {
+    public function update(array $val = null): String|int {
         if(crud::procprodukku(2, $val)) return 1;
         else return 0;
     }
 
-    public function delete(array $val): int {
+    public function delete(array $val = null): String|int {
         if(crud::procprodukku(3, $val)) return 1;
         else return 0;
     }

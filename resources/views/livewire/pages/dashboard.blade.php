@@ -1,4 +1,4 @@
-{{-- ! Copyright @ Syahri Ramadhan Wiraasmara (ARI) --}}
+{{--! Copyright @ Syahri Ramadhan Wiraasmara --}}
 <?php
 use App\Libraries\myfunction;
 ?>
@@ -26,7 +26,6 @@ use App\Libraries\myfunction;
     </div>
 
     <div class="py-6 px-6 static" style="margin-bottom: 50px;">
-        {{ $cache }}
         <h2 class="text-black text-xl font-bold">
             Selamat Datang, 
             

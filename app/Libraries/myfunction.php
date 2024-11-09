@@ -4,6 +4,7 @@ namespace App\Libraries;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
+use Exception;
 
 class myfunction {
 

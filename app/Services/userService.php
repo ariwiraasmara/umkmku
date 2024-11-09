@@ -16,7 +16,7 @@ class userService {
         $this->repo = new userRepository();
     }
 
-    public function login(string $user, $pass): array|Collection {
+    public function login(String $user = null, String $pass = null): array|Collection {
         $where = array([
             ['username' => $user],
             'or',
@@ -24,8 +24,8 @@ class userService {
         ]);
         $cekUser = $this->repo->get($where);
             
-        if( is_null($cekUser) ) return jsr::print(['error' => 1]); //'Wrong Username / Email';
-        if (!Hash::check($pass, $cekUser[0]['password'])) return jsr::print(['error' => 2]); //'Wrong Password!';
+        if( is_null($cekUser) ) return collect(['pesan' => 'Username / Email Salah!', 'error' => 1]); //'Wrong Username / Email';
+        if (!Hash::check($pass, $cekUser[0]['password'])) return collect(['pesan' => 'Password Salah! Silahkan Coba Lagi!', 'error' => 2]); //'Wrong Password!';
         // if( !($pass == fun::decrypt($cekUser[0]['password'])) ) return jsr::print(['error' => 2]); //'Wrong Password!';
         // return 'ok';
         return collect([
@@ -35,19 +35,19 @@ class userService {
         ], 'ok');
     }
 
-    public function getProfil(int $id): array|Collection|null {
+    public function getProfil(int $id = null): array|Collection|String|int|null {
         return $this->repo->getProfil(['users.id' => $id]);
     }
 
-    public function getAllStaff(String $id): array|Collection|null {
+    public function getAllStaff(String $id = null): array|Collection|String|int|null {
         return $this->repo->getAllStaff($id, 'nama', 'asc');
     }
 
-    public function getStaff(int $id): array|Collection|null {
+    public function getStaff(int $id = null): array|Collection|String|int|null {
         return $this->repo->getStaff($id);
     }
 
-    public function storeAccount(string $username, string $email, string $password, $roles): JsonResponse {
+    public function storeAccount(String $username = null, String $email = null, String $password = null, int $roles = null): Collection|JsonResponse|null {
         // return 'in service username : '. $username;
         if($this->repo->get(['username' => $username])) {
             if($this->repo->get(['email' => $email])) {
@@ -74,7 +74,7 @@ class userService {
         }
     }
 
-    public function updateAccount(int $id, String $field, String $field_value): JsonResponse {
+    public function updateAccount(int $id = null, String $field = null, String $field_value = null): Collection|JsonResponse|null {
         return match($this->repo->updateAccount([
             'id' => $id,
             'field' => $field, 
@@ -85,7 +85,7 @@ class userService {
         };
     }
 
-    public function new_staff(array $val): JsonResponse {
+    public function new_staff(array $val = null): Collection|JsonResponse|null {
         $jabatan = $val['roles'] == 3 ? 'Staff Senior' : 'Staff Junior';
         return match($this->repo->storeNewStaff(
             [
@@ -106,7 +106,7 @@ class userService {
         };
     }
 
-    public function updateStaff(array $val): JsonResponse {
+    public function updateStaff(array $val = null): Collection|JsonResponse|null {
         // return $val;
         $jabatan = $val['roles'] == 3 ? 'Staff Senior' : 'Staff Junior';
         return match($this->repo->updateStaff([
@@ -124,7 +124,7 @@ class userService {
         };
     }
 
-    public function updateProfil(array $val): JsonResponse {
+    public function updateProfil(array $val = null): Collection|JsonResponse|null {
         return match($this->repo->updateProfilUser([
             'id'            => $val['id'],
             'nama'          => $val['nama'],
@@ -142,7 +142,7 @@ class userService {
         };
     }
 
-    public function updateFotoUser(int $id, String $values): JsonResponse {
+    public function updateFotoUser(int $id = null, String $values = null): Collection|JsonResponse|null {
         return match($this->repo->updateFieldProfilUser([
             'id'            => $id, 
             'field'         => 'foto', 
@@ -153,24 +153,24 @@ class userService {
         };
     }
 
-    public function getFotoProfilUser(String $username): String {
+    public function getFotoProfilUser(String $username = null): String {
         return $this->repo->readDir($username).'/foto_profil.png';
     }
 
-    public function deleteAccount(int $id): JsonResponse {
+    public function deleteAccount(int $id = null): JsonResponse {
         if(($this->repo->deleteAccount(['id' => $id]))) return jsr::print(['pesan' => 'delete user berhasil', 'success' => 1], 'ok');
         else return jsr::print(['pesan' => 'delete user gagal', 'error' => 1], null);
     }
 
-    public function createDir(String $username = '') {
+    public function createDir(String $username = null): bool {
         return $this->repo->createDir($username);
     }
 
-    public function readDir(String $username = ''): String {
+    public function readDir(String $username = null): String {
         return $this->repo->readDir($username);
     }
 
-    public function deleteDir(String $username = '') {
+    public function deleteDir(String $username = null): bool {
         return $this->repo->deleteDir($username);
     }
 
@@ -178,11 +178,11 @@ class userService {
         return $this->repo->readFile($username, $file);
     }
 
-    public function getFile(int $id, String $username): String {
+    public function getFile(int $id = null, String $username = null): String {
         return $this->repo->getFile($id, $username);
     }
 
-    public function uploadFile($username, $file) {
+    public function uploadFile($username = null, $file = null) {
         return $this->repo->uploadFile($username, $file);
     }
 

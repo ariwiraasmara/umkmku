@@ -1,4 +1,5 @@
 <?php
+//! Copyright @ Syahri Ramadhan Wiraasmara (ARI)
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
@@ -9,6 +10,7 @@ use App\Libraries\myfunction as fun;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 class ProcessUserController extends Controller {
     //
@@ -20,7 +22,6 @@ class ProcessUserController extends Controller {
 
     public function login(Request $request) {
         $data = $this->service->login($request->user, $request->password);
-        // return $data;
         if($data['success'] == 1) {
             $time = 1;
             if($request->remember) $time = 3560;
@@ -36,6 +37,7 @@ class ProcessUserController extends Controller {
 
             return redirect('dashboard');
         }
+        return redirect('login')->with('pesan', $data->get('pesan'));
     }
 
     public function logout(Request $request) {

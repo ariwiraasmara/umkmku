@@ -1,5 +1,5 @@
 <?php
-
+//! Copyright @ Syahri Ramadhan Wiraasmara (ARI)
 namespace App\Livewire\Login\Umkmku;
 
 use Livewire\Component;
@@ -14,8 +14,8 @@ class DetailUmkmku extends Component {
 
     protected String|null $id;
     protected String|null $title;
-    protected umkmkuService|null $umkmService;
-    protected array|Collection|JsonResponse|null $data;
+    protected umkmkuService|String|null $umkmService;
+    protected array|Collection|JsonResponse|String|int|null $data;
     protected String|null $path_fotoumkm;
     protected String|null $path_logoumkm;
 

@@ -1,5 +1,5 @@
 <?php
-
+//! Copyright @ Syahri Ramadhan Wiraasmara (ARI)
 use Illuminate\Http\Request;
 
 define('LARAVEL_START', microtime(true));

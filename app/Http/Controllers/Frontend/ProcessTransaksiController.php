@@ -1,5 +1,5 @@
 <?php
-
+//! Copyright @ Syahri Ramadhan Wiraasmara (ARI)
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
@@ -19,7 +19,6 @@ class ProcessTransaksiController extends Controller {
         // return $request;
         if($this->service->store(
         [
-            'id_transaksi'   => $request->id_transaksi,
             'email'          => fun::getCookie('mcr_x_aswq_3'),
             'id_umkm'        => $request->id_umkm,
             'id_user'        => fun::getCookie('mcr_x_aswq_1'),

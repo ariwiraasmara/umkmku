@@ -1,5 +1,5 @@
 <?php
-
+//! Copyright @ Syahri Ramadhan Wiraasmara (ARI)
 namespace App\Livewire\Login\Transaksi;
 
 use Livewire\Component;
@@ -16,12 +16,12 @@ class NewTransaksi extends Component {
     
     protected userService|String|null $userService;
     protected umkmkuService|String|null $umkmService;
-    protected array|Collection|JsonResponse|String|null $data_umkm;
-    protected array|Collection|JsonResponse|String|null $data_produk;
-    protected array|Collection|JsonResponse|String|null $nama_user;
+    protected array|Collection|JsonResponse|String|int|null $data_umkm;
+    protected array|Collection|JsonResponse|String|int|null $data_produk;
+    protected array|Collection|JsonResponse|String|int|null $nama_user;
 
-    protected int|null $id_user;
-    protected String|null $id_umkm;
+    protected String|int|null $id_user;
+    protected String|int|null $id_umkm;
     
 
     public function mount(String $id) {
