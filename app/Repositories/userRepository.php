@@ -87,7 +87,7 @@ class userRepository implements userRepositoryInterface {
 
     public function storeAccount(array $val = null): String|int|null {
         $res1 = crud::procuser(1, $val);
-        if( $res1 > 0) {
+        if($res1 > 0) {
             if(crud::procuserprofil(1, ['id' => $res1])) return 1;
             else return 'er02';
         }

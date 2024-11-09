@@ -18,7 +18,7 @@ Route::put('/pengguna/update/password/{id}', myroute::API('UserController','upda
 Route::put('/pengguna/update/telpon/{id}', myroute::API('UserController','update_telpon'));
 Route::put('/pengguna/update/profil/{id}', myroute::API('UserController','update_profil'));
 Route::delete('/pengguna/hapus/{id}', myroute::API('UserController','delete'));
-Route::post('/logout', myroute::API('UserController', 'logout'));
+Route::get('/logout', myroute::API('UserController', 'logout'));
 
 Route::get('/umkm', myroute::API('UmkmkuController', 'getAll'));
 Route::get('/umkm/detail/{id}', myroute::API('UmkmkuController', 'getDetail'));

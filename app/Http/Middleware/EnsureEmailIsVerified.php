@@ -1,5 +1,5 @@
 <?php
-
+//! Copyright Syahri Ramadhan Wiraasmara (ARI)
 namespace App\Http\Middleware;
 
 use Closure;
@@ -16,6 +16,8 @@ class EnsureEmailIsVerified
      */
     public function handle(Request $request, Closure $next): Response
     {
+        
+        //? "$request->user()" didapat dari "Auth()" 
         if (! $request->user() ||
             ($request->user() instanceof MustVerifyEmail &&
             ! $request->user()->hasVerifiedEmail())) {
