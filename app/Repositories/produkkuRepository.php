@@ -38,17 +38,17 @@ class produkkuRepository implements produkkuRepositoryInterface {
         else return null;
     }
 
-    public static function store(array $val = null): String|int {
+    public static function store(array $val = null): String|int|null {
         if(crud::procprodukku(1, $val)) return 1;
         else return 0;
     }
 
-    public function update(array $val = null): String|int {
+    public function update(array $val = null): String|int|null {
         if(crud::procprodukku(2, $val)) return 1;
         else return 0;
     }
 
-    public function delete(array $val = null): String|int {
+    public function delete(array $val = null): String|int|null {
         if(crud::procprodukku(3, $val)) return 1;
         else return 0;
     }

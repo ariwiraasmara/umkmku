@@ -5,14 +5,15 @@ use App\Libraries\myfunction as fun;
 use Illuminate\Support\Facades\Hash;
 class cookies {
 
-    protected String|int|bool $islogin;
-    protected String|int|bool $key1;
-    protected String|int|bool $key2;
-    protected String|int|bool $key3;
-    protected String|int|bool $key4;
+    protected String|float|int|bool $islogin;
+    protected String|float|int|bool $key;
 
-    public function islogin() {
+    public function islogin(): String {
         return fun::toMD5(fun::enval('islogin'));
+    }
+
+    public function key(String $key): String {
+        return fun::toMD5(fun::enval($key));
     }
 }
 ?>

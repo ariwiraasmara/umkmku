@@ -1,4 +1,4 @@
-{{--! Copyright @ Syahri Ramadhan Wiraasmara --}}
+{{--! Copyright @ Syahri Ramadhan Wiraasmara (ARI) --}}
 <?php
 use App\Libraries\myfunction;
 use Illuminate\Support\Facades\Storage;

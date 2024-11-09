@@ -7,14 +7,14 @@ interface transaksiRepositoryInterface {
     public function generateNomorNota(int $id_user): String;
     public function getIDDetail(String $id_transaksi = null, int $x): String;
 
-    public function getAll(array $where = null, String $by = 'id_transaksi', String $orderBy = 'asc'): array|Collection|null;
-    public function get(array $where = null): array|Collection|null;
-    public function getDetail(String $id_transaksi): array|Collection|null;
+    public function getAll(array $where = null, String $by = 'id_transaksi', String $orderBy = 'asc'): array|Collection|String|int|null;
+    public function get(array $where = null): array|Collection|String|int|null;
+    public function getDetail(String $id_transaksi): array|Collection|String|int|null;
     
-    public function store(array $val);
-    public function storeDetail(array $val): int;
+    public function store(array $val): String|int|null;
+    public function storeDetail(array $val): String|int|null;
 
     // di transaksi ini tidak update namun ada delete
-    public function delete(array $val): int;
+    public function delete(array $val): String|int|null;
 }
 ?>

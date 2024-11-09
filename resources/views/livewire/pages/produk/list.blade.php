@@ -1,4 +1,4 @@
-{{--! Copyright @ Syahri Ramadhan Wiraasmara --}}
+{{--! Copyright @ Syahri Ramadhan Wiraasmara (ARI) --}}
 <div class="flex flex-col static">
     <div class="grow w-full bg-blue-400 static">
         <div class="inset-x-0 top-0 h-16 p-2 flex justify-between">

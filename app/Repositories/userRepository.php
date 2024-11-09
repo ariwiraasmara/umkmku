@@ -85,7 +85,7 @@ class userRepository implements userRepositoryInterface {
         return null;
     }
 
-    public function storeAccount(array $val = null): String|int {
+    public function storeAccount(array $val = null): String|int|null {
         $res1 = crud::procuser(1, $val);
         if( $res1 > 0) {
             if(crud::procuserprofil(1, ['id' => $res1])) return 1;
@@ -94,17 +94,17 @@ class userRepository implements userRepositoryInterface {
         else return 'er01';
     }
 
-    public function updateAccount(array $val = null): String|int {
+    public function updateAccount(array $val = null): String|int|null {
         if(crud::procuser(2, $val)) return 1;
         else return 0;
     }
 
-    public function deleteAccount(array $val = null): String|int {
+    public function deleteAccount(array $val = null): String|int|null {
         if(crud::procuser(3, $val)) return 1;
         else return 0;
     }
 
-    public function storeNewStaff(array $val1 = null, array $val2 = null): String|int {
+    public function storeNewStaff(array $val1 = null, array $val2 = null): String|int|null {
         $res1 = crud::procuser(1, $val1);
         if($res1 > 0) {
             if(crud::procuserprofil(3, [
@@ -119,22 +119,22 @@ class userRepository implements userRepositoryInterface {
         else return 'er01';
     }
 
-    public function updateStaff(array $val1 = null, array $val2 = null): String|int {
+    public function updateStaff(array $val1 = null, array $val2 = null): String|int|null {
         if(crud::procuser(2, $val1) && crud::procuserprofil(4, $val2)) return 1;
         else return 0;
     }
 
-    public function updateProfilUser(array $val = null): String|int {
+    public function updateProfilUser(array $val = null): String|int|null {
         if(crud::procuserprofil(2, $val)) return 1;
         else return 0;
     }
 
-    public function updateFieldProfilUser(array $val = null): String|int {
+    public function updateFieldProfilUser(array $val = null): String|int|null {
         if(crud::procuserprofil(5, $val)) return 1;
         else return 0;
     }
 
-    public function deleteProfilUser(array $val = null): String|int {
+    public function deleteProfilUser(array $val = null): String|int|null {
         if(crud::procuserprofil(4, $val)) return 1;
         else return 0;
     }

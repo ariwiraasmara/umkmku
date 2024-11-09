@@ -1,4 +1,4 @@
-{{--! Copyright @ Syahri Ramadhan Wiraasmara --}}
+{{--! Copyright @ Syahri Ramadhan Wiraasmara (ARI) --}}
 <div class="static grid grid-cols-2 gap-4">
     <div>
         <select id="id_produk" name="id_produk[]" class="block mt-1 w-full rounded">

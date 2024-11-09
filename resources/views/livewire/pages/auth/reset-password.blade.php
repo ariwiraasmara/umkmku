@@ -1,4 +1,4 @@
-{{--! Copyright @ Syahri Ramadhan Wiraasmara --}}
+{{--! Copyright @ Syahri Ramadhan Wiraasmara (ARI) --}}
 <?php
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\Hash;

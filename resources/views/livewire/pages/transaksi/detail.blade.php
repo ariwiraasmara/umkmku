@@ -1,4 +1,4 @@
-{{--! Copyright @ Syahri Ramadhan Wiraasmara --}}
+{{--! Copyright @ Syahri Ramadhan Wiraasmara (ARI) --}}
 <div>
     {{-- {{ $data }} --}}
     <div class="flex flex-col static items-center justify-center p-2 border-b">

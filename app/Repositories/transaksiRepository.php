@@ -65,7 +65,7 @@ class transaksiRepository implements transaksiRepositoryInterface {
         else return null;
     }
 
-    public function get(array $where = null): array|Collection|null {
+    public function get(array $where = null): array|Collection|String|int|null {
         if($this->model->where($where)->first()) {
             return $this->model
                     ->where($where)
@@ -77,7 +77,7 @@ class transaksiRepository implements transaksiRepositoryInterface {
     }
 
     //? get one transaksi dan detailnya
-    public function getDetail(String $id_transaksi): array|Collection|null {
+    public function getDetail(String $id_transaksi): array|Collection|String|int|null {
         if($this->model_detail->where(['aw4002_detailtransaksi.id_transaksi' => $id_transaksi])) {
             $res = $this->model_detail->where(['aw4002_detailtransaksi.id_transaksi' => $id_transaksi]);
             
@@ -151,17 +151,17 @@ class transaksiRepository implements transaksiRepositoryInterface {
         else return null;
     }
 
-    public function store(array $val): int {
+    public function store(array $val): String|int|null {
         if(crud::proctransaksi(1, $val)) return 1;
         else return 0;
     }
 
-    public function storeDetail(array $val): int {
+    public function storeDetail(array $val): String|int|null {
         if(crud::procdetailtransaksi(1, $val)) return 1;
         else return 0;
     }
 
-    public function delete(array $val): int {
+    public function delete(array $val): String|int|null {
         if(crud::procprodukku(2, $val)) return 1;
         else return 0;
     }

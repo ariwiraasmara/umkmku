@@ -10,15 +10,15 @@ interface userRepositoryInterface {
     public function getStaff(int $id = null): array|Collection|String|int|null;
     public function getProfil(array $where = null): array|Collection|String|int|null;
     
-    public function storeAccount(array $val = null): String|int;
-    public function updateAccount(array $val = null): String|int;
-    public function deleteAccount(array $val = null): String|int;
+    public function storeAccount(array $val = null): String|int|null;
+    public function updateAccount(array $val = null): String|int|null;
+    public function deleteAccount(array $val = null): String|int|null;
 
-    public function storeNewStaff(array $val1 = null, array $val2 = null): String|int;
-    public function updateStaff(array $val1 = null, array $val2 = null): String|int;
+    public function storeNewStaff(array $val1 = null, array $val2 = null): String|int|null;
+    public function updateStaff(array $val1 = null, array $val2 = null): String|int|null;
 
-    public function updateProfilUser(array $val = null): String|int;
-    public function deleteProfilUser(array $val = null): String|int;
+    public function updateProfilUser(array $val = null): String|int|null;
+    public function deleteProfilUser(array $val = null): String|int|null;
 
     public function createDir(String $username = null);
     public function readDir(String $username = null): String;

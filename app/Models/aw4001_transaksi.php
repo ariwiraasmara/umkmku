@@ -23,6 +23,7 @@ class aw4001_transaksi extends Model
         'tgl',
         'id_user',
         'diskon',
+        'nama_pelanggan',
         'uang_diterima'
     ];
 
