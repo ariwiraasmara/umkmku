@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Libraries\myfunction as fun;
 
 class LupaPassword extends Component {
+    
     public String $title = 'Lupa Password';
     public function render() {
         return view('livewire.pages.lupa-password', [

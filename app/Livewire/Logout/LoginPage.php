@@ -8,8 +8,6 @@ use App\Libraries\myfunction as fun;
 class LoginPage extends Component {
 
     protected String $title = 'Login';
-    protected $redis;
-
     public function mount() {
         if( fun::getRawCookie('islogin') != null ) return redirect('dashboard');
     }
