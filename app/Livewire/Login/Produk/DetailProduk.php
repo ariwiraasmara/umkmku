@@ -19,16 +19,10 @@ class DetailProduk extends Component {
     public function mount(String $id1, String $id2) {
         if( fun::getRawCookie('islogin') == null ) return redirect('login');
         if( fun::getRawCookie('mcr_x_aswq_4') < 3 ) return redirect('dashboard');
-        $this->id_umkm = fun::denval($id2);
-
-        if(Cache::has('pagedetailproduk_data-'.$this->id1)) $this->data = Cache::get('pagedetailproduk_data-'.$this->id1);
-        else {
-            $this->service = new umkmkuService();
-            Cache::put('pagedetailproduk_data-'.$this->id1, $this->service->getProduk(['id_produk' => fun::denval($id1)]), 1*24*60*60);
-            $this->data = Cache::get('pagedetailproduk_data-'.$this->id1);
-        }
-
         $this->title = 'Detil Produk';
+        $this->id_umkm = fun::denval($id2);
+        $this->service = new umkmkuService();
+        $this->data = $this->service->getProduk(['id_produk' => fun::denval($id1)]);
     }
 
     public function render() {
@@ -39,6 +33,7 @@ class DetailProduk extends Component {
         ])
         ->layout('layouts.authorized', [
             'pagetitle'     => $this->title.' | UMKMKU',
+            'uniquekey'     => fun::random('combwisp', 60),
             'description'   => 'UMKMKU adalah sebuah aplikasi berbasis website untuk pelaku usaha UMKM dan digunakan oleh mereka (sebagai user). Aplikasi ini bisa digunakan untuk berbagai jenis umkm dan dapat diakses di berbagai device dan platform.',
             'keywords'      => 'UMKMKU, Aplikasi UMKM, Website UMKM, Aplikasi untuk pengusaha kecil dan menengah kebawah, Website untuk pengusaha kecil dan menengah kebawah, Platform UMKM kecil dan menengah ke bawah.',
             'copyright'     => 'Copyright '.date('Y').' @ Syahri Ramadhan Wiraasmara (ARI)'

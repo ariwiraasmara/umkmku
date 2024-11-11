@@ -1,4 +1,5 @@
 {{--! Copyright @ Syahri Ramadhan Wiraasmara (ARI) --}}
+@if( isset($uniquekey) )
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
@@ -7,6 +8,7 @@
         <title>{{ $pagetitle }}</title>
         <meta name="description" content="{{ $description }}">
         <meta name="keywords" content="{{ $keywords }}" />
+        <meta name="uniquekey" content="{{ $uniquekey }}" />
         <meta name="author" content="Syahri Ramadhan Wiraasmara (ARI)">
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <meta content="IE=edge" http-equiv="x-ua-compatible">
@@ -44,3 +46,18 @@
 
     </footer>
 </html>
+@else
+<html>
+    <head>
+        <style>
+            body {
+                background: black;
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <img src="https://images.pexels.com/photos/1089438/pexels-photo-1089438.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" />
+    </body>
+</html>
+@endif

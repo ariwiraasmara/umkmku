@@ -9,7 +9,7 @@ use App\Repositories\transaksiRepository;
 use App\Libraries\jsr;
 use Illuminate\Support\Collection;
 use Illuminate\Http\JsonResponse;
-// use App\Libraries\myfunction as fun;
+use App\Libraries\myfunction as fun;
 
 class umkmkuService {
 
@@ -71,8 +71,8 @@ class umkmkuService {
 
     public function store(array $val = null): JsonResponse {
         return match($this->repo->store([
-            'id_umkm'       => $this->repo->getID($val['id_user'], $val['email']),
-            'id_user'       => $val['id_user'],
+            'id_umkm'       => $this->repo->getID(fun::getCookie('mcr_x_aswq_1'), fun::getCookie('mcr_x_aswq_2')),
+            'id_user'       => fun::getCookie('mcr_x_aswq_1'),
             'nama_umkm'     => $val['nama_umkm'],
             'tgl_berdiri'   => $val['tgl_berdiri'],
             'jenis_usaha'   => $val['jenis_usaha'],

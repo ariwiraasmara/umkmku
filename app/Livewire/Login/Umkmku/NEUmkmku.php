@@ -68,9 +68,9 @@ class NEUmkmku extends Component {
             $this->latitude     = null;
         }
         else {
-            $this->title        = 'UMKM Baru';
-            $this->isedit       = 'new';
-            $this->url          = '/process/umkm/baru';
+            $this->title        = 'Edit UMKM';
+            $this->isedit       = 'edit';
+            $this->url          = '/process/umkm/update/'.$id;
             $this->service      = new umkmkuService();
             $this->data         = $this->service->get(['id_umkm' => fun::denval($id)]);
             try {
@@ -122,6 +122,7 @@ class NEUmkmku extends Component {
         ])
         ->layout('layouts.authorized', [
             'pagetitle'     => $this->title.' | UMKMKU',
+            'uniquekey'     => fun::random('combwisp', 60),
             'description'   => 'UMKMKU adalah sebuah aplikasi berbasis website untuk pelaku usaha UMKM dan digunakan oleh mereka (sebagai user). Aplikasi ini bisa digunakan untuk berbagai jenis umkm dan dapat diakses di berbagai device dan platform.',
             'keywords'      => 'UMKMKU, Aplikasi UMKM, Website UMKM, Aplikasi untuk pengusaha kecil dan menengah kebawah, Website untuk pengusaha kecil dan menengah kebawah, Platform UMKM kecil dan menengah ke bawah.',
             'copyright'     => 'Copyright '.date('Y').' @ Syahri Ramadhan Wiraasmara (ARI)'

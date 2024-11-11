@@ -14,17 +14,16 @@ class umkmkuRepository implements umkmkuRepositoryInterface {
         $this->model = new aw2001_umkmku();
     }
 
-    public function getID(int $id_user = null, string $email = null): String {
+    public function getID(int $id_user = null, string $username = null): String {
         //* Format id_umkm sebagai contoh : UMKM_fulan@felan.com-001
         $query = $this->model->where(['id' => $id_user])->orderBy('id_umkm', 'desc')->first();
         if($query) {
             $id_umkm = $query->id_umkm;
             $strpos = (int)strpos($id_umkm, "-") + 1; //? => 001
             $counter = (int)substr($id_umkm, $strpos)+1;
-            return 'UMKM_'.$email.'-'.str_pad($counter, 3, "0", STR_PAD_LEFT);
-
+            return 'UMKM_'.$id_user.$username.'-'.str_pad($counter, 3, "0", STR_PAD_LEFT);
         }
-        else return 'UMKM_'.$email.'-001';
+        else return 'UMKM_'.$id_user.$username.'-001';
     }
 
     //? get all umkmku list berdasarkan id_user

@@ -298,7 +298,7 @@ class myfunction {
 
     public static function setCookie($array, $isencrypt, $hari=1, $jam=24, $menit=60, $detik=60) {
         foreach($array as $arr => $val) {
-            if($isencrypt) setcookie($arr, self::encrypt(self::enval($val)), time() + ($hari * $jam * $menit * $detik), "/"); // 86400 = 1 day
+            if($isencrypt) setcookie($arr, self::encrypt(self::enval($val)), time() + ($hari * $jam * $menit * $detik), "/", '.ariwiraasmara.com', true, true); // 86400 = 1 day
             else setcookie($arr, $val, time() + ($hari * $jam * $menit * $detik), "/"); // 86400 = 1 day
         }
     }

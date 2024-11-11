@@ -20,14 +20,8 @@ class DetailStaff extends Component {
     public function mount(String $id = null) {
         if( fun::getRawCookie('islogin') == null ) return redirect('login');
         $this->id = fun::denval($id);
-        
-        if(Cache::has('pagedetailstaff_data-'.$this->id)) $this->data = Cache::get('pagedetailstaff_data-'.$this->id);
-        else {
-            $this->service = new userService();
-            Cache::put('pagedetailstaff_data-'.$this->id, $this->service->getStaff($this->id), 1*24*60*60);
-            $this->data = Cache::get('pagedetailstaff_data-'.$this->id);
-        }
-        
+        $this->service = new userService();
+        $this->data = $this->service->getStaff($this->id);
         $this->title     = 'Detail Staff';
         $this->path_foto = '/users/photos/'.$this->data[0]['foto'];
     }
@@ -39,6 +33,7 @@ class DetailStaff extends Component {
         ])
         ->layout('layouts.authorized', [
             'pagetitle'     => $this->title.' | UMKMKU',
+            'uniquekey'     => fun::random('combwisp', 60),
             'description'   => 'UMKMKU adalah sebuah aplikasi berbasis website untuk pelaku usaha UMKM dan digunakan oleh mereka (sebagai user). Aplikasi ini bisa digunakan untuk berbagai jenis umkm dan dapat diakses di berbagai device dan platform.',
             'keywords'      => 'UMKMKU, Aplikasi UMKM, Website UMKM, Aplikasi untuk pengusaha kecil dan menengah kebawah, Website untuk pengusaha kecil dan menengah kebawah, Platform UMKM kecil dan menengah ke bawah.',
             'copyright'     => 'Copyright '.date('Y').' @ Syahri Ramadhan Wiraasmara (ARI)'

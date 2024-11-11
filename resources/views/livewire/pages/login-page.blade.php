@@ -13,7 +13,7 @@
                 <!-- Email Address -->
                 <div>
                     <x-input-label for="email" :value="__('Username/Email')" />
-                    <x-text-input wire:model="user" id="user" class="block mt-1 w-full" type="text" name="user" required autofocus autocomplete="username/email" />
+                    <x-text-input wire:model="username" id="username" class="block mt-1 w-full" type="text" name="username" required autofocus autocomplete="username/email" />
                     {{-- <x-input-error :messages="$errors->get('form.user')" class="mt-2" /> --}}
                 </div>
 

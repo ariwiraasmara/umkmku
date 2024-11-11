@@ -22,8 +22,6 @@ class ProcessUmkmkuController extends Controller {
 
     public function store(Request $request) {
         if($this->umkmService->store([
-            'id_user'       => fun::getCookie('mcr_x_aswq_1'),
-            'email'         => fun::getCookie('mcr_x_aswq_3'),
             'nama_umkm'     => $request->nama_umkm,
             'tgl_berdiri'   => $request->tgl_berdiri,
             'jenis_usaha'   => $request->jenis_usaha,

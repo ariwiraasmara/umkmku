@@ -32,7 +32,7 @@ use App\Libraries\myfunction;
             @if( $id_umkm == null || empty($id_umkm) || is_null($id_umkm) || $id_umkm == '' )
                 @if($jk == 'Pria')
                     Bapak 
-                @else
+                @elseif($jk == 'Wanita')
                     Ibu 
                 @endif
                 Direktur
@@ -90,7 +90,7 @@ use App\Libraries\myfunction;
                     </div>
                 </div>
 
-                @if($data_umkm != null)
+                @if($data_umkm)
                     @foreach ($data_umkm as $dtu)
                         <a href="{{ '/transaksi/baru/'.myfunction::enval($dtu['id_umkm']) }}">
                             <div class="pb-3 mt-3 border-b">

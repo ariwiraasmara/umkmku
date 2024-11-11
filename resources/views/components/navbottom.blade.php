@@ -1,22 +1,23 @@
 {{--! Copyright @ Syahri Ramadhan Wiraasmara (ARI) --}}
 <?php
 use App\Libraries\myfunction;
+use Illuminate\Support\Facades\Session;
 ?>
 <nav class="bg-sky-800 bottom-0 fixed w-full z-1">
 
-    @if(Session::has('pesan'))
+    @if(session('pesan'))
     <div id="navpesan" onclick="closePesan()" class="p-3 static text-center text-white" style="background: #37f">
-        <p class="text-lg font-bold">{{ Session:get('pesan') }}</p>
+        <p class="text-lg font-bold">{{ session('pesan') }}</p>
         <span>
             <ion-icon name="close-circle-outline" size="large"></ion-icon>
         </span>
     </div>
     @endif
 
-    @if(Session::has('error'))
+    @if(session('error'))
     <div id="navpesan" onclick="closePesan()" class="p-3 static text-center text-white" style="background: #f37">
         <div class="text-white rounded-lg">
-            <p class="text-lg font-bold">{{ Session:get('error') }}</p>
+            <p class="text-lg font-bold">{{ session('error') }}</p>
 
             <div class="">
                 <span class="close" onclick="closePesan()">

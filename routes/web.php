@@ -18,13 +18,18 @@ Route::get('/', function () {
 //     return view('livewire.pages.auth.login');
 // });
 
-Route::get('/login', \App\Livewire\Logout\LoginPage::class);
-Route::get('/daftar-pengguna-baru', \App\Livewire\Logout\DaftarPenggunaBaru::class);
 // Route::get('/lupa-password', \App\Livewire\LupaPassword::class);
 
 // Route::get('/dashboard', function(){
 //     return view('livewire.pages.dashboard', ['user'=> 'User 1']);
 // });
+
+Route::get('/login', \App\Livewire\Logout\LoginPage::class);
+Route::get('/daftar-pengguna-baru', \App\Livewire\Logout\DaftarPenggunaBaru::class);
+Route::post('/process/login', myroute::process('ProcessUserController', 'login'));
+Route::post('/process/daftar-pengguna-baru', myroute::process('ProcessUserController', 'daftar_pengguna_baru'));
+Route::post('/process/lupa-password', myroute::process('ProcessUserController', 'lupa_password'));
+Route::get('/logout', myroute::process('ProcessUserController', 'logout'));
 
 if( fun::getRawCookie('islogin') != null || 
     fun::getRawCookie('mcr_x_aswq_1') != null || 
@@ -52,11 +57,6 @@ if( fun::getRawCookie('islogin') != null ||
     Route::get('/produk/baru/{id}', App\Livewire\Login\Produk\NEProduk::class);
     Route::get('/produk/edit/{id}/{id2}/{title}', App\Livewire\Login\Produk\NEProduk::class);
     
-    Route::post('/process/login', myroute::process('ProcessUserController', 'login'));
-    Route::get('/logout', myroute::process('ProcessUserController', 'logout'));
-    
-    Route::post('/process/daftar-pengguna-baru', myroute::process('ProcessUserController', 'daftar_pengguna_baru'));
-    Route::post('/process/lupa-password', myroute::process('ProcessUserController', 'lupa_password'));
     Route::post('/process/user/update', myroute::process('ProcessUserController', 'update_userprofil'));
     Route::post('/process/user/update/password/{id}', myroute::process('ProcessUserController', 'update_userpassword'));
     Route::post('/process/user/update/foto/{id}', myroute::process('ProcessUserController', 'update_userfoto'));

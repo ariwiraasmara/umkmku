@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
+use Session;
 
 class ProcessUserController extends Controller {
     //
@@ -21,32 +22,60 @@ class ProcessUserController extends Controller {
     }
 
     public function login(Request $request) {
-        $data = $this->service->login($request->user, $request->password);
+        $credentials = $request->validate([
+            'username' => ['required'],
+            'password'  => ['required'],
+        ]);
+
+        $data = $this->service->login($request->username, $request->password);
         if($data['success'] == 1) {
             $time = 1;
             if($request->remember) $time = 3560;
 
-            fun::setCookie([
-                'islogin'      => 1,
-                "mcr_x_aswq_1" => $data['data'][0]['id'],
-                "mcr_x_aswq_2" => $data['data'][0]['username'],
-                "mcr_x_aswq_3" => $data['data'][0]['email'],
-                "mcr_x_aswq_4" => $data['data'][0]['roles'],
-                // "mcr_x_aswq_5" => $data['success'][0]['remember_token'],
-            ], true, $time, 24, 60, 60);
-
-            return redirect('dashboard');
+            if (Auth::attempt($credentials)) {
+                $request->session()->regenerate();
+     
+                fun::setCookie([
+                    'islogin'      => 1,
+                    "mcr_x_aswq_1" => $data['data'][0]['id'],
+                    "mcr_x_aswq_2" => $data['data'][0]['username'],
+                    "mcr_x_aswq_3" => $data['data'][0]['email'],
+                    "mcr_x_aswq_4" => $data['data'][0]['roles'],
+                    // "mcr_x_aswq_5" => $data['success'][0]['remember_token'],
+                ], true, $time, 24, 60, 60);
+    
+                session(['islogin' => 1]);
+                session(['mcr_x_aswq_1' => $data['data'][0]['id']]);
+                session(['mcr_x_aswq_2' => $data['data'][0]['username']]);
+                session(['mcr_x_aswq_3' => $data['data'][0]['email']]);
+                session(['mcr_x_aswq_4' => $data['data'][0]['roles']]);
+    
+                return redirect('dashboard');
+            }
+            return redirect('login')->with('pesan', 'Terjadi Error Tidak Dapat Login!');
         }
         return redirect('login')->with('pesan', $data->get('pesan'));
     }
 
     public function logout(Request $request) {
-        Cache::flush();
+        Auth::logout();
+        Cache::forget('key');
+        Cache::forget('key');
+        Cache::forget('key');
+        Cache::forget('key');
+        Cache::forget('key');
+        Cache::forget('key');
+        Cache::forget('key');
+        Cache::forget('key');
+        Cache::forget('key');
+        Cache::forget('key');
         fun::setCookieOff('islogin');
         fun::setCookieOff('mcr_x_aswq_1');
         fun::setCookieOff('mcr_x_aswq_2');
         fun::setCookieOff('mcr_x_aswq_3');
         fun::setCookieOff('mcr_x_aswq_4');
+        $request->session()->invalidate();
+        $request->session()->flush();
         return redirect('login');
     }
 
@@ -79,7 +108,7 @@ class ProcessUserController extends Controller {
             'jabatan'       => $request->jabatan,        
         ]);
 
-        if($res1 && $res2) return redirect('/profil'); 
+        if($res1 && $res2) return redirect('/profil')->with('pesan', 'Update Profil Berhasil!'); 
         else return redirect('/dashboard'); 
     }
 
