@@ -20,7 +20,7 @@ use App\Libraries\myfunction;
     </div>
 
     <div class="py-6 px-6 static" style="margin-bottom: 60px;">
-        @if ($data != null)
+        @if ($data != null && gettype($data) != 'string')
             @foreach ($data as $dt)
                 <a href="{{ '/umkmku/detil/'. $dt->id_umkm }}">
                     <p class="py-2 mb-2 border-b">{{ $dt->nama_umkm }}</p>

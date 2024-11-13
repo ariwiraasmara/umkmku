@@ -27,8 +27,14 @@ class umkmkuRepository implements umkmkuRepositoryInterface {
     }
 
     //? get all umkmku list berdasarkan id_user
-    public function getAll(array $where = null, String $by = 'id_umkm', String $orderBy = 'asc'): array|Collection|String|int|null {
-        if($this->model->where($where)->first()) return $this->model->where($where)->orderBy($by, $orderBy)->get();
+    public function getAll(array $where = null, String $by = 'nama_umkm', String $orderBy = 'asc'): array|Collection|String|int|null {
+        if($this->model->where($where)->first()) {
+            return $this->model
+                    ->select('id_umkm', 'nama_umkm')
+                    ->where($where)
+                    ->orderBy($by, $orderBy)
+                    ->get();
+        }
         else return 0;
     }
 
@@ -49,7 +55,12 @@ class umkmkuRepository implements umkmkuRepositoryInterface {
     }
 
     public function delete(array $val = null): String|int|null {
-        if(crud::procumkmku(3, $val) ) return 1;
+        $res = crud::procumkmku(3, $val);
+        if(($res['res1'] == 1) && ($res['res2'] == 1)) {
+            if(($res['res3'] == 1)) return 2;
+            if(($res['res4'] == 1)) return 3;
+            return 1;
+        }
         else return 0;
     }
 }

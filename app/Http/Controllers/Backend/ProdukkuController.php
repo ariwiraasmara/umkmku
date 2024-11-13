@@ -1,23 +1,24 @@
 <?php
 //! Copyright @ Syahri Ramadhan Wiraasmara (ARI)
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Backend;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Services\produkkuService;
-// use Illuminate\Http\JsonResponse;
-// use App\Libraries\jsr;
+use App\Services\umkmkuService;
+use Illuminate\Http\JsonResponse;
+use App\Libraries\jsr;
 // use App\Libraries\myfunction as fun;
 // use File;
 
 class ProdukkuController extends Controller {
     //
 
-    protected $service;
-    public function __construct(produkkuService $service) {
+    protected umkmkuService $service;
+    public function __construct(umkmkuService $service) {
         $this->service = $service;
     }
 
-    public function getAll(Request $request) {
+    public function getAll(Request $request): JsonResponse {
         return $this->service->getAll([
             'id_umkm' => $request->id_umkm,
             $request->by,
@@ -25,13 +26,17 @@ class ProdukkuController extends Controller {
         ]);
     }
 
-    public function get(Request $request) {
-        return $this->service->get(['id_umkm' => $request->id_umkm]);
+    public function get(String $id): JsonResponse {
+        return jsr::print([
+            'pesan'   => 'Halaman Detil Produk', 
+            'success' => 1,
+            'data'    => $this->service->getProduk(['id_produk' => $id]),
+        ]);
     }
 
-    public function store(Request $request) {
-        return $this->service->store([
-            'email'         => $request['email'],
+    public function store(Request $request): JsonResponse {
+        return $this->service->storeProduk([
+            'id_umkm'       => $request['id_umkm'],
             'nama'          => $request['nama'],
             'merk'          => $request['merk'],
             'jenis'         => $request['jenis'],
@@ -43,8 +48,8 @@ class ProdukkuController extends Controller {
         ]);
     }
 
-    public function update(Request $request) {
-        return $this->service->store([
+    public function update(Request $request): JsonResponse {
+        return $this->service->updateProduk([
             'id_produk'     => $request['id_produk'],
             'nama'          => $request['nama'],
             'merk'          => $request['merk'],
@@ -57,8 +62,8 @@ class ProdukkuController extends Controller {
         ]);
     }
 
-    public function delete(Request $request) {
-        return $this->service->delete($request['id_produk']);
+    public function delete(String $id): JsonResponse {
+        return $this->service->deleteProduk($id);
     }
 
 }

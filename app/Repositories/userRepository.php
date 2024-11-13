@@ -39,7 +39,19 @@ class userRepository implements userRepositoryInterface {
     }
 
     public function getAllStaff(String $id = null, String $by = 'nama', String $orderBy = 'asc'): array|Collection|String|int|null {
-        if($this->model2->where(['id_umkm' => $id])->first()) return $this->model2->where(['id_umkm' => $id])->orderBy($by, $orderBy)->get();
+        if($this->model2->where(['id_umkm' => $id])->first()) {
+            return $this->model2->where(['id_umkm' => $id])
+                        ->select('id', 'nama', 'id_umkm', 'status', 'jabatan')
+                        ->orderBy($by, $orderBy)
+                        ->get();
+        }
+        return null;
+    }
+
+    public function getLogin(String $val = null): array|Collection|String|int|null {
+        $where1 = ['username' => $val];
+        $where2 = ['email' => $val];
+        if($this->model->where($where1)->orWhere($where2)->first()) return collect($this->model->where($where1)->orWhere($where2)->first());
         return null;
     }
 
@@ -99,8 +111,9 @@ class userRepository implements userRepositoryInterface {
         else return 0;
     }
 
-    public function deleteAccount(array $val = null): String|int|null {
-        if(crud::procuser(3, $val)) return 1;
+    public function deleteAccount(array $val = null) {
+        $res = crud::procuser(3, $val);
+        if(($res['res1'] == 1) && ($res['res2'] == 1)) return 1;
         else return 0;
     }
 

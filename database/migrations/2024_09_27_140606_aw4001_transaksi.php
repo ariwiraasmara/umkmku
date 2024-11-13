@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('aw4001_transaksi', function (Blueprint $table) {
             $table->string('id_transaksi')->primary();
             $table->string('id_umkm')->foreignId();
-            $table->string('no_nota')->unique();
+            $table->string('no_nota')->unique()->nullable()->default('client x');
             $table->datetime('tgl');
             $table->string('id_user');
             $table->string('diskon')->nullable()->default(0);

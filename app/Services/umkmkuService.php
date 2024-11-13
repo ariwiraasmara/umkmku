@@ -90,7 +90,7 @@ class umkmkuService {
     }
 
     public function update(array $val = null): JsonResponse {
-        return match($this->repo->update([
+        $res = $this->repo->update([
             'id_umkm'     => $val['id_umkm'],
             'nama_umkm'   => $val['nama_umkm'],
             'tgl_berdiri' => $val['tgl_berdiri'],
@@ -102,16 +102,18 @@ class umkmkuService {
             'alamat'      => $val['alamat'],
             'longitude'   => $val['longitude'],
             'latitude'    => $val['latitude'],
-        ])) {
-            1 => jsr::print(['pesan' => 'update umkm berhasil', 'success' => 1], 'created'),
-            default => jsr::print(['pesan' => 'update umkm gagal', 'error' => 1], null)
+        ]);
+        return match($res) {
+            1 => jsr::print(['pesan' => 'update umkm berhasil', 'success' => 1], 'ok'),
+            default => jsr::print(['pesan' => 'update umkm gagal', 'error' => 1])
         };
     }
 
-    public function delete(String $id_umkm = null): JsonResponse {
-        return match($this->repo->delete(['id_umkm' => $id_umkm])) {
-            1 => jsr::print(['pesan' => 'hapus umkm berhasil', 'success' => 1], 'created'),
-            default => jsr::print(['pesan' => 'hapus umkm gagal', 'error' => 1], null)
+    public function delete(String $id_umkm = null) {
+        $res = $this->repo->delete(['id_user' => fun::getCookie('mcr_x_aswq_1'), 'id_umkm' => $id_umkm]);
+        return match($res) {
+            0 => jsr::print(['pesan' => 'hapus umkm gagal', 'error' => 1, 'data' => $res]),
+            default => jsr::print(['pesan' => 'hapus umkm berhasil', 'success' => 1], 'ok')
         };
     }
 

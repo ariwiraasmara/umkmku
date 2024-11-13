@@ -33,7 +33,7 @@ class transaksiRepository implements transaksiRepositoryInterface {
     }
 
     public function generateNomorNota(int $id_user): String {
-        return fun::random('numb', $id_user).$id_user.date('YmdHis');
+        return fun::random('numb', 3).$id_user.date('YmdHis');
     }
 
     public function getIDDetail(String $id_transaksi = null, int $x): String {
@@ -50,7 +50,12 @@ class transaksiRepository implements transaksiRepositoryInterface {
 
     //? get all transaksi list berdasarkan id_umkm
     public function getAll(array $where = null, String $by = 'id_transaksi', String $orderBy = 'asc'): array|Collection|null {
-        if($this->model->where($where)->first()) return $this->model->where($where)->orderBy($by, $orderBy)->get();
+        if($this->model->where($where)->first()) {
+            return $this->model->where($where)
+                        ->select('id_transaksi', 'id_umkm', 'no_nota', 'tgl')
+                        ->orderBy($by, $orderBy)
+                        ->get();
+        }
         else return null;
     }
 
@@ -162,7 +167,7 @@ class transaksiRepository implements transaksiRepositoryInterface {
     }
 
     public function delete(array $val): String|int|null {
-        if(crud::procprodukku(2, $val)) return 1;
+        if(crud::proctransaksi(2, $val)) return 1;
         else return 0;
     }
 

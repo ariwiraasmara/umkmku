@@ -45,7 +45,7 @@ class TransaksiNonDM extends Component {
             $this->data_transaksi = Cache::get('pagetransaksi_datatransaksi');
         }
 
-        $this->title            = 'Transaksi '.$this->data_umkm[0]['nama_umkm'];
+        $this->title = 'Transaksi '.$this->data_umkm[0]['nama_umkm'];
     }
 
     public function render() {

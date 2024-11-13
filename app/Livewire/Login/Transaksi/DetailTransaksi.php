@@ -63,13 +63,14 @@ class DetailTransaksi extends Component {
 
     public function render() {
         return view('livewire.pages.transaksi.detail', [
-            'title'             => $this->title,
-            'data'              => $this->data,
-            'incx'              => 1,
-            'sub'               => 0,
-            'subtotal'          => 0,
-            'uang_kembalian'    => 0,
-            'path_logo'         => $this->path_logo
+            'title'               => $this->title,
+            'data'                => $this->data,
+            'incx'                => 1,
+            'sub'                 => 0,
+            'subtotal'            => 0,
+            'subtotalminusdiskon' => 0,
+            'uang_kembalian'      => 0,
+            'path_logo'           => $this->path_logo
         ])
         ->layout('layouts.authorized', [
             'pagetitle'     => $this->title.' | UMKMKU',

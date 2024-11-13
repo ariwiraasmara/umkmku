@@ -6,8 +6,8 @@ use App\Repositories\transaksiRepository;
 use App\Libraries\jsr;
 use Illuminate\Support\Collection;
 use Illuminate\Http\JsonResponse;
+use App\Libraries\myfunction as fun;
 use Exception;
-// use App\Libraries\myfunction as fun;
 
 class transaksiService {
 
@@ -22,17 +22,29 @@ class transaksiService {
 
     //* untuk detail transaksi
     //* kompleks, karena harus menambahkan kalkulasi subtotal produk, total belanjaan, total - diskon, bla dan bla 
-    public function get(String $id_transaksi): array|Collection|null {
-        $data = $this->repo->get(['id_transaksi' => $id_transaksi]);
-        $data_detail = $this->repo->getDetail($id_transaksi);
+    public function get(String $id_transaksi): array|Collection|String|int|null {
+        $data = $this->repo->get(['no_nota' => $id_transaksi]);
+        $data_detail = $this->repo->getDetail($data[0]['id_transaksi']);
+        $inc = 0;
+        $subtotal = 0;
+        $subtotalminusdiskon = 0;
+        $sub = 0;
+        foreach($data_detail as $dd) {
+            $subtotal = $dd->harga * $dd->jumlah_dibeli;
+            $subtotalminusdiskon = $subtotal - $dd->diskon;
+            $sub = $sub + $subtotalminusdiskon;
+            $dd->subtotal = $subtotalminusdiskon;
+            $inc++;
+        }
+        $totalakhir = $sub - $data[0]['diskon'];
+        $uangkembalian = $data[0]['uang_diterima'] - $totalakhir;
         // $jumlah = array_sum($data->harga_produk_akhir);
-
         return collect([
-            'pesan' => 'Data Detail Transaksi!', 
-            'success' => 1,
-            'data' => $data,
-            'detail_transaksi' => $data_detail,
-            // 'total_pembelian' => $jumlah
+            'data'              => $data,
+            'detail_transaksi'  => $data_detail,
+            'sub_total_produk'  => $sub,
+            'totalakhir'        => $totalakhir,
+            'uangkembalian'     => $uangkembalian
         ]);
     }
 
@@ -45,13 +57,14 @@ class transaksiService {
     }
 
     //* kompleks juga, harus insert ke kedua tabel
-    public function store(array $val1, array $val2): JsonResponse {
-        $id_transaksi = $this->repo->getID($val1['id_user'], $val1['email']);
+    public function store(array $val1, array $val2) {
+        $no_nota = $this->repo->generateNomorNota(fun::getCookie('mcr_x_aswq_1'));
+        $id_transaksi = $this->repo->getID(fun::getCookie('mcr_x_aswq_1'), fun::getCookie('mcr_x_aswq_3'));
         if($this->repo->store([
             'id_transaksi'   => $id_transaksi,
-            'no_nota'        => $this->repo->generateNomorNota($val1['id_user']),
+            'no_nota'        => $no_nota,
             'id_umkm'        => $val1['id_umkm'],
-            'id_user'        => $val1['id_user'],
+            'id_user'        => fun::getCookie('mcr_x_aswq_1'),
             'diskon'         => $val1['diskon'],
             'nama_pelanggan' => $val1['nama_pelanggan'],
             'uang_diterima'  => $val1['uang_diterima'],
@@ -73,7 +86,7 @@ class transaksiService {
         else return jsr::print(['pesan' => 'tambah transaksi gagal', 'error' => 2], null);
     }
 
-    public function delete(String $id_transaksi): JsonResponse {
+    public function delete(String $id_transaksi) {
         return match($this->repo->delete(['id_transaksi' => $id_transaksi])) {
             1 => jsr::print(['pesan' => 'hapus transaksi berhasil', 'success' => 1], 'created'),
             default => jsr::print(['pesan' => 'hapus transaksi gagal', 'error' => 1], null)

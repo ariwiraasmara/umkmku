@@ -1,39 +1,56 @@
 <?php
 //! Copyright @ Syahri Ramadhan Wiraasmara (ARI)
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Backend;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Services\umkmkuService;
 // use Illuminate\Http\JsonResponse;
-// use App\Libraries\jsr;
-// use App\Libraries\myfunction as fun;
+use App\Libraries\jsr;
+use App\Libraries\myfunction as fun;
+use Illuminate\Http\JsonResponse;
+
 // use File;
 
 class UmkmkuController extends Controller {
     //
-    protected $service;
+    protected umkmkuService $service;
 
     public function __construct(umkmkuService $service) {
         $this->service = $service;
     }
 
-    public function getAll(Request $request, $id) {
-        return $this->service->getAll(
-            $request->where,
-            $request->by,
-            $request->orderBy
+    public function getAll($by = null, $orderBy = null): JsonResponse {
+        $where = ['id' => fun::getCookie("mcr_x_aswq_1")];
+        $data = $this->service->getAll(
+            $where,
+            $by,
+            $orderBy
         );
+        return jsr::print([
+            'pesan'          => 'Halaman UMKM', 
+            'success'        => 1,
+            'data_umkm'      => $data,
+        ]);
     }
 
     //
-    public function get(Request $request, String $id_umkm) {
-        return $this->service->getAllDetail($id_umkm);
+    public function get(String $id_umkm): JsonResponse {
+        $data = $this->service->getAllDetail($id_umkm);
+        return jsr::print([
+            'pesan'          => 'Halaman Detil UMKM', 
+            'success'        => 1,
+            'data_umkm'      => $data['data_umkm'],
+            'data_produk'    => $data['data_produk'],
+            'data_transaksi' => $data['data_transaksi'],
+            'data_pegawai'   => $data['data_pegawai'], 
+        ]);
     }
 
-    public function store(Request $request) {
+    public function store(Request $request): JsonResponse {
         return $this->service->store(
            [
-                'id_user'       => $request->id_user,
+                'id_user'       => fun::getCookie("mcr_x_aswq_1"),
                 'nama_umkm'     => $request->nama_umkm,
                 'tgl_berdiri'   => $request->tgl_berdiri,
                 'jenis_usaha'   => $request->jenis_usaha,
@@ -48,7 +65,7 @@ class UmkmkuController extends Controller {
         );
     }
 
-    public function update(Request $request) {
+    public function update(Request $request): JsonResponse {
         return $this->service->update([
             'id_umkm'     => $request->id_umkm,
             'nama_umkm'   => $request->nama_umkm,
@@ -64,8 +81,8 @@ class UmkmkuController extends Controller {
         ]);
     }
 
-    public function delete(Request $request) {
-        return $this->service->delete($request->id_umkm);
+    public function delete($id): JsonResponse {
+        return $this->service->delete($id);
     }
 
 }

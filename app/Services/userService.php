@@ -17,11 +17,7 @@ class userService {
     }
 
     public function login(String $user = null, String $pass = null): array|Collection {
-        $where = array([
-            ['username' => $user],
-            'or',
-            ['email' => $user]
-        ]);
+        $where = array('username' => $user);
         $cekUser = $this->repo->get($where);
             
         if( is_null($cekUser) ) return collect(['pesan' => 'Username / Email Salah!', 'error' => 1]); //'Wrong Username / Email';
@@ -68,8 +64,8 @@ class userService {
                 'password'  => $password,
                 'roles'     => $roles
             ])) {
-                1 => jsr::print(['pesan' => 'insert user baru berhasil', 'success' => 1], 'created'),
-                default => jsr::print(['pesan' => 'insert user baru gagal', 'error' => 3], null)
+                1 => jsr::print(['pesan' => 'daftar user baru berhasil', 'success' => 1], 'created'),
+                default => jsr::print(['pesan' => 'daftar user baru gagal', 'error' => 3], null)
             };
         }
     }
@@ -85,9 +81,9 @@ class userService {
         };
     }
 
-    public function new_staff(array $val = null): Collection|JsonResponse|null {
+    public function new_staff(array $val = null): array|Collection|JsonResponse|String|int|null {
         $jabatan = $val['roles'] == 3 ? 'Staff Senior' : 'Staff Junior';
-        return match($this->repo->storeNewStaff(
+        $res = $this->repo->storeNewStaff(
             [
                 'username'  => $val['username'],
                 'email'     => $val['email'],
@@ -100,9 +96,10 @@ class userService {
                 'status'    => 'Aktif',
                 'jabatan'   => $jabatan
             ]
-        )) {
-            1 => jsr::print(['pesan' => 'tambah pegawai berhasil', 'success' => 1], 'ok'),
-            default => jsr::print(['pesan' => 'tambah pegawai gagal'], null)
+        );
+        return match($res) {
+            1 => jsr::print(['pesan' => 'tambah pegawai berhasil', 'success' => 1], 'created'),
+            default => jsr::print(['pesan' => 'tambah pegawai gagal', 'data' => $res])
         };
     }
 
@@ -125,20 +122,20 @@ class userService {
     }
 
     public function updateProfil(array $val = null): Collection|JsonResponse|null {
-        return match($this->repo->updateProfilUser([
+        $res = $this->repo->updateProfilUser([
             'id'            => $val['id'],
             'nama'          => $val['nama'],
             'jk'            => $val['jk'],
             'alamat'        => $val['alamat'],
-            'foto'          => $val['foto'],
             'tempat_lahir'  => $val['tempat_lahir'],
             'tgl_lahir'     => $val['tgl_lahir'],
             'id_umkm'       => $val['id_umkm'],
             'status'        => $val['status'],
             'jabatan'       => $val['jabatan']
-        ])) {
+        ]);
+        return match($res) {
             1 => jsr::print(['pesan' => 'update profil user berhasil', 'success' => 1], 'ok'),
-            default => jsr::print(['pesan' => 'update profil user gagal'], null)
+            default => jsr::print(['pesan' => 'update profil user gagal', 'data' => $res], null)
         };
     }
 
@@ -157,8 +154,9 @@ class userService {
         return $this->repo->readDir($username).'/foto_profil.png';
     }
 
-    public function deleteAccount(int $id = null): JsonResponse {
-        if(($this->repo->deleteAccount(['id' => $id]))) return jsr::print(['pesan' => 'delete user berhasil', 'success' => 1], 'ok');
+    public function deleteAccount(int $id = null) {
+        $res = $this->repo->deleteAccount(['id' => $id]);
+        if($res) return jsr::print(['pesan' => 'delete user berhasil', 'success' => 1], 'ok');
         else return jsr::print(['pesan' => 'delete user gagal', 'error' => 1], null);
     }
 

@@ -234,7 +234,7 @@ class myfunction {
     }
 
     // SESSION AND COOKIE
-    public function setOneSession(String $str, String $val, int $type=0) {
+    public static function setOneSession(String $str, String $val, int $type=0) {
         try {
             if( $type > 1 ) {
                 $_SESSION[self::enlink($str)] = self::enval($val);
@@ -251,7 +251,7 @@ class myfunction {
         }
     }
 
-    public function setSession(Array $array, int $type=0) {
+    public static function setSession(array $array, int $type=0) {
         try {
             if( $type > 1 ) {
                 foreach($array as $arr => $val) {
@@ -291,14 +291,14 @@ class myfunction {
         setcookie($name, $val, time() + ($hari * $jam * $menit * $detik), "/"); // 86400 = 1 day
     }
 
-    public static function setOneCookie(string $name = 'token', $val=1, $isencrypt, $hari=1, $jam=24, $menit=60, $detik=60) {
-        if($isencrypt) setcookie($name, self::encrypt(self::enval($val)), time() + ($hari * $jam * $menit * $detik), "/"); // 86400 = 1 day
+    public static function setOneCookie(string $name = 'token', $val=1, $isencrypt = false, $hari=1, $jam=24, $menit=60, $detik=60, $domain = null) {
+        if($isencrypt) setcookie($name, self::encrypt(self::enval($val)), time() + ($hari * $jam * $menit * $detik), "/", $domain, true, true); // 86400 = 1 day
         else setcookie($name, $val, time() + ($hari * $jam * $menit * $detik), "/");
     }
 
-    public static function setCookie($array, $isencrypt, $hari=1, $jam=24, $menit=60, $detik=60) {
+    public static function setCookie($array, $isencrypt = false, $hari=1, $jam=24, $menit=60, $detik=60, $domain = null) {
         foreach($array as $arr => $val) {
-            if($isencrypt) setcookie($arr, self::encrypt(self::enval($val)), time() + ($hari * $jam * $menit * $detik), "/", '.ariwiraasmara.com', true, true); // 86400 = 1 day
+            if($isencrypt) setcookie($arr, self::encrypt(self::enval($val)), time() + ($hari * $jam * $menit * $detik), "/", $domain, true, true); // 86400 = 1 day
             else setcookie($arr, $val, time() + ($hari * $jam * $menit * $detik), "/"); // 86400 = 1 day
         }
     }
@@ -311,7 +311,8 @@ class myfunction {
         return self::denval(self::decrypt(@$_COOKIE[$str]));
     }
 
-    public static function setCookieOff(String $str) {
+    public static function setCookieOff(String $str, bool $issecure = false, $domain = null) {
+        if($issecure) setcookie($str, null, time() - (365 * 24 * 60 * 60), "/", $domain, true, true);
         setcookie($str, null, time() - (365 * 24 * 60 * 60), "/");
     }
 

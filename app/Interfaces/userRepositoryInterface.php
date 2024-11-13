@@ -12,7 +12,7 @@ interface userRepositoryInterface {
     
     public function storeAccount(array $val = null): String|int|null;
     public function updateAccount(array $val = null): String|int|null;
-    public function deleteAccount(array $val = null): String|int|null;
+    public function deleteAccount(array $val = null);
 
     public function storeNewStaff(array $val1 = null, array $val2 = null): String|int|null;
     public function updateStaff(array $val1 = null, array $val2 = null): String|int|null;

@@ -17,6 +17,7 @@ class ProcessUserController extends Controller {
     //
 
     protected userService|null $service;
+    
     public function __construct(userService $service) {
         $this->service = $service;
     }
@@ -41,9 +42,8 @@ class ProcessUserController extends Controller {
                     "mcr_x_aswq_2" => $data['data'][0]['username'],
                     "mcr_x_aswq_3" => $data['data'][0]['email'],
                     "mcr_x_aswq_4" => $data['data'][0]['roles'],
-                    // "mcr_x_aswq_5" => $data['success'][0]['remember_token'],
-                ], true, $time, 24, 60, 60);
-    
+                ], true, $time, 24, 60, 60, '9002-idx-umkmku-1726831788791.cluster-a3grjzek65cxex762e4mwrzl46.cloudworkstations.dev');
+
                 session(['islogin' => 1]);
                 session(['mcr_x_aswq_1' => $data['data'][0]['id']]);
                 session(['mcr_x_aswq_2' => $data['data'][0]['username']]);
@@ -58,22 +58,24 @@ class ProcessUserController extends Controller {
     }
 
     public function logout(Request $request) {
+        $domain = '9002-idx-umkmku-1726831788791.cluster-a3grjzek65cxex762e4mwrzl46.cloudworkstations.dev';
         Auth::logout();
-        Cache::forget('key');
-        Cache::forget('key');
-        Cache::forget('key');
-        Cache::forget('key');
-        Cache::forget('key');
-        Cache::forget('key');
-        Cache::forget('key');
-        Cache::forget('key');
-        Cache::forget('key');
-        Cache::forget('key');
-        fun::setCookieOff('islogin');
-        fun::setCookieOff('mcr_x_aswq_1');
-        fun::setCookieOff('mcr_x_aswq_2');
-        fun::setCookieOff('mcr_x_aswq_3');
-        fun::setCookieOff('mcr_x_aswq_4');
+       
+        // Cache::forget('key');
+        // Cache::forget('key');
+        // Cache::forget('key');
+        // Cache::forget('key');
+        // Cache::forget('key');
+        // Cache::forget('key');
+        // Cache::forget('key');
+        // Cache::forget('key');
+        // Cache::forget('key');
+        // Cache::forget('key');
+        fun::setCookieOff('islogin', true, $domain);
+        fun::setCookieOff('mcr_x_aswq_1', true, $domain);
+        fun::setCookieOff('mcr_x_aswq_2', true, $domain);
+        fun::setCookieOff('mcr_x_aswq_3', true, $domain);
+        fun::setCookieOff('mcr_x_aswq_4', true, $domain);
         $request->session()->invalidate();
         $request->session()->flush();
         return redirect('login');
@@ -99,8 +101,7 @@ class ProcessUserController extends Controller {
             'id'            => fun::getCookie('mcr_x_aswq_1'),
             'nama'          => $request->nama,           
             'jk'            => $request->jk,             
-            'alamat'        => $request->alamat,         
-            'foto'          => $request->foto,           
+            'alamat'        => $request->alamat,        
             'tempat_lahir'  => $request->tempat_lahir,   
             'tgl_lahir'     => $request->tgl_lahir,      
             'id_umkm'       => $request->id_umkm,
@@ -153,7 +154,7 @@ class ProcessUserController extends Controller {
         else return redirect('/dashboard'); 
     }
 
-    public function delete_staff(String $id1, String $id2) {
+    public function deleteUser(String $id1, String $id2) {
         if($this->service->deleteAccount(fun::denval($id1))) return redirect('/umkmku/detil/'.$id2); 
         else return redirect('/umkmku'); 
     }

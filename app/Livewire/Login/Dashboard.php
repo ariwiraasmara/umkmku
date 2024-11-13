@@ -9,6 +9,7 @@ use App\Services\transaksiService;
 use App\Libraries\myfunction as fun;
 use Illuminate\Support\Collection;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Exception;
 
@@ -23,7 +24,6 @@ class Dashboard extends Component {
     protected array|Collection|JsonResponse|String|int|null $data_transaksi;
     protected String|null $username;
     protected int|null $roles;
-
     protected String|null $nama;
     protected String|null $jk;
     protected String|null $id_umkm;
@@ -93,7 +93,7 @@ class Dashboard extends Component {
             'jk'            => $this->jk,
             'id_umkm'       => $this->id_umkm,
             'data_transaksi'=> $this->data_transaksi,
-            'data_umkm'     => $this->data_umkm,
+            'data_umkm'     => $this->data_umkm
         ])
         ->layout('layouts.authorized', [
             'pagetitle'     => $this->title.' | UMKMKU',

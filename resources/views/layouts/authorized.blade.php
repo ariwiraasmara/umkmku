@@ -1,5 +1,6 @@
 {{--! Copyright @ Syahri Ramadhan Wiraasmara (ARI) --}}
 @if( isset($uniquekey) )
+@php session_start(); @endphp
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>

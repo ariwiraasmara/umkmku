@@ -57,6 +57,7 @@
             @foreach ($data['detail_transaksi'] as $dtr)
                 @php 
                     $subtotal = $dtr->harga * $dtr->jumlah_dibeli 
+                    $subtotalminusdiskon = $subtotal - $dtr->diskon
                 @endphp
                 <div>
                     <p><span class="font-bold">{{ $incx.'). '.$dtr->produk }},</span> {{ $dtr->jumlah_dibeli.' '.$dtr->satuan_unit }}</p>
@@ -65,13 +66,13 @@
                             Rp. {{ number_format($dtr->harga,2,",",".");  }} x {{ $dtr->jumlah_dibeli }} - <span class="italic">(dis.) {{ number_format($dtr->diskon,2,",",".")  }}</span>
                         </div>
                         <div class="order-last">
-                            {{ number_format($subtotal - $dtr->diskon,2,",",".") }}
+                            {{ number_format($subtotalminusdiskon,2,",",".") }}
                         </div>
                     </div>
                 </div>
                 @php 
                     $incx++; 
-                    $sub = $sub + ( $subtotal - $dtr->diskon )
+                    $sub = $sub + $subtotalminusdiskon
                 @endphp
             @endforeach
         @else  

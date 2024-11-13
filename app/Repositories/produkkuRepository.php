@@ -28,7 +28,12 @@ class produkkuRepository implements produkkuRepositoryInterface {
 
     //? get all produk list berdasarkan id_umkm
     public function getAll(array $where = null, String $by = 'id_umkm', String $orderBy = 'asc'): array|Collection|String|int|null {
-        if($this->model->where($where)->first()) return $this->model->where($where)->orderBy($by, $orderBy)->get();
+        if($this->model->where($where)->first()) {
+            return $this->model->where($where)
+                        ->select('id_produk', 'id_umkm', 'nama')
+                        ->orderBy($by, $orderBy)
+                        ->get();
+        }
         else return null;
     }
 

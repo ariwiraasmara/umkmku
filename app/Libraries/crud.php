@@ -9,6 +9,7 @@ use App\Models\aw3001_produkku;
 use App\Models\aw4001_transaksi;
 use App\Models\aw4002_detailtransaksi;
 use App\MyLibs\myfunction;
+use Exception;
 
 class crud {
 
@@ -45,8 +46,13 @@ class crud {
         }
 
         //? hard delete
-        else if($type == 3) { 
-            return User::where($val)->delete() && aw1002_userprofil::where($val)->delete();
+        else if($type == 3) {
+            $res1 = User::where($val)->delete();
+            $res2 = aw1002_userprofil::where($val)->delete();
+            return collect([
+                'res1' => $res1,
+                'res2' => $res2
+            ]);
         }
 
         //! yeah, ketika variable $type bernilai 0
@@ -73,7 +79,6 @@ class crud {
                 'nama'         => $val['nama'],
                 'jk'           => $val['jk'],
                 'alamat'       => $val['alamat'],
-                'foto'         => $val['foto'],
                 'tempat_lahir' => $val['tempat_lahir'],
                 'tgl_lahir'    => $val['tgl_lahir'],
                 'id_umkm'      => $val['id_umkm'],
@@ -145,7 +150,7 @@ class crud {
 
         // ? update
         else if($type == 2) { 
-            return aw2001_umkmku::where('id_umkm', '=', $val['id_umkm'])->update([
+            return aw2001_umkmku::where(['id_umkm' => $val['id_umkm']])->update([
                 'nama_umkm'     => $val['nama_umkm'],
                 'tgl_berdiri'   => $val['tgl_berdiri'],
                 'jenis_usaha'   => $val['jenis_usaha'],
@@ -162,12 +167,24 @@ class crud {
         //? delete
         else if($type == 3) {
             //! menghapus 1 umkm, berarti menghapus semua data yang terkait dan bersangkutan
-            return aw2001_umkmku::where($val)->delete() 
-                && aw1002_userprofil::where($val)->update(['id_umkm' => ''])
-                && aw3001_produkku::where($val)->delete() 
-                && aw4001_transaksi::where($val)->select('aw4001_transaksi.id_umkmku')
-                        ->join('aw4001_transaksi', 'aw4001_transaksi.id_transaksi', '=', 'aw4002_detailtransaksi.id_transaksi')
-                        ->delete();
+            // try {
+                $res1 = aw2001_umkmku::where(['id_umkm' => $val['id_umkm']])->delete();
+                $res2 = aw1002_userprofil::where(['id' => $val['id_user']])->update(['id_umkm' => '']);
+                $res3 = aw3001_produkku::where(['id_umkm' => $val['id_umkm']])->delete();
+                $res4 = aw4001_transaksi::where(['id_umkm' => $val['id_umkm']])
+                            ->join('aw4002_detailtransaksi', 'aw4001_transaksi.id_transaksi', '=', 'aw4002_detailtransaksi.id_transaksi')
+                            ->delete();
+                return collect([
+                    'res1' => $res1,
+                    'res2' => $res2,
+                    'res3' => $res3,
+                    'res4' => $res4
+                ]);
+            // }
+            // catch(Exception $e) {
+            //     return aw2001_umkmku::where($val)->delete();
+            // }
+            // return aw2001_umkmku::where($val)->delete();
         }
 
         else {
@@ -230,6 +247,7 @@ class crud {
             return aw4001_transaksi::create([
                 'id_transaksi'  => $val['id_transaksi'],
                 'id_umkm'       => $val['id_umkm'],
+                'no_nota'       => $val['no_nota'],
                 'tgl'           => date('Y-m-d H:i:s'),
                 'id_user'       => $val['id_user'],
                 'diskon'        => $val['diskon'],
@@ -241,7 +259,12 @@ class crud {
         //? delete
         //! karena 1 transaksi beserta detailnya kehapus semua dari database
         else if($type == 2) {
-            return aw4001_transaksi::where($val)->delete() && aw4002_detailtransaksi::where($val)->delete();
+            $res1 = aw4001_transaksi::where($val)->delete();
+            $res2 = aw4002_detailtransaksi::where($val)->delete();
+            return collect([
+                'res1' => $res1,
+                'res2' => $res2
+            ]);
         }
 
         //! yeah, ketika variable $type bernilai 0

@@ -9,34 +9,31 @@ use Illuminate\Http\JsonResponse;
 // use Illuminate\Support\Facades\Hash;
 // use Illuminate\Support\Facades\Crypt;
 use App\Services\userService;
+use App\Services\umkmkuService;
+use App\Services\transaksiService;
 use App\Libraries\jsr;
 use App\Libraries\myfunction as fun;
 // use File;
 class UserController extends Controller {
     //
 
-    protected $service;
-    public function __construct(userService $service) {
+    protected userService $service;
+    protected umkmkuService $serviceUMKM;
+    protected transaksiService $serviceTransaksi;
+    public function __construct(userService $service,
+                                umkmkuService $serviceUMKM,
+                                transaksiService $serviceTransaksi
+    ) {
         $this->service = $service;
+        $this->serviceUMKM = $serviceUMKM;
+        $this->serviceTransaksi = $serviceTransaksi;
     }
 
     public function hello() {
         return 'hello from UserController';
     }
 
-    public function login(Request $request) {
-        // return 'hello login '.$request->user;
-        // $validated = $request->validate([
-        //     'user'      => 'required|string',
-        //     'passsword' => 'required|string',
-        // ]);
-
-        // if(!$validated) {
-        //     return jsr::print([
-        //         'pesan' => 'Anda Tidak Tervalidasi!',
-        //     ]);
-        // }
-
+    public function login(Request $request): JsonResponse {
         $data = $this->service->login($request->user, $request->password);
         // return $data;
         if($data['success']) {
@@ -70,7 +67,7 @@ class UserController extends Controller {
         };
     }
 
-    public function logout() {
+    public function logout(): JsonResponse {
         fun::setCookieOff('islogin');
         fun::setCookieOff('mcr_x_aswq_1');
         fun::setCookieOff('mcr_x_aswq_2');
@@ -81,10 +78,36 @@ class UserController extends Controller {
         );
     }
 
+    public function dashboard(): JsonResponse {
+        $data_user = $this->service->getProfil(fun::getCookie("mcr_x_aswq_1"));
+        $data_transaksi = $this->serviceTransaksi->getDashboard(['aw4001_transaksi.id_umkm' => $data_user[0]['id_umkm']], 'tgl', 'desc');
+        return jsr::print([
+            'pesan'          => 'Halaman Dashboard', 
+            'success'        => 1,
+            'data_transaksi' => $data_transaksi,
+        ]);
+    }
 
-    public function register_dm(Request $request) {
-        // return $request->username;
-        // return 'hello register_dm';
+    public function profil(): JsonResponse {
+        $data = $this->service->getProfil(fun::getCookie('mcr_x_aswq_1'));
+        return jsr::print([
+            'pesan'     => 'Halaman Profil', 
+            'success'   => 1,
+            'data'      => $data,
+        ]);
+    }
+
+    public function getStaff(int $id): JsonResponse {
+        $data = $this->service->getProfil($id);
+        return jsr::print([
+            'pesan'     => 'Halaman Profil', 
+            'success'   => 1,
+            'data'      => $data,
+        ]);
+    }
+
+
+    public function register_dm(Request $request): JsonResponse {
         return $this->service->storeAccount(
             $request->username,
             $request->email,
@@ -93,48 +116,59 @@ class UserController extends Controller {
         );
     }
 
-    public function register_nondm(Request $request) {
-        // return $request->username;
-        return $this->service->storeAccount(
-            $request->username,
-            $request->email,
-            $request->password,
-            3
-        );
+    public function store_staff(Request $request): JsonResponse {
+        $roles = $request->roles;
+        if($roles < 3) $roles = 4;
+        return $this->service->new_staff([
+            'username'  => $request->username,
+            'email'     => $request->email,
+            'password'  => $request->password,
+            'roles'     => $roles,
+            'nama'      => $request->nama,
+            'id_umkm'   => $request->id_umkm
+        ]);
     }
 
-    public function updatePassword(Request $request) {
+    public function update_staff(Request $request): JsonResponse {
+        return $this->service->updateStaff([
+            'id'      => $request->id,
+            'id_umkm' => $request->id_umkm,
+            'roles'   => $request->roles,
+            'status'  => $request->status
+        ]);
+    }
+
+    public function updatePassword(Request $request): JsonResponse {
         return $this->service->updateAccount(
-            $request->id_user,
+            fun::getCookie("mcr_x_aswq_1"),
             'password',
             $request->password
         );
     }
 
-    public function updateTlp(Request $request) {
+    public function updateTelpon(Request $request): JsonResponse {
         return $this->service->updateAccount(
-            $request->id_user,
+            fun::getCookie("mcr_x_aswq_1"),
             'tlp',
             $request->tlp
         );
     }
 
-    public function updateProfil(Request $request) {
+    public function updateProfil(Request $request): JsonResponse {
         return $this->service->updateProfil([
-            'id'                => $request->id_user,
-            'nama'              => $request->nama,
-            'jk'                => $request->jk,
-            'alamat'            => $request->alamat,
-            'foto'              => $request->foto,
-            'tempat_lahir'      => $request->tempat_lahir,
-            'tgl_lahir'         => $request->tgl_lahir,
-            'penempatan_umkm'   => $request->penempatan_umkm,
-            'status'            => $request->status,
-            'jabatan'           => $request->jabatan
+            'id'            => fun::getCookie('mcr_x_aswq_1'),
+            'nama'          => $request->nama,
+            'jk'            => $request->jk,
+            'alamat'        => $request->alamat,
+            'tempat_lahir'  => $request->tempat_lahir,
+            'tgl_lahir'     => $request->tgl_lahir,
+            'id_umkm'       => $request->id_umkm,
+            'status'        => $request->status,
+            'jabatan'       => $request->jabatan
         ]);
     }
 
-    public function deleteUser(Request $request) {
-        return $this->service->deleteAccount($request->id_user);
+    public function deleteUser($id): JsonResponse {
+        return $this->service->deleteAccount($id);
     }
 }
