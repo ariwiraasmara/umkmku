@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
-// use Illuminate\Support\Facades\Auth;
-// use Illuminate\Support\Facades\Hash;
-// use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Cache;
 use App\Services\userService;
 use App\Services\umkmkuService;
 use App\Services\transaksiService;
@@ -43,7 +43,7 @@ class UserController extends Controller {
                 "mcr_x_aswq_2" => $data['data'][0]['username'],
                 "mcr_x_aswq_3" => $data['data'][0]['email'],
                 "mcr_x_aswq_4" => $data['data'][0]['roles'],
-            ], true, 1, 24, 60, 60);
+            ], true, 1, 24, 60, 60, '9002-idx-umkmku-1726831788791.cluster-a3grjzek65cxex762e4mwrzl46.cloudworkstations.dev');
 
             return jsr::print([
                 'pesan' => 'Yehaa! Berhasil Login!', 
@@ -68,10 +68,13 @@ class UserController extends Controller {
     }
 
     public function logout(): JsonResponse {
-        fun::setCookieOff('islogin');
-        fun::setCookieOff('mcr_x_aswq_1');
-        fun::setCookieOff('mcr_x_aswq_2');
-        fun::setCookieOff('mcr_x_aswq_3');
+        $domain = '9002-idx-umkmku-1726831788791.cluster-a3grjzek65cxex762e4mwrzl46.cloudworkstations.dev';
+        Auth::logout();
+        fun::setCookieOff('islogin', true, $domain);
+        fun::setCookieOff('mcr_x_aswq_1', true, $domain);
+        fun::setCookieOff('mcr_x_aswq_2', true, $domain);
+        fun::setCookieOff('mcr_x_aswq_3', true, $domain);
+        fun::setCookieOff('mcr_x_aswq_4', true, $domain);
         return new JsonResponse(
             ['msg' => 'Akhirnya Logout! ', 'success' => 1],
             status: JsonResponse::HTTP_OK,
@@ -79,8 +82,23 @@ class UserController extends Controller {
     }
 
     public function dashboard(): JsonResponse {
-        $data_user = $this->service->getProfil(fun::getCookie("mcr_x_aswq_1"));
-        $data_transaksi = $this->serviceTransaksi->getDashboard(['aw4001_transaksi.id_umkm' => $data_user[0]['id_umkm']], 'tgl', 'desc');
+        // $data_user = $this->service->getProfil(fun::getCookie("mcr_x_aswq_1"));
+        // $data_transaksi = $this->serviceTransaksi->getDashboard(['aw4001_transaksi.id_umkm' => $data_user[0]['id_umkm']], 'tgl', 'desc');
+        $data_user = null; 
+        $data_transaksi = null;
+
+        if(Cache::has('page_dashboard_datauser-'.fun::getCookie('mcr_x_aswq_1'))) $data_user = Cache::get('page_dashboard_datauser-'.fun::getCookie('mcr_x_aswq_1'));
+        else {
+            Cache::put('page_dashboard_datauser-'.fun::getCookie('mcr_x_aswq_1'), $this->service->getProfil(fun::getCookie("mcr_x_aswq_1")), 1*24*60*60);
+            $data_user = Cache::get('page_dashboard_datauser-'.fun::getCookie('mcr_x_aswq_1'));
+        }
+
+        if(Cache::has('page_dashboard_datatransaksi-'.fun::getCookie('mcr_x_aswq_1'))) $data_transaksi = Cache::get('page_dashboard_datatransaksi-'.fun::getCookie('mcr_x_aswq_1'));
+        else {
+            Cache::put('page_dashboard_datatransaksi-'.fun::getCookie('mcr_x_aswq_1'), $this->serviceTransaksi->getDashboard(['aw4001_transaksi.id_user' => fun::getCookie("mcr_x_aswq_1")], 'tgl', 'desc'), 1*24*60*60);
+            $data_transaksi = Cache::get('page_dashboard_datatransaksi-'.fun::getCookie('mcr_x_aswq_1'));
+        }
+        
         return jsr::print([
             'pesan'          => 'Halaman Dashboard', 
             'success'        => 1,
@@ -100,7 +118,7 @@ class UserController extends Controller {
     public function getStaff(int $id): JsonResponse {
         $data = $this->service->getProfil($id);
         return jsr::print([
-            'pesan'     => 'Halaman Profil', 
+            'pesan'     => 'Halaman Profil Pegawai : '.$data[0]['nama'], 
             'success'   => 1,
             'data'      => $data,
         ]);
@@ -138,11 +156,11 @@ class UserController extends Controller {
         ]);
     }
 
-    public function updatePassword(Request $request): JsonResponse {
+    public function updatePassword(Request $request) {
         return $this->service->updateAccount(
             fun::getCookie("mcr_x_aswq_1"),
             'password',
-            $request->password
+            Hash::make($request->password)
         );
     }
 

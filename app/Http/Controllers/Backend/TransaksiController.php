@@ -26,10 +26,15 @@ class TransaksiController extends Controller {
     }
 
     public function get($id): JsonResponse {
+        $data = $this->service->get($id);
         return jsr::print([
-            'pesan' => 'tambah transaksi berhasil', 
-            'success' => 1,
-            'data' => $this->service->get($id)
+            'pesan'             => 'Halaman Detil Transaksi : '.$data['data'][0]['no_nota'], 
+            'success'           => 1,
+            'data'              => $data['data'],
+            'detail_transaksi'  => $data['detail_transaksi'],
+            'sub_total_produk'  => $data['sub_total_produk'],
+            'totalakhir'        => $data['totalakhir'],
+            'uangkembalian'     => $data['uangkembalian']
         ], 'ok');
     }
 

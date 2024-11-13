@@ -62,8 +62,11 @@ class transaksiRepository implements transaksiRepositoryInterface {
     public function getDashboard(array $where = null, String $by = 'tgl', String $orderBy = 'desc'): array|Collection|null {
         if($this->model->where($where)->first()) {
             return $this->model->where($where)
+                        ->select('aw4001_transaksi.id_transaksi', 'aw2001_umkmku.nama_umkm', 
+                                 'aw4001_transaksi.no_nota', 'aw4001_transaksi.tgl', 
+                                 'aw4001_transaksi.id_user', 'aw4001_transaksi.nama_pelanggan')
                         ->orderBy($by, $orderBy)
-                        ->join('aw2001_umkmku', 'aw2001_umkmku.id_umkm', '=', 'aw4001_transaksi.id_umkm')
+                        ->join('aw2001_umkmku', 'aw4001_transaksi.id_umkm', '=', 'aw2001_umkmku.id_umkm')
                         ->limit(10)
                         ->get();
         }

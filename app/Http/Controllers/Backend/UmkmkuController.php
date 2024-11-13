@@ -38,7 +38,7 @@ class UmkmkuController extends Controller {
     public function get(String $id_umkm): JsonResponse {
         $data = $this->service->getAllDetail($id_umkm);
         return jsr::print([
-            'pesan'          => 'Halaman Detil UMKM', 
+            'pesan'          => 'Halaman Detil UMKM : '.$data['data_umkm'][0]['nama_umkm'], 
             'success'        => 1,
             'data_umkm'      => $data['data_umkm'],
             'data_produk'    => $data['data_produk'],

@@ -17,7 +17,7 @@ Route::get('/dashboard', myroute::API('UserController', 'dashboard'));
 Route::get('/profil', myroute::API('UserController', 'profil'));
 Route::post('/profil/update', myroute::API('UserController','updateProfil'));
 Route::put('/profil/update/telpon', myroute::API('UserController','updateTelpon'));
-Route::put('/profil/update/password', myroute::API('UserController','update_password'));
+Route::post('/profil/update/password', myroute::API('UserController','updatePassword'));
 
 Route::get('/pegawai/detil/{id}', myroute::API('UserController', 'getStaff'));
 Route::post('/pegawai/baru', myroute::API('UserController', 'store_staff'));

@@ -1,7 +1,6 @@
 PR :
 - Tampilkan Foto Profil, Foto Umkm, Logo Umkm
-- Tabel Detail Transaksi
-- Buat Backend
+- Tabel Detail Transaksi backend dan frontend
 - Buat halaman ketika data tidak ada id dan sedang di penetrasi.
 - Tes Penetrasi dan perbaikan bug
 

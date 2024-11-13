@@ -27,10 +27,11 @@ class ProdukkuController extends Controller {
     }
 
     public function get(String $id): JsonResponse {
+        $data = $this->service->getProduk(['id_produk' => $id]);
         return jsr::print([
-            'pesan'   => 'Halaman Detil Produk', 
+            'pesan'   => 'Halaman Detil Produk : '.$data[0]['nama'], 
             'success' => 1,
-            'data'    => $this->service->getProduk(['id_produk' => $id]),
+            'data'    => $data,
         ]);
     }
 

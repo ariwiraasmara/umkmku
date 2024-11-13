@@ -86,12 +86,12 @@ class userRepository implements userRepositoryInterface {
     public function getProfil(array $where = null): array|Collection|String|int|null {
         if($this->model->where($where)) {
             return collect($this->model->where($where)->select(
-                'users.id', 'users.username', 'users.email', 'users.tlp', 'users.password', 'users.roles',
-                'aw1002_userprofil.nama', 'aw1002_userprofil.jk', 'aw1002_userprofil.alamat', 'aw1002_userprofil.foto',
+                'users.id', 'aw1002_userprofil.nama', 'users.username', 'users.email', 'users.tlp', 'users.password', 'users.roles',
+                'aw1002_userprofil.jk', 'aw1002_userprofil.alamat', 'aw1002_userprofil.foto',
                 'aw1002_userprofil.tempat_lahir', 'aw1002_userprofil.tgl_lahir', 'aw1002_userprofil.id_umkm',
                 'aw1002_userprofil.status', 'aw1002_userprofil.jabatan',
             )
-            ->join('aw1002_userprofil', 'aw1002_userprofil.id', '=', 'users.id')
+            ->join('aw1002_userprofil', 'users.id', '=', 'aw1002_userprofil.id')
             ->get());
         }
         return null;
